@@ -1,0 +1,8 @@
+[functions.gather-places]
+enabled = true
+# verify_jwt = false: these endpoints are server-to-server (Owner Console backend,
+# pg_cron) and authenticate with the x-engine-secret header instead of a user JWT.
+
+[functions.gather-registry]
+enabled = true
+# verify_jwt = false: see above.

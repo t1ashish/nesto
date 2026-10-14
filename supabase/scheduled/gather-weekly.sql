@@ -1,0 +1,26 @@
+-- Optional: scheduled gathering via pg_cron + pg_net.
+-- Enable both extensions first: Database > Extensions > pg_cron, pg_net.
+-- Replace <project-ref> and <NESTO_ENGINE_SECRET>, then run the schedule you want.
+-- Check runs: select * from cron.job_run_details order by start_time desc limit 5;
+
+-- Weekly Places sweep for one town (Sundays 03:00 UTC)
+-- select cron.schedule(
+--   'nesto-gather-places-weekly',
+--   '0 3 * * 0',
+--   $$
+--   select net.http_post(
+--     url := 'https://<project-ref>.supabase.co/functions/v1/gather-places',
+--     headers := jsonb_build_object(
+--       'Content-Type', 'application/json',
+--       'x-engine-secret', '<NESTO_ENGINE_SECRET>'
+--     ),
+--     body := jsonb_build_object(
+--       'town', 'Munsiyari',
+--       'region_group', 'Munsiyari / Chaukori',
+--       'max_results', 20
+--     )
+--   );
+--   $$
+-- );
+
+-- Unschedule: select cron.unschedule('nesto-gather-places-weekly');

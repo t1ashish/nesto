@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nesto Stays — Book the host. Not just the room.</title>
+<meta name="description" content="Nesto Stays is a host-first homestay platform for Uttarakhand. Browse verified hill homestays and talk to your host directly on WhatsApp before you pay anything.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito:ital,wght@1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5FA5'/%3E%3Ctext x='32' y='45' font-family='Arial Black' font-size='38' font-style='italic' font-weight='900' fill='%23F5B301' text-anchor='middle'%3En%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="lockup" href="#top" aria-label="Nesto Stays home">
+      <span class="mark" aria-hidden="true">n</span>
+      <span class="wordmark">nest<em>o</em></span>
+      <span class="punchline" data-i18n="tagline">Book the host. Not just the room.</span>
+    </a>
+    <nav class="mainnav" id="mainnav">
+      <a href="#stays" data-i18n="nav_stays">Stays</a>
+      <a href="#how" data-i18n="nav_how">How Nesto earns</a>
+      <a href="#story" data-i18n="nav_story">Our story</a>
+      <a href="#host" data-i18n="nav_host">Become a host</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">हिन्दी</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Search -->
+  <section class="search-wrap">
+    <div class="search-pill">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" data-i18n-ph="search_ph" placeholder="Search stays, towns, vibes…" autocomplete="off">
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filters" id="stays" aria-label="Filters">
+    <div class="chip-row" id="regionChips" role="group" aria-label="Regions"></div>
+    <div class="filter-bar">
+      <div class="chip-row small" id="vibeChips" role="group" aria-label="Vibes"></div>
+      <div class="filter-controls">
+        <label class="verified-toggle">
+          <input type="checkbox" id="verifiedOnly">
+          <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+          <span data-i18n="verified_only">Verified only</span>
+        </label>
+        <select id="sortSelect" class="sort-select" aria-label="Sort listings">
+          <option value="recommended" data-i18n="sort_recommended">Recommended</option>
+          <option value="price_asc" data-i18n="sort_price_asc">Price: low to high</option>
+          <option value="price_desc" data-i18n="sort_price_desc">Price: high to low</option>
+          <option value="newest" data-i18n="sort_newest">Newest</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section class="listings-section">
+    <p class="result-count" id="resultCount" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+    <div class="empty-state" id="emptyState" hidden>
+      <p data-i18n="empty_title">No stays match your search.</p>
+      <button class="btn btn-ghost" id="clearFilters" data-i18n="empty_clear">Clear filters</button>
+    </div>
+    <div class="load-state" id="loadState">
+      <div class="spinner" aria-hidden="true"></div>
+      <p data-i18n="loading">Finding hillside hosts…</p>
+    </div>
+    <div class="error-state" id="errorState" hidden>
+      <p><strong data-i18n="error_title">Couldn't reach the listings database.</strong></p>
+      <p class="muted" data-i18n="error_body">If you're the site owner: paste your Supabase anon key into config.js (Supabase dashboard → Project Settings → API).</p>
+      <button class="btn btn-ghost" id="retryBtn" data-i18n="retry">Retry</button>
+    </div>
+  </section>
+
+  <!-- How Nesto earns -->
+  <section class="earn-strip" id="how">
+    <div class="earn-inner">
+      <h2 data-i18n="earn_title">How Nesto earns</h2>
+      <p data-i18n="earn_body">Hosts keep 100% of every stay — zero commission, forever. Nesto earns from optional Host Pro tools and experiences around the stay, never from your booking. Every fee is explained before you pay it.</p>
+      <a class="earn-link" href="#host" data-i18n="earn_link">Read the full breakdown →</a>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story" id="story">
+    <div class="story-inner">
+      <div>
+        <h2 data-i18n="story_title">Our story</h2>
+        <p data-i18n="story_body">Nesto began with a simple frustration: the best hill homestays in Uttarakhand were invisible — buried under hotels on big booking sites that took a fifth of the host's income and wouldn't let you talk to the person you'd actually stay with. So we built the directory we wished existed: one where the host is the hero, the price is the host's price, and the booking starts with a conversation.</p>
+      </div>
+      <div>
+        <h2 data-i18n="vision_title">Our vision</h2>
+        <p data-i18n="vision_body">A thousand Uttarakhand hosts earning directly from guests who chose them — not an algorithm. No commissions on stays, ever. Hosts own the guest relationship from booking one, and travelers book people, not inventory.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Become a host -->
+  <section class="cta-band" id="host">
+    <div class="cta-inner">
+      <h2 data-i18n="host_title">Become a host</h2>
+      <p data-i18n="host_body">List free as one of our first 100 founding hosts. Zero commission on stays, guests pay you directly, and you keep every guest relationship.</p>
+      <button class="btn btn-sun" id="becomeHostBtn" data-i18n="host_cta">Claim your free listing</button>
+    </div>
+  </section>
+
+  <!-- Refer -->
+  <section class="cta-band alt" id="refer">
+    <div class="cta-inner">
+      <h2 data-i18n="refer_title">Refer a host</h2>
+      <p data-i18n="refer_body">Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap. Not a host? You'll join the Founding Circle with early access to new collections and experiences.</p>
+      <form class="refer-form" id="referForm">
+        <input name="name" required data-i18n-ph="refer_name" placeholder="Host name">
+        <input name="phone" required inputmode="tel" data-i18n-ph="refer_phone" placeholder="Host phone">
+        <input name="place" required data-i18n-ph="refer_place" placeholder="Place / town">
+        <button class="btn btn-ocean" type="submit" data-i18n="refer_cta">Refer on WhatsApp</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Partner -->
+  <section class="cta-band" id="partner">
+    <div class="cta-inner">
+      <h2 data-i18n="partner_title">Partner with us</h2>
+      <p data-i18n="partner_body">Travel creators: stay with Nesto hosts, tell their stories, and earn from every booking your audience makes. We expect honest reviews and clear disclosure — you get early access to new stays and a revenue share.</p>
+      <form class="refer-form" id="partnerForm">
+        <input name="name" required data-i18n-ph="partner_name" placeholder="Your name">
+        <input name="instagram" data-i18n-ph="partner_ig" placeholder="Instagram link">
+        <input name="audience" inputmode="numeric" data-i18n-ph="partner_aud" placeholder="Audience size">
+        <input name="location" data-i18n-ph="partner_loc" placeholder="Your location">
+        <button class="btn btn-sun" type="submit" data-i18n="partner_cta">Apply on WhatsApp</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a class="lockup" href="#top" aria-label="Nesto Stays home">
+      <span class="mark" aria-hidden="true">n</span>
+      <span class="wordmark">nest<em>o</em></span>
+    </a>
+    <p class="punchline" data-i18n="tagline">Book the host. Not just the room.</p>
+    <nav class="footer-nav">
+      <a href="#stays" data-i18n="nav_stays">Stays</a>
+      <a href="#how" data-i18n="nav_how">How Nesto earns</a>
+      <a href="#refer" data-i18n="nav_refer">Refer a host</a>
+      <a href="#partner" data-i18n="nav_partner">Partner with us</a>
+    </nav>
+    <p class="muted small">© 2026 Nesto Stays · Uttarakhand, India</p>
+  </div>
+</footer>
+
+<!-- Detail modal -->
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="config.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
