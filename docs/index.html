@@ -1,180 +1,1047 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nesto Stays — Book the host. Not just the room.</title>
-<meta name="description" content="Nesto Stays is a host-first homestay platform for Uttarakhand. Browse verified hill homestays and talk to your host directly on WhatsApp before you pay anything.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito:ital,wght@1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5FA5'/%3E%3Ctext x='32' y='45' font-family='Arial Black' font-size='38' font-style='italic' font-weight='900' fill='%23F5B301' text-anchor='middle'%3En%3C/text%3E%3C/svg%3E">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Nesto Stays — Book the host. Not just the room.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito:ital,wght@1,900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+      color-scheme: light dark;
+      --ink:#122b3a;
+      --muted:#60737e;
+      --paper:#f8fbfa;
+      --surface:#ffffff;
+      --surface-2:#edf5f3;
+      --ocean:#087ea4;
+      --ocean-deep:#075a78;
+      --ocean-soft:#dff2f5;
+      --sun:#f4b942;
+      --sun-soft:#fff2c9;
+      --pine:#27624a;
+      --line:#d8e5e3;
+      --shadow:0 18px 50px rgba(16, 54, 69, .12);
+      --shadow-soft:0 8px 28px rgba(16, 54, 69, .08);
+      --danger-soft:#f6eeee;
+      --danger:#815b5b;
+      --radius-sm:12px;
+      --radius-md:20px;
+      --radius-lg:34px;
+      --max:1240px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:#ecf7f5;
+        --muted:#a7bebd;
+        --paper:#09171c;
+        --surface:#10242b;
+        --surface-2:#173139;
+        --ocean:#52bbd8;
+        --ocean-deep:#80d5eb;
+        --ocean-soft:#143947;
+        --sun:#f4be4e;
+        --sun-soft:#453819;
+        --pine:#7bc29f;
+        --line:#28434a;
+        --shadow:0 20px 55px rgba(0,0,0,.34);
+        --shadow-soft:0 8px 28px rgba(0,0,0,.22);
+        --danger-soft:#352626;
+        --danger:#d8adad;
+      }
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"Manrope",sans-serif;font-size:16px;line-height:1.5}
+    button,input{font:inherit}
+    button{color:inherit}
+    img{display:block;max-width:100%}
+    a{color:inherit}
+    :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+    .wrap{width:min(var(--max),calc(100% - 40px));margin-inline:auto}
+    .screen-reader{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    .top-strip{position:sticky;top:0;z-index:15;background:var(--surface);border-bottom:1px solid var(--line)}
+    .quick-nav{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-height:72px;padding:8px 0}
+    .brand-cluster{display:flex;align-items:center;gap:18px;margin-right:auto;min-width:0}
+    .brand-lockup{--mark-size:68px;--word-size:22px;display:inline-flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;width:max-content;flex:0 0 auto}
+    .brand-lockup--compact{--mark-size:44px;--word-size:20px;flex-direction:row;gap:9px;margin-right:0}
+    .brand-mark{width:var(--mark-size);height:var(--mark-size);object-fit:cover;border-radius:calc(var(--mark-size) * .235);box-shadow:0 5px 14px rgba(7,90,120,.16)}
+    .brand-word{font-family:"Nunito",sans-serif;font-size:var(--word-size);font-weight:900;font-style:italic;line-height:.86;letter-spacing:-.055em;color:var(--ocean-deep)}
+    .brand-word span{color:var(--sun)}
+    .header-tagline{max-width:220px;color:var(--muted);font-family:"Nunito",sans-serif;font-size:12px;font-weight:650;line-height:1.35;padding-left:18px;border-left:1px solid var(--line)}
+    .quick-nav>a:not(.brand-lockup){font-size:13px;font-weight:800;text-decoration:none;color:var(--muted);padding:8px 11px;border-radius:999px}
+    .quick-nav>a:not(.brand-lockup):hover{color:var(--ocean-deep);background:var(--surface-2)}
+    .lang-toggle{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;cursor:pointer;color:var(--ocean-deep)}
+    .mobile-menu-button{display:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);cursor:pointer;align-items:center;justify-content:center}
+    .mobile-menu-button svg{width:18px;height:18px}
+    .mobile-nav-menu{display:none;border-top:1px solid var(--line);padding:8px 12px 12px;background:var(--surface)}
+    .mobile-nav-menu a{flex:1;text-align:center;text-decoration:none;color:var(--ink);font-size:12px;font-weight:900;padding:9px 7px;border-radius:10px}
+    .mobile-nav-menu a:hover{background:var(--surface-2);color:var(--ocean-deep)}
+
+    .discovery-top{padding:26px 0 18px}
+    .search-box{display:grid;grid-template-columns:1fr auto;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px;width:min(760px,100%);margin-inline:auto;box-shadow:0 6px 22px rgba(16,54,69,.09)}
+    .search-field{display:flex;align-items:center;gap:12px;padding:0 12px}
+    .search-field svg{width:22px;min-width:22px;color:var(--ocean)}
+    .search-field input{border:0;background:transparent;color:var(--ink);min-width:0;width:100%;padding:14px 4px;outline:none;font-weight:700}
+    .search-field input::placeholder{color:var(--muted)}
+    .btn{border:0;border-radius:12px;padding:13px 18px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:background .2s,color .2s,transform .2s}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:var(--sun);color:#1c3440}
+    .btn-primary:hover{background:#ffc95d}
+    .btn-ocean{background:var(--ocean);color:white}
+    .btn-ocean:hover{background:var(--ocean-deep)}
+    .btn-soft{background:var(--ocean-soft);color:var(--ocean-deep)}
+    .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+    .btn-ghost:hover{background:var(--surface-2)}
+    .btn-small{padding:10px 13px;font-size:13px}
+
+    .filters-shell{position:relative;margin-top:0;z-index:2}
+    .filters{background:transparent;border:0;padding:0 0 20px;box-shadow:none}
+    .filter-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+    .filter-head h2{font-family:"Nunito",sans-serif;font-size:20px;margin:0}
+    .toggle{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:14px;cursor:pointer;user-select:none}
+    .toggle button{border:0;background:transparent;padding:0;cursor:pointer}
+    .toggle-track{display:block;width:46px;height:26px;border-radius:20px;background:var(--line);padding:3px;transition:.2s}
+    .toggle-track:after{content:"";display:block;width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.18);transition:.2s}
+    .toggle button[aria-pressed="true"] .toggle-track{background:var(--ocean)}
+    .toggle button[aria-pressed="true"] .toggle-track:after{transform:translateX(20px)}
+    .chip-wrap{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:9px 13px;font-weight:800;font-size:13px;cursor:pointer}
+    .chip:hover{border-color:var(--ocean);color:var(--ocean-deep)}
+    .chip.active{background:var(--ocean);border-color:var(--ocean);color:white}
+    .filters-sub{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+    .filters-sub strong{font-size:13px;white-space:nowrap}
+    .vibe-chip{background:var(--surface-2);border-color:transparent}
+    .vibe-chip.active{background:var(--sun-soft);border-color:var(--sun);color:var(--ink)}
+
+    main{padding-bottom:30px}
+    .section{padding:34px 0 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}
+    .section h2{font-family:"Nunito",sans-serif;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-.035em;margin:0}
+    .section-head p{max-width:470px;color:var(--muted);margin:0}
+    .count{font-size:14px;font-weight:900;color:var(--ocean-deep);background:var(--ocean-soft);padding:7px 10px;border-radius:999px;white-space:nowrap}
+    .listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .view-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .sort-control{display:flex;align-items:center;gap:8px}
+    .sort-control label{font-size:12px;font-weight:800;color:var(--muted)}
+    .sort-control select{min-height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:8px 34px 8px 11px;font-size:12px;font-weight:800;cursor:pointer}
+    .view-switch{display:flex;padding:4px;background:var(--surface-2);border-radius:12px}
+    .view-switch button{border:0;background:transparent;color:var(--muted);border-radius:9px;padding:8px 12px;font-size:13px;font-weight:900;cursor:pointer}
+    .view-switch button.active{background:var(--surface);color:var(--ocean-deep);box-shadow:0 3px 12px rgba(16,54,69,.1)}
+    .map-shell{display:none;grid-template-columns:minmax(0,1fr) 310px;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow-soft)}
+    .map-shell.open{display:grid}
+    .map-canvas{height:560px;border-radius:17px;overflow:hidden;background:var(--surface-2)}
+    .map-fallback{height:100%;display:grid;place-items:center;text-align:center;padding:30px;color:var(--muted)}
+    .map-side{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow:auto;padding-right:3px}
+    .map-row{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);padding:12px;border-radius:13px;cursor:pointer;color:var(--ink)}
+    .map-row:hover,.map-row.map-selected{border-color:var(--ocean);background:var(--ocean-soft)}
+    .map-num,.pin{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ocean);color:white;font-size:12px;font-weight:900;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+    .pin--on{background:var(--sun);color:#17313b;transform:scale(1.14)}
+    .map-row strong{font-size:13px;line-height:1.2}.map-row span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+    .map-note{font-size:11px;color:var(--muted);margin:9px 2px 0;grid-column:1/-1}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-soft);display:flex;flex-direction:column;min-width:0}
+    .card.unverified{background:color-mix(in srgb,var(--surface) 86%,var(--surface-2))}
+    .card-image{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--surface-2)}
+    .card-image img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+    .card:hover .card-image img{transform:scale(1.025)}
+    .status{position:absolute;left:14px;top:14px;padding:8px 11px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.025em;display:flex;align-items:center;gap:6px;box-shadow:0 5px 16px rgba(0,0,0,.14)}
+    .status.verified{background:var(--ocean);color:white}
+    .status.verified svg{width:14px;height:14px}
+    .status.unverified{background:rgba(255,255,255,.92);color:#655b55;max-width:calc(100% - 28px);box-shadow:none}
+    .card-body{padding:19px;display:flex;flex-direction:column;flex:1}
+    .place{font-size:12px;color:var(--muted);font-weight:900;margin-bottom:5px}
+    .card h3{font-family:"Nunito",sans-serif;font-size:22px;line-height:1.25;margin:0 0 8px;letter-spacing:-.02em}
+    .price-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .price{font-size:19px;font-weight:900;color:var(--ocean-deep)}
+    .price small{font-size:var(--type-small);font-weight:700;color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
+    .tag{font-size:11px;font-weight:900;background:var(--surface-2);color:var(--muted);padding:6px 8px;border-radius:8px}
+    .instagram-link{display:inline-flex;align-items:center;gap:7px;width:max-content;max-width:100%;border:0;background:transparent;color:var(--ocean-deep);padding:0;margin:0 0 15px;font-size:12px;font-weight:900;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .instagram-link svg{width:17px;height:17px;flex:0 0 auto}
+    .detail-instagram .instagram-link{font-size:13px;margin-bottom:2px}
+    .detail-quick-actions{display:flex;gap:9px;flex-wrap:wrap;margin:2px 0 14px}
+    .ota-note{font-size:12px;color:var(--ocean-deep);font-weight:800;margin:0 0 17px;padding-top:13px;border-top:1px solid var(--line)}
+    .card-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:auto}
+    .share-btn{color:var(--ocean-deep)}
+    .claim{margin-top:10px;width:100%;border:0;background:transparent;color:var(--ocean-deep);font-weight:900;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:7px}
+    .empty{display:none;text-align:center;padding:60px 20px;background:var(--surface);border:1px solid var(--line);border-radius:24px}
+    .empty h3{font-family:"Nunito",sans-serif;font-size:26px;margin:0 0 8px}
+    .empty p{color:var(--muted);margin:0}
+
+    .earn-strip{margin-top:32px;background:var(--sun-soft);border-top:1px solid color-mix(in srgb,var(--sun) 45%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--sun) 45%,var(--line))}
+    .earn-inner{display:flex;align-items:center;justify-content:center;gap:14px;padding:17px 0;text-align:center;font-weight:900}
+    .earn-inner a{color:var(--ocean-deep);white-space:nowrap;text-underline-offset:3px}
+    .earn-detail{max-width:860px;margin:0 auto;padding:0 0 18px;color:var(--muted);font-size:13px;text-align:center}
+    .truth-band{margin-top:0;background:var(--ocean-deep);color:white;padding:46px 0}
+    .truth-grid{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:30px;align-items:start}
+    .truth-grid h2{font-family:"Nunito",sans-serif;font-size:34px;margin:0;line-height:1.12}
+    .truth-item strong{display:block;color:var(--sun);font-size:28px;margin-bottom:5px}
+    .truth-item span{font-size:14px;color:#e0f2f4}
+
+    .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .story-card{position:relative;padding:38px;border-radius:28px;overflow:hidden;min-height:390px;background:var(--surface);border:1px solid var(--line)}
+    .story-card h2{position:relative;z-index:1;font-family:"Nunito",sans-serif;font-size:42px;margin:0 0 18px}
+    .story-card p{position:relative;z-index:1;font-size:18px;line-height:1.7;max-width:520px;margin:0;color:var(--muted)}
+    .story-card.ocean{background:var(--ocean);color:white;border:0}
+    .story-card.ocean p{color:#e9f7f8}
+    .story-mark{position:absolute;right:-28px;bottom:-95px;font-size:280px;line-height:1;font-weight:900;font-style:italic;color:rgba(244,185,66,.26)}
+    .host-banner{margin-top:24px;background:var(--sun-soft);border-radius:30px;padding:38px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border:1px solid color-mix(in srgb,var(--sun) 50%,var(--line))}
+    .host-banner h2{font-family:"Nunito",sans-serif;font-size:36px;line-height:1.15;margin:0 0 10px}
+    .host-banner p{margin:0;color:var(--muted);max-width:700px}
+    .host-perks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .host-perks span{font-size:12px;font-weight:900;padding:8px 10px;border-radius:9px;background:var(--surface);color:var(--ink)}
+    .community-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;margin-top:24px}
+    .community-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow-soft)}
+    .community-card.partner-card{background:var(--ocean-deep);color:white;border-color:transparent;display:flex;flex-direction:column;align-items:flex-start}
+    .community-card h2{font-family:"Nunito",sans-serif;font-size:28px;line-height:1.2;margin:5px 0 8px}
+    .community-card p{margin:0;color:var(--muted)}
+    .partner-card p{color:#e0f2f4}
+    .community-kicker{display:block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--ocean-deep)}
+    .partner-card .community-kicker{color:var(--sun)}
+    .referral-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+    .referral-form .input-group:last-of-type{grid-column:1/-1}
+    .referral-form .btn,.referral-form .form-feedback,.referral-form .flow-note{grid-column:1/-1}
+    .form-feedback{font-size:12px;font-weight:800;min-height:18px;color:#b34747}
+    .partner-card .btn{margin-top:auto;align-self:flex-start;background:var(--sun);color:#1c3440}
+    .partner-card .btn:hover{background:#ffc95d;color:#1c3440}
+    .partner-card .flow-note{color:#c9e3e7;text-align:left;margin-top:10px!important}
+
+    footer{padding:50px 0 calc(40px + env(safe-area-inset-bottom));color:var(--muted)}
+    .footer-row{display:grid;grid-template-columns:minmax(240px,1.2fr) minmax(280px,.8fr);gap:48px;border-top:1px solid var(--line);padding-top:32px;align-items:start}
+    .footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+    .footer-brand .brand-lockup--compact{margin-right:0}
+    .footer-tagline{font-family:"Nunito",sans-serif;font-size:14px;font-weight:650;color:var(--ink)}
+    .footer-links{display:grid;grid-template-columns:repeat(2,minmax(110px,1fr));gap:30px}
+    .footer-links h3{font-size:12px;color:var(--ink);margin:0 0 10px}
+    .footer-links a{display:block;width:max-content;max-width:100%;font-size:13px;text-decoration:none;margin:7px 0}
+    .footer-links a:hover{color:var(--ocean-deep);text-decoration:underline;text-underline-offset:3px}
+
+    .overlay{position:fixed;inset:0;background:rgba(4,25,33,.66);z-index:20;display:none;align-items:flex-end;justify-content:center;padding:22px}
+    .overlay.open{display:flex}
+    .modal{width:min(1120px,100%);max-height:min(860px,calc(100vh - 44px));overflow:auto;background:var(--surface);border-radius:30px;box-shadow:0 35px 90px rgba(0,0,0,.36);position:relative}
+    .close{position:sticky;float:right;top:14px;margin:14px 14px 0 0;z-index:4;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:22px;cursor:pointer;box-shadow:var(--shadow-soft)}
+    .detail-layout{display:grid;grid-template-columns:1.15fr .85fr}
+    .detail-photo{min-height:610px;background:var(--surface-2)}
+    .detail-photo img{width:100%;height:100%;object-fit:cover}
+    .detail-main{padding:44px 36px 36px}
+    .detail-place{color:var(--muted);font-weight:900;font-size:13px}
+    .detail-main h2{font-family:"Nunito",sans-serif;font-size:clamp(32px,4vw,50px);line-height:1.08;letter-spacing:-.04em;margin:8px 0 14px}
+    .detail-copy{color:var(--muted);line-height:1.7;margin:18px 0 22px}
+    .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+    .fact{background:var(--surface-2);padding:12px;border-radius:12px}
+    .fact strong{display:block;font-size:13px}
+    .fact span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+    .detail-sections{margin:25px 0 22px;border-top:1px solid var(--line)}
+    .detail-section{padding:16px 0;border-bottom:1px solid var(--line)}
+    .detail-section h3{font-family:"Nunito",sans-serif;font-size:17px;margin:0 0 6px}
+    .detail-section p{color:var(--muted);font-size:14px;line-height:1.6;margin:0}
+    .detail-section.host-profile{padding:19px 0}
+    .detail-section.host-profile h3{font-size:20px}
+    .host-name{display:block;color:var(--ocean-deep);font-size:13px;font-weight:900;margin-bottom:4px}
+    .pending{font-style:italic}
+    .availability,.reviews,.experiences{padding:22px 0;border-top:1px solid var(--line)}
+    .detail-block-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
+    .detail-block-head h3{font-family:"Nunito",sans-serif;font-size:21px;margin:0}.sample-label{font-size:10px;font-weight:900;color:var(--muted);background:var(--surface-2);padding:5px 7px;border-radius:7px;text-transform:uppercase;letter-spacing:.04em}
+    .calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:13px;font-weight:900}.calendar-legend{display:flex;gap:10px;color:var(--muted);font-size:10px}.calendar-legend span{display:flex;align-items:center;gap:4px}.legend-dot{width:8px;height:8px;border-radius:50%;background:var(--ocean-soft);border:1px solid var(--ocean)}.legend-dot.full{background:var(--danger-soft);border-color:var(--danger)}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.calendar-grid .dow{text-align:center;font-size:9px;font-weight:900;color:var(--muted);padding:3px}.calendar-day{aspect-ratio:1;border:0;border-radius:8px;background:var(--ocean-soft);color:var(--ocean-deep);font-size:11px;font-weight:900;display:grid;place-items:center}.calendar-day.full{background:var(--danger-soft);color:var(--danger);text-decoration:line-through}.calendar-day.blank{visibility:hidden}
+    .review-list{display:grid;gap:10px}.review{background:var(--surface-2);padding:13px;border-radius:13px}.review-top{display:flex;justify-content:space-between;gap:10px;font-size:11px}.review strong{font-size:12px}.stars{color:var(--sun);letter-spacing:1px}.review p{font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.5}
+    .experience-list{display:grid;gap:9px}.experience{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:13px}.experience strong{display:block;font-size:13px}.experience span{font-size:11px;color:var(--muted)}.experience button[aria-pressed="true"]{background:var(--ocean-deep);color:white;border-color:var(--ocean-deep)}
+    .book-box{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:20px}
+    .book-box h3{margin:0 0 3px;font-size:17px}
+    .book-box>p{font-size:12px;color:var(--muted);margin:0 0 14px}
+    .date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .input-group label{display:block;font-size:11px;font-weight:900;margin-bottom:5px;color:var(--muted)}
+    .input-group input{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;background:var(--surface);color:var(--ink)}
+    .guest-stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:10px 0}
+    .guest-stepper span{font-size:13px;font-weight:900}
+    .step-controls{display:flex;align-items:center;gap:11px}
+    .step-controls button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+    .book-box .btn{width:100%}
+    .flow-note{font-size:11px!important;text-align:center;margin:10px 0 0!important}
+    .success-state{display:none;text-align:center;padding:20px 4px 7px}
+    .success-icon{width:54px;height:54px;border-radius:50%;background:var(--ocean-soft);color:var(--ocean-deep);display:grid;place-items:center;margin:0 auto 12px}
+    .success-icon svg{width:26px}
+    .success-state h3{font-family:"Nunito",sans-serif;font-size:23px;margin:0 0 7px}
+    .success-state p{color:var(--muted);margin:0}
+    .error{color:#b34747;font-size:12px;font-weight:800;min-height:18px;margin:7px 0 0}
+
+    .claim-modal{width:min(650px,100%);padding:38px}
+    .claim-modal h2{font-family:"Nunito",sans-serif;font-size:38px;line-height:1.1;margin:8px 0 12px}
+    .claim-modal>p{color:var(--muted);margin:0 0 24px}
+    .claim-steps{display:grid;gap:12px;margin-bottom:22px}
+    .claim-step{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--surface-2);padding:14px;border-radius:14px}
+    .claim-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sun);color:#19323d;font-weight:900}
+    .claim-step strong{display:block}
+    .claim-step span{font-size:13px;color:var(--muted)}
+    .claim-name{font-weight:900;color:var(--ocean-deep)}
+    .claim-foot{display:flex;gap:10px;flex-wrap:wrap}
+    .mock-toast{position:fixed;right:18px;bottom:18px;z-index:40;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:800;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}
+    .mock-toast.show{opacity:1;transform:none}
+
+    @media (max-width:980px){
+      .listing-grid{grid-template-columns:repeat(2,1fr)}
+      .map-shell{grid-template-columns:1fr}.map-side{max-height:230px;display:grid;grid-template-columns:1fr 1fr}.map-canvas{height:460px}
+      .truth-grid{grid-template-columns:1fr 1fr}
+      .detail-layout{grid-template-columns:1fr}
+      .detail-photo{min-height:330px;max-height:430px}
+    }
+    @media (max-width:720px){
+      .wrap{width:min(100% - 24px,var(--max))}
+      .quick-nav{min-height:64px;padding:7px 0;gap:7px}
+      .brand-cluster{gap:10px}
+      .brand-lockup--compact{--mark-size:38px;--word-size:17px;gap:7px}
+      .header-tagline{max-width:112px;padding-left:10px;font-size:10px;line-height:1.25}
+      #navStays,#navStory,#navHosts{display:none}
+      .lang-toggle{margin-left:auto;padding:7px 8px;font-size:10px}
+      .mobile-menu-button{display:inline-flex}
+      .mobile-nav-menu.open{display:flex}
+      .discovery-top{padding:18px 0 14px}
+      .search-box{grid-template-columns:minmax(0,1fr) auto;padding:5px}
+      .search-field{gap:8px;padding:0 7px}
+      .search-field input{padding:11px 1px;font-size:13px}
+      .search-box .btn{width:auto;padding:11px 13px;font-size:12px}
+      .filters{padding-bottom:16px}
+      .filter-head{align-items:flex-start}
+      .filters-sub{align-items:flex-start;flex-direction:column}
+      .section{padding-top:28px}
+      .section-head{align-items:flex-start;flex-direction:column}
+      .view-tools{width:100%;justify-content:space-between}.map-shell{padding:10px;border-radius:18px}.map-canvas{height:390px}.map-side{grid-template-columns:1fr;max-height:260px}.earn-inner{align-items:flex-start;flex-direction:column;text-align:left;gap:5px}.earn-detail{text-align:left}
+      .listing-grid{grid-template-columns:1fr;gap:18px}
+      .truth-band{margin-top:58px}
+      .truth-grid{grid-template-columns:1fr 1fr;gap:24px 18px}
+      .truth-grid h2{grid-column:1/-1;font-size:30px}
+      .story-grid{grid-template-columns:1fr}
+      .story-card{padding:28px;min-height:350px}
+      .story-card h2{font-size:36px}
+      .host-banner{grid-template-columns:1fr;padding:28px}
+      .host-banner .btn{width:100%}
+      .footer-row{grid-template-columns:1fr;gap:34px}
+      .footer-brand{align-items:flex-start}
+      .footer-links{gap:24px}
+      .overlay{padding:8px;align-items:flex-end}
+      .modal{border-radius:24px 24px 0 0;max-height:calc(100vh - 14px)}
+      .detail-main{padding:20px 18px 26px}
+      .detail-photo{min-height:245px;max-height:300px}
+      .facts{grid-template-columns:1fr 1fr}
+      .date-grid{grid-template-columns:1fr}
+      .claim-modal{padding:28px 20px}
+      .claim-modal h2{font-size:32px}
+      .claim-foot{display:grid}
+      .card-actions{grid-template-columns:1fr 1fr}.card-actions .share-btn{grid-column:1/-1}.detail-block-head{align-items:flex-start}.calendar-day{border-radius:6px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      *,*:before,*:after{transition:none!important}
+    }
+
+
+    /* Nesto design system — one display face, one UI face, one 8px rhythm */
+    :root{
+      --ink:#18313d;
+      --muted:#64757d;
+      --paper:#f7faf9;
+      --surface:#ffffff;
+      --surface-2:#eef4f3;
+      --ocean:#087ea4;
+      --ocean-deep:#075f7d;
+      --ocean-soft:#e3f2f5;
+      --sun:#f4b942;
+      --sun-soft:#fff5d9;
+      --pine:#356c58;
+      --line:#dbe6e4;
+      --danger-soft:#f7eeee;
+      --danger:#8a5c5c;
+      --shadow:0 20px 56px rgba(18,49,61,.14);
+      --shadow-soft:0 8px 24px rgba(18,49,61,.08);
+      --radius-control:12px;
+      --radius-card:20px;
+      --radius-modal:24px;
+      --space-1:8px;
+      --space-2:16px;
+      --space-3:24px;
+      --space-4:32px;
+      --space-5:40px;
+      --space-6:48px;
+      --space-8:64px;
+      --type-label:11px;
+      --type-small:12px;
+      --type-body:14px;
+      --type-ui:15px;
+      --type-card:22px;
+      --type-section:42px;
+      --max:1240px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:#edf7f6;
+        --muted:#a9bdbc;
+        --paper:#0a171c;
+        --surface:#10242b;
+        --surface-2:#183139;
+        --ocean:#4db5d3;
+        --ocean-deep:#7bd3e8;
+        --ocean-soft:#153a47;
+        --sun:#f4bf50;
+        --sun-soft:#40371d;
+        --pine:#82c4a6;
+        --line:#294249;
+        --shadow:0 20px 56px rgba(0,0,0,.34);
+        --shadow-soft:0 8px 24px rgba(0,0,0,.24);
+        --danger-soft:#392929;
+        --danger:#dfb1b1;
+      }
+    }
+    body{font-family:"Manrope",sans-serif;font-size:var(--type-ui);line-height:1.6;letter-spacing:-.006em}
+    button,input{font-family:"Manrope",sans-serif}
+    h1,h2,h3,.brand-word,.story-mark,.empty h3,.success-state h3,.claim-modal h2{
+      font-family:"Nunito",sans-serif!important;font-weight:900!important;font-style:italic;letter-spacing:-.035em
+    }
+    .wrap{width:min(var(--max),calc(100% - 48px))}
+
+    .top-strip{background:color-mix(in srgb,var(--surface) 96%,transparent);border-color:var(--line);box-shadow:0 1px 0 rgba(18,49,61,.02)}
+    .quick-nav{min-height:72px;padding:var(--space-1) 0;gap:var(--space-1)}
+    .brand-cluster{gap:var(--space-2)}
+    .brand-lockup--compact{--mark-size:42px;--word-size:21px;gap:8px}
+    .brand-mark{border-radius:10px;box-shadow:none}
+    .brand-word{line-height:1;letter-spacing:-.06em}
+    .header-tagline{max-width:232px;padding-left:var(--space-2);font-family:"Manrope",sans-serif;font-size:12px;font-weight:600;line-height:1.4;letter-spacing:-.01em}
+    .quick-nav>a:not(.brand-lockup){font-size:13px;font-weight:700;padding:10px 12px;border-radius:var(--radius-control)}
+    .lang-toggle,.mobile-menu-button{border-radius:var(--radius-control);font-weight:800}
+    .lang-toggle{padding:9px 12px}
+    .mobile-nav-menu{padding:var(--space-1) var(--space-2) var(--space-2)}
+    .mobile-nav-menu a{border-radius:var(--radius-control);font-weight:700}
+
+    .discovery-top{padding:var(--space-6) 0 var(--space-3)}
+    .search-box{width:min(800px,100%);padding:8px;border-radius:var(--radius-card);box-shadow:var(--shadow-soft)}
+    .search-field{gap:12px;padding:0 var(--space-2)}
+    .search-field input{padding:13px 4px;font-weight:600;letter-spacing:-.01em}
+    .btn{min-height:44px;border-radius:var(--radius-control);padding:11px var(--space-2);font-weight:800;font-size:13px;letter-spacing:-.01em;transition:background .18s,color .18s,border-color .18s,transform .18s}
+    .btn-primary,.btn-ocean{background:var(--ocean);color:#fff}
+    .btn-primary:hover,.btn-ocean:hover{background:var(--ocean-deep);color:#fff}
+    .btn-soft{background:var(--ocean-soft);color:var(--ocean-deep)}
+    .btn-small{min-height:40px;padding:9px 12px;font-size:12px}
+
+    .filters{padding:0 0 var(--space-4)}
+    .filter-head{margin-bottom:var(--space-2);gap:var(--space-2)}
+    .filter-head h2{font-size:var(--type-card);line-height:1.25}
+    .toggle{gap:var(--space-1);font-size:13px;font-weight:700}
+    .toggle-track{width:44px;height:24px;padding:3px}
+    .toggle-track:after{width:18px;height:18px}
+    .toggle button[aria-pressed="true"] .toggle-track:after{transform:translateX(20px)}
+    .chip-wrap{gap:var(--space-1)}
+    .chip{min-height:40px;border-radius:var(--radius-control);padding:9px 13px;font-weight:700;font-size:12px}
+    .chip:hover{border-color:var(--ocean);color:var(--ocean-deep);background:var(--ocean-soft)}
+    .chip.active,.vibe-chip.active{background:var(--ocean);border-color:var(--ocean);color:#fff}
+    .vibe-chip{background:var(--surface);border-color:var(--line)}
+    .filters-sub{gap:12px;margin-top:var(--space-2);padding-top:var(--space-2)}
+    .filters-sub strong{font-size:12px;font-weight:800}
+
+    main{padding-bottom:var(--space-4)}
+    .section{padding:var(--space-5) 0 0}
+    .section-head{align-items:flex-end;gap:var(--space-3);margin-bottom:var(--space-3)}
+    .section h2{font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-.045em}
+    .section-head p{max-width:560px;margin-top:var(--space-1);font-size:14px;line-height:1.6}
+    .count,.sample-label{border-radius:8px;font-weight:800;letter-spacing:.02em}
+    .count{font-size:12px;padding:7px 10px}
+    .listing-grid{gap:var(--space-3)}
+    .view-tools{gap:var(--space-1)}
+    .sort-control{gap:var(--space-1)}
+    .sort-control label{font-size:11px;font-weight:800}
+    .sort-control select{border-radius:var(--radius-control);font-size:12px;font-weight:700}
+    .view-switch{padding:4px;border-radius:var(--radius-control)}
+    .view-switch button{border-radius:8px;padding:8px 12px;font-size:12px;font-weight:800}
+
+    .card,.map-shell,.empty,.story-card,.host-banner,.community-card,.book-box{border-radius:var(--radius-card);border:1px solid var(--line);box-shadow:var(--shadow-soft)}
+    .card{overflow:hidden}
+    .card.unverified{background:var(--surface)}
+    .card-image{aspect-ratio:4/3}
+    .status{left:var(--space-2);top:var(--space-2);min-height:32px;padding:7px 10px;border-radius:var(--radius-control);font-size:10px;font-weight:800;letter-spacing:.01em;box-shadow:none}
+    .status.unverified{background:color-mix(in srgb,var(--surface) 94%,transparent);color:var(--muted);border:1px solid color-mix(in srgb,var(--line) 85%,transparent)}
+    .card-body{padding:var(--space-3)}
+    .place{font-size:var(--type-label);font-weight:700;margin-bottom:var(--space-1);letter-spacing:.02em}
+    .card h3{font-size:var(--type-card);line-height:1.18;margin:0 0 12px}
+    .price-row{margin-bottom:12px}
+    .price{font-size:18px;font-weight:800}
+    .price small{font-size:11px;font-weight:600}
+    .tags{gap:var(--space-1);margin:0 0 var(--space-2)}
+    .tag{border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-size:10px;font-weight:700;padding:5px 8px}
+    .instagram-link{gap:var(--space-1);margin:0 0 var(--space-2);font-size:var(--type-small);font-weight:700}
+    .ota-note{margin:0 0 var(--space-2);padding-top:var(--space-2);font-size:11px;font-weight:600;line-height:1.55}
+    .card-actions{gap:var(--space-1)}
+    .host-invite-strip{display:grid;grid-template-columns:1fr;gap:10px;padding:13px var(--space-3);background:var(--sun-soft);border-top:1px solid color-mix(in srgb,var(--sun) 45%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--sun) 45%,var(--line))}
+    .host-invite-strip span{display:block;font-size:10px;font-weight:800;letter-spacing:.035em;color:var(--muted)}
+    .host-invite-strip strong{display:block;font-family:"Manrope",sans-serif!important;font-size:13px;font-style:normal;font-weight:800!important;letter-spacing:-.01em;color:var(--ink)}
+    .host-invite-strip .claim{width:100%;margin:0;border:1px solid color-mix(in srgb,var(--sun) 65%,var(--ink));border-radius:var(--radius-control);background:var(--surface);color:var(--ink);padding:8px 11px;font-size:11px;font-weight:800;text-decoration:none;cursor:pointer}
+    .host-invite-strip .claim:hover{background:var(--sun);border-color:var(--sun)}
+
+    .map-shell{gap:var(--space-2);padding:var(--space-2)}
+    .map-canvas{border-radius:14px}
+    .map-row{border-radius:var(--radius-control);padding:12px}
+    .map-num,.pin{font-family:"Manrope",sans-serif;font-weight:800}
+    .earn-strip{margin-top:var(--space-6)}
+    .earn-inner{gap:var(--space-2);padding:var(--space-2) 0;font-weight:700;font-size:14px}
+    .earn-detail{padding:0 0 var(--space-2);font-size:12px}
+    .truth-band{padding:var(--space-6) 0}
+    .truth-grid{gap:var(--space-4)}
+    .truth-grid h2{font-size:34px;line-height:1.12}
+    .truth-item strong{font-family:"Manrope",sans-serif;font-size:26px;font-weight:800;margin-bottom:var(--space-1)}
+    .truth-item span{font-size:13px}
+
+    .story-grid{gap:var(--space-3)}
+    .story-card{padding:var(--space-5);min-height:360px}
+    .story-card h2{font-size:40px;margin:0 0 var(--space-2)}
+    .story-card p{font-size:16px;line-height:1.75}
+    .story-card.ocean{border:0}
+    .story-mark{font-size:270px}
+    .host-banner{margin-top:var(--space-3);padding:var(--space-5);gap:var(--space-3)}
+    .host-banner h2{font-size:34px;margin:0 0 var(--space-1)}
+    .host-perks{gap:var(--space-1);margin-top:var(--space-2)}
+    .host-perks span{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:var(--type-label);font-weight:700}
+    .community-grid{gap:var(--space-3);margin-top:var(--space-3)}
+    .community-card{padding:var(--space-4)}
+    .community-card h2{font-size:28px;margin:4px 0 var(--space-1)}
+    .community-kicker{font-size:var(--type-label);font-weight:800}
+    .referral-reward{margin-top:var(--space-3);padding:var(--space-2);background:var(--sun-soft);border:1px solid color-mix(in srgb,var(--sun) 48%,var(--line));border-radius:var(--radius-control)}
+    .referral-reward strong{display:block;font-family:"Manrope",sans-serif!important;font-size:14px;font-style:normal;font-weight:800!important;letter-spacing:-.015em;color:var(--ink)}
+    .referral-reward p{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+    .referral-trigger{display:flex;align-items:center;gap:8px;margin-top:10px!important;font-weight:700;color:var(--ocean-deep)!important}
+    .referral-trigger:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 3px color-mix(in srgb,var(--sun) 25%,transparent);flex:0 0 auto}
+    .referral-form{gap:12px;margin-top:var(--space-3)}
+    .partner-intro{font-size:13px;line-height:1.65}
+    .partner-exchange{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:var(--space-3) 0}
+    .partner-exchange>div{padding:14px;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-control);background:rgba(255,255,255,.06)}
+    .partner-exchange strong{display:block;font-family:"Manrope",sans-serif!important;font-size:12px;font-style:normal;font-weight:800!important;letter-spacing:0;color:var(--sun);margin-bottom:6px}
+    .partner-exchange p{font-size:11px;line-height:1.55;color:#e0f2f4}
+    .creator-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:2px}
+    .creator-form .input-group:nth-of-type(2),.creator-form .input-group:nth-of-type(3){grid-column:1/-1}
+    .creator-form label{color:#c9e3e7}
+    .creator-form input{background:rgba(255,255,255,.96);border-color:rgba(255,255,255,.2);color:#18313d}
+    .creator-form .btn,.creator-form .form-feedback,.creator-form .flow-note{grid-column:1/-1}
+    .partner-card .form-feedback{color:#ffd1d1}
+
+    .detail-host-invite{display:none;margin:var(--space-2) 0 var(--space-3);padding:var(--space-2);background:var(--sun-soft);border:1px solid color-mix(in srgb,var(--sun) 55%,var(--line));border-radius:var(--radius-control)}
+    .detail-host-invite.open{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+    .detail-host-invite .owner-label{display:block;font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--ocean-deep);margin-bottom:3px}
+    .detail-host-invite h3{font-family:"Manrope",sans-serif!important;font-size:15px;font-style:normal;font-weight:800!important;letter-spacing:-.015em;margin:0 0 3px}
+    .detail-host-invite p{font-size:11px;line-height:1.5;color:var(--muted);margin:0}
+    .detail-host-invite .btn{background:var(--surface);border:1px solid color-mix(in srgb,var(--sun) 60%,var(--ink));color:var(--ink);white-space:nowrap}
+    .detail-host-invite .btn:hover{background:var(--sun);border-color:var(--sun)}
+
+    footer{padding:var(--space-8) 0 calc(var(--space-5) + env(safe-area-inset-bottom))}
+    .footer-row{gap:var(--space-6);padding-top:var(--space-4)}
+    .footer-brand{gap:var(--space-2)}
+    .footer-tagline{font-family:"Manrope",sans-serif;font-size:13px;font-weight:600}
+    .footer-links{gap:var(--space-4)}
+    .footer-links h3{font-family:"Manrope",sans-serif!important;font-style:normal;font-size:11px;font-weight:800!important;letter-spacing:.04em;margin:0 0 var(--space-1)}
+    .footer-links a{font-size:12px;margin:8px 0}
+
+    .overlay{padding:var(--space-3)}
+    .modal{border-radius:var(--radius-modal)}
+    .close{top:var(--space-2);margin:var(--space-2) var(--space-2) 0 0;border-radius:var(--radius-control);box-shadow:none}
+    .detail-main{padding:var(--space-6) var(--space-5) var(--space-5)}
+    .detail-place{font-size:var(--type-small);font-weight:700}
+    .detail-main h2{font-size:clamp(32px,4vw,46px);margin:var(--space-1) 0 var(--space-2)}
+    .detail-copy{margin:var(--space-2) 0 var(--space-3);line-height:1.7}
+    .facts{gap:var(--space-1);margin:var(--space-3) 0}
+    .fact{padding:12px;border-radius:var(--radius-control)}
+    .fact strong{font-family:"Manrope",sans-serif!important;font-style:normal;font-size:12px;font-weight:800!important;letter-spacing:0}
+    .detail-sections{margin:var(--space-3) 0;border-top:1px solid var(--line)}
+    .detail-section{padding:var(--space-2) 0}
+    .detail-section h3{font-size:18px;margin:0 0 var(--space-1)}
+    .detail-section p{font-size:13px;line-height:1.65}
+    .availability,.reviews,.experiences{padding:var(--space-3) 0}
+    .detail-block-head{margin-bottom:var(--space-2)}
+    .detail-block-head h3{font-size:var(--type-card)}
+    .calendar-grid{gap:4px}
+    .calendar-day{border-radius:8px;font-weight:700}
+    .review-list,.experience-list{gap:var(--space-1)}
+    .review,.experience{border-radius:var(--radius-control);padding:12px}
+    .book-box{padding:var(--space-3);margin-top:var(--space-3)}
+    .book-box h3{font-size:20px;margin:0 0 4px}
+    .date-grid{gap:var(--space-1)}
+    .input-group input,.guest-stepper{border-radius:var(--radius-control)}
+    .claim-modal{padding:var(--space-5)}
+    .claim-modal h2{font-size:38px;margin:var(--space-1) 0 var(--space-2)}
+    .claim-steps{gap:var(--space-1);margin-bottom:var(--space-3)}
+    .claim-step{border-radius:var(--radius-control);padding:var(--space-2)}
+    .mock-toast{border-radius:var(--radius-control)}
+
+    @media (max-width:720px){
+      .wrap{width:min(100% - 32px,var(--max))}
+      .quick-nav{min-height:64px;padding:8px 0}
+      .brand-lockup--compact{--mark-size:36px;--word-size:18px;gap:7px}
+      .brand-cluster{gap:10px}
+      .header-tagline{max-width:106px;padding-left:10px;font-size:9px;line-height:1.35}
+      .lang-toggle{padding:8px;font-size:10px}
+      .mobile-menu-button{width:36px;height:36px}
+      .discovery-top{padding:var(--space-5) 0 var(--space-3)}
+      .search-box{padding:6px;border-radius:16px}
+      .search-field{padding:0 8px}
+      .search-field input{padding:12px 2px;font-size:12px}
+      .search-box .btn{min-height:40px;padding:9px 12px;font-size:11px}
+      .filters{padding-bottom:var(--space-3)}
+      .filter-head{align-items:flex-start;margin-bottom:var(--space-2)}
+      .filter-head h2{font-size:19px;max-width:210px}
+      .filters-sub{margin-top:var(--space-2);padding-top:var(--space-2)}
+      .section{padding-top:var(--space-4)}
+      .section-head{gap:var(--space-2);margin-bottom:var(--space-3)}
+      .section h2{font-size:32px}
+      .view-tools{width:100%;justify-content:space-between}
+      .sort-control{order:3;width:100%;justify-content:space-between}
+      .sort-control select{min-width:0;max-width:230px;width:100%}
+      .listing-grid{gap:var(--space-3)}
+      .card-body{padding:var(--space-3)}
+      .card-actions{grid-template-columns:1fr 1fr}
+      .card-actions .share-btn{grid-column:1/-1}
+      .earn-strip{margin-top:var(--space-5)}
+      .earn-inner{gap:4px;padding:var(--space-2) 0}
+      .truth-band{margin-top:0;padding:var(--space-5) 0}
+      .truth-grid{gap:var(--space-3) var(--space-2)}
+      .story-card{padding:var(--space-4);min-height:320px}
+      .story-card h2{font-size:34px}
+      .host-banner{padding:var(--space-4)}
+      .community-grid{grid-template-columns:1fr}
+      .community-card{padding:var(--space-3)}
+      .referral-form{grid-template-columns:1fr}
+      .referral-form .input-group:last-of-type{grid-column:auto}
+      .referral-form .btn,.referral-form .form-feedback,.referral-form .flow-note{grid-column:auto}
+      .partner-exchange,.creator-form{grid-template-columns:1fr}
+      .creator-form .input-group:nth-of-type(2),.creator-form .input-group:nth-of-type(3),.creator-form .btn,.creator-form .form-feedback,.creator-form .flow-note{grid-column:auto}
+      .partner-card .btn{margin-top:0;width:100%}
+      .detail-host-invite.open{grid-template-columns:1fr}
+      .detail-host-invite .btn{width:100%}
+      .host-invite-strip{padding:12px var(--space-2)}
+      .host-invite-strip strong{font-size:11px}
+      .footer-row{gap:var(--space-4);padding-top:var(--space-4)}
+      .overlay{padding:8px}
+      .modal{border-radius:var(--radius-modal) var(--radius-modal) 0 0}
+      .detail-main{padding:var(--space-3) var(--space-2) var(--space-4)}
+      .detail-main h2{font-size:34px}
+      .claim-modal{padding:var(--space-4) var(--space-3)}
+    }
+  </style>
 </head>
 <body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="lockup" href="#top" aria-label="Nesto Stays home">
-      <span class="mark" aria-hidden="true">n</span>
-      <span class="wordmark">nest<em>o</em></span>
-      <span class="punchline" data-i18n="tagline">Book the host. Not just the room.</span>
-    </a>
-    <nav class="mainnav" id="mainnav">
-      <a href="#stays" data-i18n="nav_stays">Stays</a>
-      <a href="#how" data-i18n="nav_how">How Nesto earns</a>
-      <a href="#story" data-i18n="nav_story">Our story</a>
-      <a href="#host" data-i18n="nav_host">Become a host</a>
+  <header class="top-strip" id="top">
+    <nav class="wrap quick-nav" aria-label="Page sections">
+      <div class="brand-cluster">
+        <a class="brand-lockup brand-lockup--compact" href="#top" aria-label="Nesto home"><img class="brand-mark" src="logo.png" alt=""><span class="brand-word">nest<span>o</span></span></a>
+        <span class="header-tagline" id="headerTagline">Book the host. Not just the room.</span>
+      </div>
+      <a href="#stays" id="navStays">Find a stay</a>
+      <a href="#story" id="navStory">Our story</a>
+      <a href="#hosts" id="navHosts">Become a host</a>
+      <button class="lang-toggle" id="languageToggle" type="button" aria-label="Switch language to Hindi">EN / हिन्दी</button>
+      <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </nav>
-    <div class="topbar-actions">
-      <button class="lang-toggle" id="langToggle" aria-label="Switch language">हिन्दी</button>
-      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
-    </div>
-  </div>
-</header>
+    <nav class="mobile-nav-menu" id="mobileNav" aria-label="Mobile page sections">
+      <a href="#stays" id="mobileNavStays">Find a stay</a>
+      <a href="#story" id="mobileNavStory">Our story</a>
+      <a href="#hosts" id="mobileNavHosts">Become a host</a>
+    </nav>
+  </header>
 
-<main id="top">
-
-  <!-- Search -->
-  <section class="search-wrap">
-    <div class="search-pill">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="searchInput" type="search" data-i18n-ph="search_ph" placeholder="Search stays, towns, vibes…" autocomplete="off">
-    </div>
-  </section>
-
-  <!-- Filters -->
-  <section class="filters" id="stays" aria-label="Filters">
-    <div class="chip-row" id="regionChips" role="group" aria-label="Regions"></div>
-    <div class="filter-bar">
-      <div class="chip-row small" id="vibeChips" role="group" aria-label="Vibes"></div>
-      <div class="filter-controls">
-        <label class="verified-toggle">
-          <input type="checkbox" id="verifiedOnly">
-          <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-          <span data-i18n="verified_only">Verified only</span>
+  <main>
+    <section class="wrap discovery-top" aria-label="Search stays">
+      <div class="search-box" role="search">
+        <label class="search-field">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="screen-reader">Search by place or stay</span>
+          <input id="searchInput" type="search" placeholder="Try Mukteshwar, riverside, heritage…" autocomplete="off">
         </label>
-        <select id="sortSelect" class="sort-select" aria-label="Sort listings">
-          <option value="recommended" data-i18n="sort_recommended">Recommended</option>
-          <option value="price_asc" data-i18n="sort_price_asc">Price: low to high</option>
-          <option value="price_desc" data-i18n="sort_price_desc">Price: high to low</option>
-          <option value="newest" data-i18n="sort_newest">Newest</option>
-        </select>
+        <button class="btn btn-primary" id="searchButton">Find stays</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Listings -->
-  <section class="listings-section">
-    <p class="result-count" id="resultCount" aria-live="polite"></p>
-    <div class="grid" id="grid"></div>
-    <div class="empty-state" id="emptyState" hidden>
-      <p data-i18n="empty_title">No stays match your search.</p>
-      <button class="btn btn-ghost" id="clearFilters" data-i18n="empty_clear">Clear filters</button>
+    <div class="wrap filters-shell">
+      <section class="filters" aria-labelledby="filterTitle">
+        <div class="filter-head">
+          <h2 id="filterTitle">Where do you want to wake up?</h2>
+          <div class="toggle"><span id="verifiedLabel">Verified only</span><button id="verifiedToggle" type="button" role="switch" aria-pressed="false" aria-label="Show verified stays only"><span class="toggle-track" aria-hidden="true"></span></button></div>
+        </div>
+        <div class="chip-wrap" id="regionFilters" aria-label="Filter by region"></div>
+        <div class="filters-sub">
+          <strong id="vibeLabel">Pick a feeling</strong>
+          <div class="chip-wrap" id="vibeFilters" aria-label="Filter by vibe"></div>
+        </div>
+      </section>
     </div>
-    <div class="load-state" id="loadState">
-      <div class="spinner" aria-hidden="true"></div>
-      <p data-i18n="loading">Finding hillside hosts…</p>
-    </div>
-    <div class="error-state" id="errorState" hidden>
-      <p><strong data-i18n="error_title">Couldn't reach the listings database.</strong></p>
-      <p class="muted" data-i18n="error_body">If you're the site owner: paste your Supabase anon key into config.js (Supabase dashboard → Project Settings → API).</p>
-      <button class="btn btn-ghost" id="retryBtn" data-i18n="retry">Retry</button>
-    </div>
-  </section>
 
-  <!-- How Nesto earns -->
-  <section class="earn-strip" id="how">
-    <div class="earn-inner">
-      <h2 data-i18n="earn_title">How Nesto earns</h2>
-      <p data-i18n="earn_body">Hosts keep 100% of every stay — zero commission, forever. Nesto earns from optional Host Pro tools and experiences around the stay, never from your booking. Every fee is explained before you pay it.</p>
-      <a class="earn-link" href="#host" data-i18n="earn_link">Read the full breakdown →</a>
-    </div>
-  </section>
-
-  <!-- Story -->
-  <section class="story" id="story">
-    <div class="story-inner">
-      <div>
-        <h2 data-i18n="story_title">Our story</h2>
-        <p data-i18n="story_body">Nesto began with a simple frustration: the best hill homestays in Uttarakhand were invisible — buried under hotels on big booking sites that took a fifth of the host's income and wouldn't let you talk to the person you'd actually stay with. So we built the directory we wished existed: one where the host is the hero, the price is the host's price, and the booking starts with a conversation.</p>
+    <section class="wrap section" id="stays">
+      <div class="section-head">
+        <div><h2 id="staysTitle">Stays with a host behind them</h2><p id="staysCopy">Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.</p></div>
+        <div class="view-tools"><span class="count" id="resultCount">6 stays</span><div class="sort-control"><label for="sortSelect" id="sortLabel">Sort</label><select id="sortSelect"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option><option value="newest">Newest</option></select></div><div class="view-switch" aria-label="Choose listing view"><button class="active" id="gridViewButton" type="button">Grid</button><button id="mapViewButton" type="button">Map</button></div></div>
       </div>
-      <div>
-        <h2 data-i18n="vision_title">Our vision</h2>
-        <p data-i18n="vision_body">A thousand Uttarakhand hosts earning directly from guests who chose them — not an algorithm. No commissions on stays, ever. Hosts own the guest relationship from booking one, and travelers book people, not inventory.</p>
+      <div class="listing-grid" id="listingGrid"></div>
+      <div class="map-shell" id="mapShell"><div><div class="map-canvas" id="mapCanvas" aria-label="Map of sample homestays in Uttarakhand"></div><p class="map-note" id="mapNote">Locations are approximate in this design mock. Select a numbered stay to view details.</p></div><div class="map-side" id="mapSide"></div></div>
+      <div class="empty" id="emptyState"><h3>No exact match yet</h3><p>Clear a filter or try another place or vibe.</p></div>
+    </section>
+
+    <section class="earn-strip" id="how-nesto-earns"><div class="wrap"><div class="earn-inner"><span id="earnLine">Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.</span><a href="#how-nesto-earns-detail" id="earnLink">How it works</a></div><p class="earn-detail" id="how-nesto-earns-detail">Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.</p></div></section>
+
+    <section class="truth-band" aria-label="The Nesto promise">
+      <div class="wrap truth-grid">
+        <h2 id="promiseTitle">A simpler way to reach a real hill host.</h2>
+        <div class="truth-item"><strong>0%</strong><span>commission on the room price</span></div>
+        <div class="truth-item"><strong>Direct</strong><span>host conversation before you commit</span></div>
+        <div class="truth-item"><strong>Honest</strong><span>verification labels you can understand</span></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Become a host -->
-  <section class="cta-band" id="host">
-    <div class="cta-inner">
-      <h2 data-i18n="host_title">Become a host</h2>
-      <p data-i18n="host_body">List free as one of our first 100 founding hosts. Zero commission on stays, guests pay you directly, and you keep every guest relationship.</p>
-      <button class="btn btn-sun" id="becomeHostBtn" data-i18n="host_cta">Claim your free listing</button>
-    </div>
-  </section>
+    <section class="wrap section" id="story">
+      <div class="story-grid">
+        <article class="story-card ocean"><h2 id="storyTitle">Our Story</h2><p>Uttarakhand’s most memorable stays are not inventory. They are homes shaped by people, place, food, weather, and local knowledge. Nesto makes the host visible again—so a booking starts with a conversation, not a commission.</p><span class="story-mark" aria-hidden="true">n</span></article>
+        <article class="story-card"><h2 id="visionTitle">Our Vision</h2><p>To become the trust mark for independent hill homestays: every status earned, every fee explained, and every guest able to know who they are booking with before the journey begins.</p><span class="story-mark" aria-hidden="true">n</span></article>
+      </div>
 
-  <!-- Refer -->
-  <section class="cta-band alt" id="refer">
-    <div class="cta-inner">
-      <h2 data-i18n="refer_title">Refer a host</h2>
-      <p data-i18n="refer_body">Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap. Not a host? You'll join the Founding Circle with early access to new collections and experiences.</p>
-      <form class="refer-form" id="referForm">
-        <input name="name" required data-i18n-ph="refer_name" placeholder="Host name">
-        <input name="phone" required inputmode="tel" data-i18n-ph="refer_phone" placeholder="Host phone">
-        <input name="place" required data-i18n-ph="refer_place" placeholder="Place / town">
-        <button class="btn btn-ocean" type="submit" data-i18n="refer_cta">Refer on WhatsApp</button>
-      </form>
-    </div>
-  </section>
+      <section class="host-banner" id="hosts">
+        <div><h2 id="hostTitle">Your homestay may already be here.</h2><p>Claim it free, confirm the details, and earn the Nesto Verified badge. You keep the guest relationship and 100% of the room revenue.</p><div class="host-perks"><span>Free to claim</span><span>WhatsApp-first enquiries</span><span>No room commission</span><span>Clear verification path</span></div></div>
+        <button class="btn btn-ocean" id="hostClaimButton">Claim your homestay</button>
+      </section>
 
-  <!-- Partner -->
-  <section class="cta-band" id="partner">
-    <div class="cta-inner">
-      <h2 data-i18n="partner_title">Partner with us</h2>
-      <p data-i18n="partner_body">Travel creators: stay with Nesto hosts, tell their stories, and earn from every booking your audience makes. We expect honest reviews and clear disclosure — you get early access to new stays and a revenue share.</p>
-      <form class="refer-form" id="partnerForm">
-        <input name="name" required data-i18n-ph="partner_name" placeholder="Your name">
-        <input name="instagram" data-i18n-ph="partner_ig" placeholder="Instagram link">
-        <input name="audience" inputmode="numeric" data-i18n-ph="partner_aud" placeholder="Audience size">
-        <input name="location" data-i18n-ph="partner_loc" placeholder="Your location">
-        <button class="btn btn-sun" type="submit" data-i18n="partner_cta">Apply on WhatsApp</button>
-      </form>
-    </div>
-  </section>
+      <div class="community-grid">
+        <section class="community-card" id="refer-host" aria-labelledby="referHostTitle">
+          <span class="community-kicker" id="referHostKicker">Refer a host</span>
+          <h2 id="referHostTitle">Know a homestay owner? Refer them to Nesto.</h2>
+          <p id="referHostCopy">Share a few details and introduce an independent Uttarakhand host to the network.</p>
+          <div class="referral-reward"><strong id="referralHostReward">Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap.</strong><p id="referralNonHostReward">Join the Nesto Founding Circle with early access to new collections and experiences.</p><p class="referral-trigger" id="referralTrigger">The reward unlocks when the referred host is verified—not when the referral is submitted.</p></div>
+          <form class="referral-form" id="referralForm" novalidate>
+            <div class="input-group"><label for="referralName" id="referralNameLabel">Host name</label><input id="referralName" name="hostName" autocomplete="name" required></div>
+            <div class="input-group"><label for="referralPhone" id="referralPhoneLabel">Phone</label><input id="referralPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
+            <div class="input-group"><label for="referralPlace" id="referralPlaceLabel">Place</label><input id="referralPlace" name="place" autocomplete="address-level2" required></div>
+            <button class="btn btn-ocean" type="submit" id="referralSubmit">Refer on WhatsApp</button>
+            <div class="form-feedback" id="referralFeedback" aria-live="polite"></div>
+            <p class="flow-note" id="referralNote">Design preview—your details are not saved; WhatsApp opens with a referral draft.</p>
+          </form>
+        </section>
+        <section class="community-card partner-card" id="partners" aria-labelledby="partnerTitle">
+          <span class="community-kicker" id="partnerKicker">Partner with us</span>
+          <h2 id="partnerTitle">Travel creators, tell Uttarakhand stories with Nesto.</h2>
+          <p class="partner-intro" id="partnerCopy">A clear exchange for creators who care about independent stays, local hosts, and honest travel.</p>
+          <div class="partner-exchange"><div><strong id="creatorGetsTitle">What you get</strong><p id="creatorGetsCopy">Featured stays to explore, early access to new collections, and a chance to grow with Nesto.</p></div><div><strong id="creatorAsksTitle">What Nesto asks</strong><p id="creatorAsksCopy">Authentic content in your own voice and meaningful reach to travellers who will value these places.</p></div></div>
+          <form class="creator-form" id="creatorForm" novalidate>
+            <div class="input-group"><label for="creatorName" id="creatorNameLabel">Name</label><input id="creatorName" name="name" autocomplete="name" required></div>
+            <div class="input-group"><label for="creatorInstagram" id="creatorInstagramLabel">Instagram link</label><input id="creatorInstagram" name="instagram" type="url" inputmode="url" autocomplete="url" placeholder="https://instagram.com/…" required></div>
+            <div class="input-group"><label for="creatorFacebook" id="creatorFacebookLabel">Facebook link</label><input id="creatorFacebook" name="facebook" type="url" inputmode="url" autocomplete="url" placeholder="https://facebook.com/…" required></div>
+            <div class="input-group"><label for="creatorAudience" id="creatorAudienceLabel">Audience size</label><input id="creatorAudience" name="audience" inputmode="numeric" placeholder="e.g. 12,000" required></div>
+            <div class="input-group"><label for="creatorLocation" id="creatorLocationLabel">Location</label><input id="creatorLocation" name="location" autocomplete="address-level2" required></div>
+            <button class="btn" type="submit" id="creatorContact">Introduce yourself on WhatsApp</button>
+            <div class="form-feedback" id="creatorFeedback" aria-live="polite"></div>
+            <p class="flow-note" id="creatorNote">Design preview—your details are not saved; WhatsApp opens with your introduction draft.</p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
 
-</main>
+  <footer class="wrap"><div class="footer-row"><div class="footer-brand"><a class="brand-lockup brand-lockup--compact" href="#top" aria-label="Nesto home"><img class="brand-mark" src="logo.png" alt=""><span class="brand-word">nest<span>o</span></span></a><div class="footer-tagline" id="footerTagline">Book the host. Not just the room.</div></div><nav class="footer-links" aria-label="Footer"><div><h3>Explore</h3><a href="#stays" id="footerStays">Find a stay</a><a href="#story" id="footerStory">Our story</a><a href="#how-nesto-earns" id="footerEarns">How Nesto earns</a></div><div><h3>For hosts</h3><a href="#hosts" id="footerHosts">Become a host</a><a href="#hosts" id="footerVerified">Nesto Verified</a><a href="#refer-host" id="footerRefer">Refer a host</a><a href="#partners" id="footerPartner">Partner with us</a></div></nav></div></footer>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <a class="lockup" href="#top" aria-label="Nesto Stays home">
-      <span class="mark" aria-hidden="true">n</span>
-      <span class="wordmark">nest<em>o</em></span>
-    </a>
-    <p class="punchline" data-i18n="tagline">Book the host. Not just the room.</p>
-    <nav class="footer-nav">
-      <a href="#stays" data-i18n="nav_stays">Stays</a>
-      <a href="#how" data-i18n="nav_how">How Nesto earns</a>
-      <a href="#refer" data-i18n="nav_refer">Refer a host</a>
-      <a href="#partner" data-i18n="nav_partner">Partner with us</a>
-    </nav>
-    <p class="muted small">© 2026 Nesto Stays · Uttarakhand, India</p>
+  <div class="overlay" id="detailOverlay" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal" id="detailModal"><button class="close" data-close="detailOverlay" aria-label="Close detail">×</button><div class="detail-layout"><div class="detail-photo"><img id="detailImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Selected homestay"></div><div class="detail-main"><div id="detailStatus"></div><div class="detail-place" id="detailPlace"></div><h2 id="detailTitle"></h2><div class="tags" id="detailTags"></div><div class="detail-instagram" id="detailInstagram"></div><aside class="detail-host-invite" id="detailHostInvite" aria-label="Invitation for the property host"><div><span class="owner-label" id="detailHostLabel">For the property host</span><h3 id="detailHostInviteTitle">Are you the host?</h3><p id="detailHostInviteCopy">Claim and verify this listing. This is separate from guest booking.</p></div><button class="btn btn-small" id="detailClaimButton" type="button">Claim now</button></aside><div class="detail-quick-actions"><button class="btn btn-soft btn-small" id="detailShare" type="button">Share on WhatsApp</button></div><p class="detail-copy" id="detailCopy"></p><div class="facts"><div class="fact"><strong id="detailPrice"></strong><span>host price</span></div><div class="fact"><strong>WhatsApp</strong><span>direct enquiry</span></div><div class="fact"><strong>0%</strong><span>Nesto room fee</span></div></div><div class="detail-sections"><section class="detail-section"><h3>Amenities</h3><p id="detailAmenities"></p></section><section class="detail-section"><h3>Meals</h3><p id="detailMeals"></p></section><section class="detail-section"><h3>Know before you go</h3><p id="detailKnow"></p></section><section class="detail-section host-profile"><span class="host-name" id="detailHostName"></span><h3>Meet your host</h3><p id="detailHostProfile"></p></section></div><section class="availability"><div class="detail-block-head"><h3 id="availabilityTitle">Availability</h3><span class="sample-label">Illustrative sample</span></div><div class="calendar-head"><span id="calendarMonth">November 2026</span><div class="calendar-legend"><span><i class="legend-dot"></i><b id="openLegend">Open</b></span><span><i class="legend-dot full"></i><b id="fullLegend">Full</b></span></div></div><div class="calendar-grid" id="availabilityGrid"></div></section><section class="reviews"><div class="detail-block-head"><h3 id="reviewsTitle">Guest reviews</h3><span class="sample-label">Illustrative sample</span></div><div class="review-list" id="reviewList"></div></section><section class="experiences"><div class="detail-block-head"><h3 id="experiencesTitle">Enhance your stay</h3><span class="sample-label">Illustrative sample</span></div><div class="experience-list" id="experienceList"></div></section><p class="ota-note" id="detailOtaNote"></p><div class="book-box" id="bookForm"><h3>Request your dates</h3><p>The host confirms availability and final price on WhatsApp.</p><div class="date-grid"><div class="input-group"><label for="checkIn">Check-in</label><input type="date" id="checkIn"></div><div class="input-group"><label for="checkOut">Check-out</label><input type="date" id="checkOut"></div></div><div class="guest-stepper"><span>Guests</span><div class="step-controls"><button id="minusGuest" aria-label="Remove guest">−</button><strong id="guestCount">2</strong><button id="plusGuest" aria-label="Add guest">+</button></div></div><button class="btn btn-ocean" id="requestButton">Request to book</button><div class="error" id="bookingError" aria-live="polite"></div><p class="flow-note">Design preview—no message is actually sent.</p></div><div class="success-state" id="successState"><div class="success-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Opening WhatsApp…</h3><p>Send the message to complete your request.</p><button class="btn btn-soft" id="resetBooking" style="margin-top:16px">Try another request</button></div></div></div></div>
   </div>
-</footer>
 
-<!-- Detail modal -->
-<div class="modal-backdrop" id="modalBackdrop" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
+  <div class="overlay" id="claimOverlay" role="dialog" aria-modal="true" aria-labelledby="claimTitle"><div class="modal claim-modal"><button class="close" data-close="claimOverlay" aria-label="Close claim flow">×</button><div class="claim-name" id="claimName">For Uttarakhand homestay owners</div><h2 id="claimTitle">Claim it free. Make it yours.</h2><p>Confirm the listing and start the simplest path to Nesto Verified.</p><div class="claim-steps"><div class="claim-step"><div class="claim-num">1</div><div><strong>Match your mobile</strong><span>Use the phone already associated with the homestay.</span></div></div><div class="claim-step"><div class="claim-num">2</div><div><strong>Enter one verification code</strong><span>It proves the number belongs to the host or property.</span></div></div><div class="claim-step"><div class="claim-num">3</div><div><strong>Review and publish</strong><span>Correct details, add fresh photos, and receive your verified status.</span></div></div></div><div class="claim-foot"><button class="btn btn-ocean" id="mockClaimStart">Start claim on WhatsApp</button><button class="btn btn-ghost" data-close="claimOverlay">Not now</button></div><p class="flow-note">Design preview—WhatsApp verification is not connected in this mock.</p></div></div>
 
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="mock-toast" id="toast" aria-live="polite"></div>
 
-<script src="config.js"></script>
-<script src="i18n.js"></script>
-<script src="app.js"></script>
+  
+  
+  <script src="config.js"></script>
+    <script>
+    (function(){
+      var listings=[];
+      listings[0].lat=29.47614;listings[0].lng=79.64676;
+      listings[1].lat=29.36952;listings[1].lng=79.54405;
+      listings[2].lat=29.47309;listings[2].lng=79.64957;
+      listings[3].lat=30.45625;listings[3].lng=78.07789;
+      listings[4].lat=30.45547;listings[4].lng=78.07390;
+      listings[5].lat=30.41512;listings[5].lng=78.26569;
+      var sampleReviews=[
+        {name:'Aditi S. · sample guest',rating:5,date:'12 Sep 2026',text:'The host made arrival easy and helped us plan a quiet local walk. The direct conversation was the best part.'},
+        {name:'Rohan M. · sample guest',rating:5,date:'24 Aug 2026',text:'Warm meals, clear directions, and a room that felt connected to the place rather than packaged.'},
+        {name:'Meera K. · sample guest',rating:4,date:'8 Jul 2026',text:'A peaceful stay with thoughtful local guidance. I would confirm road access with the host before driving.'}
+      ];
+      var experiences=[
+        {id:'trek',name:'Guided village trek',price:'₹800'},
+        {id:'meal',name:'Home-cooked Kumaoni meal',price:'₹350'},
+        {id:'bonfire',name:'Bonfire evening',price:'₹500'}
+      ];
+      var copy={
+        en:{verified:'Nesto Verified',unverified:'Unverified — details not confirmed by host',view:'View stay',chat:'Chat with host',share:'Share on WhatsApp',claim:'Are you the host? Claim now',stay:'stay',stays:'stays',allRegions:'All regions',allVibes:'All vibes',grid:'Grid',map:'Map',added:'Added',add:'Add',open:'Open',full:'Full'},
+        hi:{verified:'Nesto सत्यापित',unverified:'असत्यापित — मेज़बान ने विवरण की पुष्टि नहीं की',view:'स्टे देखें',chat:'मेज़बान से बात करें',share:'WhatsApp पर साझा करें',claim:'क्या आप मेज़बान हैं? अभी क्लेम करें',stay:'स्टे',stays:'स्टे',allRegions:'सभी क्षेत्र',allVibes:'सभी अनुभव',grid:'ग्रिड',map:'मानचित्र',added:'जोड़ा गया',add:'जोड़ें',open:'खाली',full:'भरा हुआ'}
+      };
+      function t(key){return copy[state.lang][key]||key}
+      var regions=['All regions','Nainital','Mussoorie','Rishikesh','Almora / Binsar / Kausani','Ranikhet','Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath','Lansdowne','Jim Corbett','Dehradun','Pithoragarh / Dharchula'];
+      var vibes=['All vibes','Heritage','Mountain view','Budget','Riverside','Forest retreat','Town homestay'];
+      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,current:null,lang:'en',view:'grid',added:{}};
+      var grid=document.getElementById('listingGrid');
+      var regionBox=document.getElementById('regionFilters');
+      var vibeBox=document.getElementById('vibeFilters');
+
+      function safe(s){return String(s).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]})}
+      function statusHTML(item){
+        return item.verified ? '<span class="status verified"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 12 4 4 8-9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+t('verified')+'</span>' : '<span class="status unverified">'+t('unverified')+'</span>';
+      }
+      function instagramHTML(item){
+        if(!item.instagram||!item.instagramUrl)return '';
+        return '<a class="instagram-link" href="'+item.instagramUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Open '+safe(item.name)+' on Instagram at '+safe(item.instagram)+'"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>'+safe(item.instagram)+'</a>';
+      }
+      function cardHTML(item){
+        var night=state.lang==='hi'?' / रात':' / night';
+        var hostInvite=item.verified?'':'<div class="host-invite-strip"><div><span>'+(state.lang==='hi'?'केवल प्रॉपर्टी के मेज़बान के लिए':'For the property host')+'</span><strong>'+(state.lang==='hi'?'क्या यह आपका होमस्टे है?':'Is this your homestay?')+'</strong></div><button class="claim claim-btn" data-id="'+item.id+'">'+t('claim')+'</button></div>';
+        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'</div>'+hostInvite+'<div class="card-body"><div class="place">'+safe(item.place)+' · '+safe(item.region)+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+item.tags.map(function(tag){return '<span class="tag">'+safe(tag)+'</span>'}).join('')+'</div>'+instagramHTML(item)+'<p class="ota-note">'+nestoPriceNote(item)+'</p><div class="card-actions"><button class="btn btn-ghost btn-small view-btn" data-id="'+item.id+'">'+t('view')+'</button><button class="btn btn-ocean btn-small chat-btn" data-id="'+item.id+'">'+t('chat')+'</button><button class="btn btn-ghost btn-small share-btn" data-id="'+item.id+'">'+t('share')+'</button></div></div></article>';
+      }
+      function priceValue(item){
+        var match=String(item.price).replace(/,/g,'').match(/[0-9]+/);
+        return match?Number(match[0]):null;
+      }
+      function sortMatches(items){
+        return items.sort(function(a,b){
+          if(state.sort==='price-low'||state.sort==='price-high'){
+            var aPrice=priceValue(a),bPrice=priceValue(b);
+            if(aPrice===null&&bPrice===null)return a.id-b.id;
+            if(aPrice===null)return 1;
+            if(bPrice===null)return -1;
+            return state.sort==='price-low'?aPrice-bPrice:bPrice-aPrice;
+          }
+          if(state.sort==='newest')return b.id-a.id;
+          if(state.sort==='top-rated')return Number(b.verified)-Number(a.verified)||a.id-b.id;
+          return Number(b.verified)-Number(a.verified)||a.id-b.id;
+        });
+      }
+      function render(){
+        var q=state.query.toLowerCase().trim();
+        var matches=sortMatches(listings.filter(function(item){
+          var regionOk=state.region==='All regions'||item.region===state.region;
+          var vibeKey=state.vibe.toLowerCase().replace(' view','-view').replace(' ','-');
+          var vibeOk=state.vibe==='All vibes'||item.tags.some(function(t){return t===vibeKey||t.replace('-',' ')===state.vibe.toLowerCase()});
+          var verifiedOk=!state.verified||item.verified;
+          var hay=(item.name+' '+item.place+' '+item.region+' '+item.tags.join(' ')).toLowerCase();
+          return regionOk&&vibeOk&&verifiedOk&&(!q||hay.indexOf(q)>-1);
+        }));
+        grid.innerHTML=matches.map(cardHTML).join('');
+        document.getElementById('resultCount').textContent=matches.length+' '+(matches.length===1?t('stay'):t('stays'));
+        document.getElementById('emptyState').style.display=matches.length?'none':'block';
+        bindCards();
+      }
+      function makeChips(list,container,type){
+        container.innerHTML=list.map(function(x,i){var label=x;if(x==='All regions')label=t('allRegions');if(x==='All vibes')label=t('allVibes');return '<button class="chip '+(type==='vibe'?'vibe-chip ':'')+(state[type]===x?'active':'')+'" data-value="'+safe(x)+'">'+safe(label)+'</button>'}).join('');
+        container.addEventListener('click',function(e){var btn=e.target.closest('.chip');if(!btn)return;container.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active')});btn.classList.add('active');state[type]=btn.dataset.value;render()});
+      }
+      function getItem(id){return listings.find(function(x){return x.id===Number(id)})}
+      function bindCards(){
+        document.querySelectorAll('.view-btn').forEach(function(btn){btn.addEventListener('click',function(){openDetail(getItem(btn.dataset.id))})});
+        document.querySelectorAll('.chat-btn').forEach(function(btn){btn.addEventListener('click',function(){nestoChatHost(getItem(btn.dataset.id))})});
+        document.querySelectorAll('.share-btn').forEach(function(btn){btn.addEventListener('click',function(){shareStay(getItem(btn.dataset.id))})});
+        document.querySelectorAll('.claim-btn').forEach(function(btn){btn.addEventListener('click',function(){openClaim(getItem(btn.dataset.id))})});
+      }
+      function shareStay(item){
+        var text=(state.lang==='hi'?'Nesto पर यह होमस्टे देखें: ':'Have a look at this Nesto homestay: ')+item.name+' — '+item.place+'. '+item.price+(state.lang==='hi'?'. मेज़बान से सीधे WhatsApp पर बात करें।':'. Chat directly with the host on WhatsApp.');
+        window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
+      }
+      function openDetail(item){
+        state.current=item;state.guests=2;document.getElementById('guestCount').textContent='2';
+        document.getElementById('detailImage').src=item.image;document.getElementById('detailImage').alt=item.alt;
+        document.getElementById('detailPlace').textContent=item.place+' · '+item.region;document.getElementById('detailTitle').textContent=item.name;document.getElementById('detailPrice').textContent=item.price;document.getElementById('detailOtaNote').textContent=nestoPriceNote(item);
+        document.getElementById('detailTags').innerHTML=item.tags.map(function(t){return '<span class="tag">'+safe(t)+'</span>'}).join('');document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
+        document.getElementById('detailAmenities').textContent=item.amenities;document.getElementById('detailMeals').textContent=item.meals||'Meal details have not been confirmed. Ask the host when you request your dates.';document.getElementById('detailKnow').textContent=item.know;
+        document.getElementById('detailHostName').textContent=item.hostName||'Host introduction pending';document.getElementById('detailHostProfile').textContent=item.hostProfile||'The host has not introduced themselves on Nesto yet. Claiming the listing will add their story here.';document.getElementById('detailHostProfile').classList.toggle('pending',!item.hostProfile);
+        document.getElementById('detailStatus').innerHTML=statusHTML(item);var s=document.querySelector('#detailStatus .status');if(s){s.style.position='static';s.style.display='inline-flex';}
+        document.getElementById('detailHostInvite').classList.toggle('open',!item.verified);
+        nestoHideMockSections();document.getElementById('reviewList').innerHTML=reviewsHTML(item);
+        document.getElementById('bookForm').style.display='block';document.getElementById('successState').style.display='none';document.getElementById('bookingError').textContent='';document.getElementById('checkIn').value='';document.getElementById('checkOut').value='';openOverlay('detailOverlay');
+      }
+
+      function calendarHTML(seed){
+        var days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+        if(state.lang==='hi')days=['र','सो','मं','बु','गु','शु','श'];
+        var out=days.map(function(day){return '<span class="dow">'+day+'</span>'}).join('');
+        var fullDays={1:[5,6,14,15,21,27],2:[2,9,10,18,24,25],3:[1,7,8,16,22,29],4:[3,4,12,19,20,28],5:[6,13,14,23,30],6:[5,11,12,21,22,27]}[seed]||[];
+        for(var i=1;i<=30;i++)out+='<span class="calendar-day '+(fullDays.indexOf(i)>-1?'full':'')+'" aria-label="November '+i+', '+(fullDays.indexOf(i)>-1?t('full'):t('open'))+'">'+i+'</span>';
+        return out;
+      }
+      function reviewsHTML(item){
+        var rs=item.reviewSources||[];
+        if(!rs.length)return '<p class="muted">'+(state.lang==='hi'?'\u0905\u092d\u0940 \u0915\u094b\u0908 \u0938\u092e\u0940\u0915\u094d\u0937\u093e \u0932\u093f\u0902\u0915 \u0909\u092a\u0932\u092c\u094d\u0927 \u0928\u0939\u0940\u0902 \u0939\u0948\u0964':'No review links available yet.')+'</p>';
+        return rs.map(function(r){return '<a class="btn btn-ghost btn-small" href="'+safe(r.url)+'" target="_blank" rel="noopener">'+safe(r.label)+'</a>';}).join('');
+      }
+      function renderExperiences(){
+        nestoHideMockSections();
+      }
+      function initMap(){
+        if(document.getElementById('mapCanvas').dataset.ready)return;
+        var rows=listings.map(function(item,i){var row=document.createElement('button');row.className='map-row';row.type='button';row.innerHTML='<span class="map-num">'+(i+1)+'</span><span><strong>'+safe(item.name)+'</strong><span>'+safe(item.place)+'</span></span>';return row});
+        var side=document.getElementById('mapSide');rows.forEach(function(row){side.appendChild(row)});
+        var places=listings.map(function(item){return {label:item.name,locality:item.place,region:'Uttarakhand',country:'India',lat:item.lat,lng:item.lng}});
+        function unavailable(){document.getElementById('mapCanvas').innerHTML='<div class="map-fallback"><div><strong>Map unavailable</strong><br><span>The numbered stay list remains available.</span></div></div>'}
+        if(window.MapHelpers&&window.HatchMaps){MapHelpers.mountPlaceListMap(document.getElementById('mapCanvas'),{places:places,rows:rows,baseStyle:window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'},unavailable)}else{unavailable()}
+        rows.forEach(function(row,i){row.addEventListener('dblclick',function(){openDetail(listings[i])})});
+        document.getElementById('mapCanvas').dataset.ready='true';
+      }
+      function setView(view){
+        state.view=view;var map=view==='map';grid.style.display=map?'none':'grid';document.getElementById('mapShell').classList.toggle('open',map);document.getElementById('gridViewButton').classList.toggle('active',!map);document.getElementById('mapViewButton').classList.toggle('active',map);if(map)initMap();
+      }
+      function applyLanguage(){
+        document.documentElement.lang=state.lang==='hi'?'hi':'en';
+        var hi=state.lang==='hi';
+        document.getElementById('languageToggle').textContent=hi?'हिन्दी / EN':'EN / हिन्दी';document.getElementById('languageToggle').setAttribute('aria-label',hi?'Switch language to English':'Switch language to Hindi');
+        document.getElementById('navStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('navStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('navHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
+        document.getElementById('headerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
+        document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
+        document.getElementById('searchInput').placeholder=hi?'मुक्तेश्वर, नदी किनारा, हेरिटेज खोजें…':'Try Mukteshwar, riverside, heritage…';document.getElementById('searchButton').textContent=hi?'स्टे खोजें':'Find stays';document.getElementById('filterTitle').textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';document.getElementById('vibeLabel').textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
+        document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
+        document.getElementById('sortLabel').textContent=hi?'क्रम':'Sort';var sortOptions=document.getElementById('sortSelect').options;sortOptions[0].text=hi?'सुझाया गया':'Recommended';sortOptions[1].text=hi?'कीमत: कम से ज़्यादा':'Price: low to high';sortOptions[2].text=hi?'कीमत: ज़्यादा से कम':'Price: high to low';sortOptions[3].text=hi?'सबसे अच्छी रेटिंग':'Top rated';sortOptions[4].text=hi?'सबसे नया':'Newest';
+        document.getElementById('earnLine').textContent=hi?'Nesto स्टे पर शून्य कमीशन लेता है। हमारी कमाई Host Pro सदस्यता और अनुभवों से होती है।':'Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.';document.getElementById('earnLink').textContent=hi?'यह कैसे काम करता है':'How it works';document.getElementById('how-nesto-earns-detail').textContent=hi?'मेज़बान कमरे की पूरी कमाई रखते हैं। वैकल्पिक Host Pro टूल और स्थानीय अतिथि अनुभव प्लेटफ़ॉर्म को चलाते हैं; अनुभव जोड़ने से पहले कीमत साफ़ दिखती है।':'Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.';
+        document.getElementById('promiseTitle').textContent=hi?'एक असली पहाड़ी मेज़बान तक पहुँचने का सरल तरीका।':'A simpler way to reach a real hill host.';document.getElementById('storyTitle').textContent=hi?'हमारी कहानी':'Our Story';document.getElementById('visionTitle').textContent=hi?'हमारी दृष्टि':'Our Vision';document.getElementById('hostTitle').textContent=hi?'आपका होमस्टे शायद पहले से यहाँ है।':'Your homestay may already be here.';
+        document.getElementById('referHostKicker').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('referHostTitle').textContent=hi?'क्या आप किसी होमस्टे मालिक को जानते हैं? उन्हें Nesto से जोड़ें।':'Know a homestay owner? Refer them to Nesto.';document.getElementById('referHostCopy').textContent=hi?'कुछ विवरण साझा करें और उत्तराखंड के एक स्वतंत्र मेज़बान को नेटवर्क से जोड़ें।':'Share a few details and introduce an independent Uttarakhand host to the network.';document.getElementById('referralHostReward').textContent=hi?'आपके परिचय से Nesto Verified बनने वाला हर मेज़बान आपको 3 महीने का Host Pro मुफ़्त दिलाता है — कोई सीमा नहीं।':'Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap.';document.getElementById('referralNonHostReward').textContent=hi?'नए कलेक्शन और अनुभवों की शुरुआती पहुँच के साथ Nesto Founding Circle में शामिल हों।':'Join the Nesto Founding Circle with early access to new collections and experiences.';document.getElementById('referralTrigger').textContent=hi?'इनाम तभी मिलता है जब सुझाया गया मेज़बान सत्यापित हो जाए—सिर्फ़ परिचय भेजने पर नहीं।':'The reward unlocks when the referred host is verified—not when the referral is submitted.';document.getElementById('referralNameLabel').textContent=hi?'मेज़बान का नाम':'Host name';document.getElementById('referralPhoneLabel').textContent=hi?'फ़ोन':'Phone';document.getElementById('referralPlaceLabel').textContent=hi?'स्थान':'Place';document.getElementById('referralSubmit').textContent=hi?'WhatsApp पर परिचय भेजें':'Refer on WhatsApp';document.getElementById('referralNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp एक तैयार संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with a referral draft.';
+        document.getElementById('partnerKicker').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';document.getElementById('partnerTitle').textContent=hi?'यात्रा क्रिएटर, Nesto के साथ उत्तराखंड की कहानियाँ साझा करें।':'Travel creators, tell Uttarakhand stories with Nesto.';document.getElementById('partnerCopy').textContent=hi?'स्वतंत्र स्टे, स्थानीय मेज़बान और ईमानदार यात्रा की परवाह करने वाले क्रिएटर्स के लिए एक स्पष्ट साझेदारी।':'A clear exchange for creators who care about independent stays, local hosts, and honest travel.';document.getElementById('creatorGetsTitle').textContent=hi?'आपको क्या मिलेगा':'What you get';document.getElementById('creatorGetsCopy').textContent=hi?'फ़ीचर करने के लिए स्टे, नए कलेक्शन की शुरुआती पहुँच, और Nesto के साथ आगे बढ़ने का अवसर।':'Featured stays to explore, early access to new collections, and a chance to grow with Nesto.';document.getElementById('creatorAsksTitle').textContent=hi?'Nesto आपसे क्या चाहता है':'What Nesto asks';document.getElementById('creatorAsksCopy').textContent=hi?'आपकी अपनी आवाज़ में प्रामाणिक कंटेंट और उन यात्रियों तक सार्थक पहुँच जो इन जगहों को महत्व देंगे।':'Authentic content in your own voice and meaningful reach to travellers who will value these places.';document.getElementById('creatorNameLabel').textContent=hi?'नाम':'Name';document.getElementById('creatorInstagramLabel').textContent=hi?'Instagram लिंक':'Instagram link';document.getElementById('creatorFacebookLabel').textContent=hi?'Facebook लिंक':'Facebook link';document.getElementById('creatorAudienceLabel').textContent=hi?'ऑडियंस का आकार':'Audience size';document.getElementById('creatorLocationLabel').textContent=hi?'स्थान':'Location';document.getElementById('creatorContact').textContent=hi?'WhatsApp पर अपना परिचय दें':'Introduce yourself on WhatsApp';document.getElementById('creatorNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp आपके परिचय संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with your introduction draft.';document.getElementById('detailHostLabel').textContent=hi?'केवल प्रॉपर्टी के मेज़बान के लिए':'For the property host';document.getElementById('detailHostInviteTitle').textContent=hi?'क्या आप मेज़बान हैं?':'Are you the host?';document.getElementById('detailHostInviteCopy').textContent=hi?'इस लिस्टिंग को क्लेम और सत्यापित करें। यह अतिथि बुकिंग से अलग है।':'Claim and verify this listing. This is separate from guest booking.';document.getElementById('detailClaimButton').textContent=hi?'अभी क्लेम करें':'Claim now';
+        document.getElementById('detailShare').textContent=t('share');document.getElementById('availabilityTitle').textContent=hi?'उपलब्धता':'Availability';document.getElementById('reviewsTitle').textContent=hi?'अतिथि समीक्षाएँ':'Guest reviews';document.getElementById('experiencesTitle').textContent=hi?'अपने स्टे को बेहतर बनाएं':'Enhance your stay';document.getElementById('openLegend').textContent=t('open');document.getElementById('fullLegend').textContent=t('full');
+        makeChips(regions,regionBox,'region');makeChips(vibes,vibeBox,'vibe');render();
+        if(state.current){document.getElementById('availabilityGrid').innerHTML=calendarHTML(state.current.id);renderExperiences();document.getElementById('detailStatus').innerHTML=statusHTML(state.current);var st=document.querySelector('#detailStatus .status');if(st){st.style.position='static';st.style.display='inline-flex'}}
+      }
+
+      function openClaim(item){document.getElementById('claimName').textContent=item?'Claim '+item.name:'For Uttarakhand homestay owners';openOverlay('claimOverlay')}
+      function openOverlay(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+      function closeOverlay(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+      function toast(text){var el=document.getElementById('toast');el.textContent=text;el.classList.add('show');setTimeout(function(){el.classList.remove('show')},2600)}
+
+      /* ===== NESTO-LIVE: real data layer (GitHub Pages build) ===== */
+      function nestoPlaceholder(name){
+        var initial=(String(name||'N').trim().charAt(0)||'N').toUpperCase().replace(/[<>&'"]/g,'');
+        var svg="<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#0B5FA5'/><stop offset='1' stop-color='#0A2E4F'/></linearGradient></defs><rect width='800' height='600' fill='url(#g)'/><text x='400' y='340' font-family='Georgia,serif' font-style='italic' font-weight='bold' font-size='230' fill='#F5B301' text-anchor='middle'>"+initial+"</text><text x='400' y='430' font-family='sans-serif' font-size='30' fill='#ffffff' text-anchor='middle' opacity='0.85'>Nesto Stays</text></svg>";
+        return 'data:image/svg+xml,'+encodeURIComponent(svg);
+      }
+      function nestoDigits(s){var d=String(s||'').replace(/\D/g,'');if(d.length===10)d='91'+d;return d;}
+      function nestoMapRow(r,i){
+        var contacts=Array.isArray(r.contacts)?r.contacts:[];
+        var phone=null,ig=null,igUrl=null;
+        contacts.forEach(function(c){c=c||{};
+          if((c.type==='whatsapp'||c.type==='call')&&c.number&&!phone)phone=c.number;
+          if(c.type==='instagram'){if(c.handle)ig=c.handle;if(c.url)igUrl=c.url;}
+        });
+        var details=r.details||{},host=r.host_profile||{};
+        var tags=(r.tags||[]).filter(function(t){return t!=='unverified-find'&&t!=='tourism-registry';});
+        var reviews=Array.isArray(r.review_sources)?r.review_sources.filter(function(x){return x&&x.url;}):[];
+        return {
+          id:i+1,name:r.name,place:r.town,region:r.region_group,
+          price:r.price_display||'Price on request',tags:tags,verified:!!r.nesto_verified,
+          image:nestoPlaceholder(r.name),alt:r.name+' in '+r.town,
+          copy:r.position||String(r.description||'').slice(0,180),
+          amenities:details.amenities||null,meals:details.meals||null,know:details.know||null,
+          hostName:host.name||null,hostProfile:host.story||null,
+          instagram:ig,instagramUrl:igUrl,
+          reviewSources:reviews.map(function(x){return{label:x.label||'Reviews',url:x.url};}),
+          _phone:phone
+        };
+      }
+      function nestoFetchListings(){
+        var cfg=window.NESTO_CONFIG||{};
+        var url=cfg.SUPABASE_URL+'/rest/v1/listings?select=id,name,town,region_group,price_display,position,description,tags,contacts,details,host_profile,review_sources,nesto_verified,public_visibility,created_at&order=display_order.asc&limit=500';
+        return fetch(url,{headers:{apikey:cfg.SUPABASE_ANON_KEY,Authorization:'Bearer '+cfg.SUPABASE_ANON_KEY}})
+          .then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);return res.json();})
+          .then(function(rows){listings=rows.filter(function(r){return r.public_visibility!==false;}).map(nestoMapRow);});
+      }
+      function nestoPriceNote(item){
+        if(item.verified)return state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u0940 \u0915\u0940\u092e\u0924 \u2014 \u0938\u0940\u0927\u0940 \u092c\u0941\u0915\u093f\u0902\u0917 \u0915\u093e \u092e\u0924\u0932\u092c \u0939\u0948 \u0915\u094b\u0908 \u0905\u0924\u093f\u0930\u093f\u0915\u094d\u0924 \u092c\u0941\u0915\u093f\u0902\u0917 \u0936\u0941\u0932\u094d\u0915 \u0928\u0939\u0940\u0902\u0964':'The host\u2019s price \u2014 booking direct means no booking-site markup on top.';
+        return state.lang==='hi'?'\u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u0932\u093f\u0938\u094d\u091f\u093f\u0902\u0917 \u0938\u0947 \u0915\u0940\u092e\u0924 \u2014 \u0905\u0902\u0924\u093f\u092e \u0915\u0940\u092e\u0924 \u092e\u0947\u091c\u093c\u092c\u093e\u0928 WhatsApp \u092a\u0930 \u092a\u0941\u0937\u094d\u091f\u093f \u0915\u0930\u0947\u0902\u0917\u0947\u0964':'Price from public listings \u2014 the host confirms the final price on WhatsApp.';
+      }
+      function nestoHideMockSections(){
+        ['availabilityTitle','experiencesTitle'].forEach(function(id){
+          var t=document.getElementById(id);
+          if(t){var s=t.closest('section');if(s)s.style.display='none';}
+        });
+      }
+      function nestoChatHost(item){
+        if(!item)return;
+        if(!item._phone){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u091c\u0932\u094d\u0926 \u0906 \u0930\u0939\u093e \u0939\u0948\u0964':'Host contact coming soon.');return;}
+        var msg=state.lang==='hi'
+          ?'\u0928\u092e\u0938\u094d\u0924\u0947! \u092e\u0948\u0902 '+item.name+', '+item.place+' \u092e\u0947\u0902 \u0920\u0939\u0930\u0928\u0947 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u092a\u0942\u091b\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902 (Nesto Stays \u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947)\u0964'
+          :'Hi! I\u2019d like to enquire about staying at '+item.name+', '+item.place+' (via Nesto Stays).';
+        window.open('https://wa.me/'+nestoDigits(item._phone)+'?text='+encodeURIComponent(msg),'_blank','noopener');
+      }
+      function nestoBookRequest(item,a,b){
+        if(!item||!item._phone){
+          document.getElementById('bookingError').textContent=state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0928\u0947 \u0905\u092d\u0940 \u0938\u0902\u092a\u0930\u094d\u0915 \u0928\u0902\u092c\u0930 \u0938\u093e\u091d\u093e \u0928\u0939\u0940\u0902 \u0915\u093f\u092f\u093e \u0939\u0948\u0964':'The host hasn\u2019t shared a contact number yet.';
+          return;
+        }
+        var msg=state.lang==='hi'
+          ?'\u0928\u092e\u0938\u094d\u0924\u0947! \u092e\u0948\u0902 '+item.name+', '+item.place+' \u092e\u0947\u0902 '+a+' \u0938\u0947 '+b+' \u0924\u0915 \u0920\u0939\u0930\u0928\u0947 \u0915\u093e \u0905\u0928\u0941\u0930\u094b\u0927 \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902 (Nesto Stays \u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947)\u0964'
+          :'Hi! I\u2019d like to request a stay at '+item.name+', '+item.place+' from '+a+' to '+b+' (via Nesto Stays).';
+        window.open('https://wa.me/'+nestoDigits(item._phone)+'?text='+encodeURIComponent(msg),'_blank','noopener');
+        var h=document.querySelector('#successState h3'),p=document.querySelector('#successState p');
+        if(h)h.textContent=state.lang==='hi'?'WhatsApp \u0916\u0941\u0932 \u0930\u0939\u093e \u0939\u0948\u2026':'Opening WhatsApp\u2026';
+        if(p)p.textContent=state.lang==='hi'?'\u0905\u092a\u0928\u093e \u0905\u0928\u0941\u0930\u094b\u0927 \u092a\u0942\u0930\u093e \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0938\u0902\u0926\u0947\u0936 \u092d\u0947\u091c\u0947\u0902\u0964':'Send the message to complete your request.';
+        document.getElementById('bookForm').style.display='none';
+        document.getElementById('successState').style.display='block';
+      }
+      function nestoStartClaim(){
+        var cfg=window.NESTO_CONFIG||{};
+        var owner=nestoDigits(cfg.OWNER_WHATSAPP||'');
+        var label=document.getElementById('claimName').textContent.replace(/^Claim /,'');
+        if(!owner){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u094d\u0932\u0947\u092e \u091c\u0932\u094d\u0926 \u0936\u0941\u0930\u0942 \u0939\u094b\u0902\u0917\u0947\u0964':'Host claims open soon.');return;}
+        var msg=state.lang==='hi'
+          ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u092e\u0948\u0902 '+label+' \u0915\u093e/\u0915\u0940 \u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0939\u0942\u0902 \u0914\u0930 \u0905\u092a\u0928\u0940 \u092e\u0941\u092b\u093c\u0924 \u0932\u093f\u0938\u094d\u091f\u093f\u0902\u0917 \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902\u0964'
+          :'Hi Nesto! I\u2019m the host of '+label+' and I\u2019d like to claim my free listing.';
+        window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
+        closeOverlay('claimOverlay');
+      }
+      function nestoBoot(){
+        nestoFetchListings().then(function(){
+          var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
+          makeChips(regions,regionBox,'region');makeChips(vibes,vibeBox,'vibe');render();applyLanguage();
+        }).catch(function(){
+          document.getElementById('listingGrid').innerHTML='<div style="padding:48px 24px;text-align:center;color:#5B6B7F;grid-column:1/-1"><strong>Couldn\u2019t reach the listings database.</strong><br>Check the Supabase anon key in <code>config.js</code>.</div>';
+        });
+      }
+      /* ===== end NESTO-LIVE ===== */
+      nestoBoot();
+      document.getElementById('languageToggle').addEventListener('click',function(){state.lang=state.lang==='en'?'hi':'en';applyLanguage()});
+      var mobileMenuButton=document.getElementById('mobileMenuButton'),mobileNav=document.getElementById('mobileNav');
+      mobileMenuButton.addEventListener('click',function(){var open=!mobileNav.classList.contains('open');mobileNav.classList.toggle('open',open);mobileMenuButton.setAttribute('aria-expanded',String(open));mobileMenuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});
+      mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){mobileNav.classList.remove('open');mobileMenuButton.setAttribute('aria-expanded','false');mobileMenuButton.setAttribute('aria-label','Open navigation')})});
+      document.getElementById('gridViewButton').addEventListener('click',function(){setView('grid')});document.getElementById('mapViewButton').addEventListener('click',function(){setView('map')});
+      document.getElementById('sortSelect').addEventListener('change',function(e){state.sort=e.target.value;render()});
+      document.getElementById('detailShare').addEventListener('click',function(){if(state.current)shareStay(state.current)});
+      document.getElementById('detailClaimButton').addEventListener('click',function(){if(state.current){closeOverlay('detailOverlay');openClaim(state.current)}});
+      document.getElementById('verifiedToggle').addEventListener('click',function(e){state.verified=!state.verified;e.currentTarget.setAttribute('aria-pressed',String(state.verified));render()});
+      function applySearch(){state.query=document.getElementById('searchInput').value;render();document.getElementById('stays').scrollIntoView({behavior:'smooth'})}
+      document.getElementById('searchButton').addEventListener('click',applySearch);document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter')applySearch()});
+      document.getElementById('hostClaimButton').addEventListener('click',function(){openClaim(null)});
+      document.querySelectorAll('[data-close]').forEach(function(btn){btn.addEventListener('click',function(){closeOverlay(btn.dataset.close)})});
+      document.querySelectorAll('.overlay').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)closeOverlay(ov.id)})});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(function(ov){closeOverlay(ov.id)})});
+      document.getElementById('minusGuest').addEventListener('click',function(){state.guests=Math.max(1,state.guests-1);document.getElementById('guestCount').textContent=state.guests});
+      document.getElementById('plusGuest').addEventListener('click',function(){state.guests=Math.min(12,state.guests+1);document.getElementById('guestCount').textContent=state.guests});
+      document.getElementById('requestButton').addEventListener('click',function(){
+        var a=document.getElementById('checkIn').value,b=document.getElementById('checkOut').value,err=document.getElementById('bookingError');err.textContent='';
+        if(!a||!b){err.textContent=state.lang==='hi'?'\u0926\u094b\u0928\u094b\u0902 \u0924\u093e\u0930\u0940\u0916\u0947\u0902 \u091a\u0941\u0928\u0947\u0902\u0964':'Choose both dates to preview the request.';return}
+        if(new Date(b)<=new Date(a)){err.textContent=state.lang==='hi'?'\u091a\u0947\u0915-\u0906\u0909\u091f \u091a\u0947\u0915-\u0907\u0928 \u0915\u0947 \u092c\u093e\u0926 \u0939\u094b\u0928\u093e \u091a\u093e\u0939\u093f\u090f\u0964':'Check-out must be after check-in.';return}
+        nestoBookRequest(state.current,a,b);
+      });
+      document.getElementById('resetBooking').addEventListener('click',function(){document.getElementById('bookForm').style.display='block';document.getElementById('successState').style.display='none';document.getElementById('checkIn').value='';document.getElementById('checkOut').value=''});
+      document.getElementById('referralForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        var name=document.getElementById('referralName').value.trim(),phone=document.getElementById('referralPhone').value.trim(),place=document.getElementById('referralPlace').value.trim(),feedback=document.getElementById('referralFeedback');
+        if(!name||!phone||!place){feedback.textContent=state.lang==='hi'?'मेज़बान का नाम, फ़ोन और स्थान भरें।':'Add the host name, phone, and place.';return}
+        feedback.textContent='';
+        var referralText=(state.lang==='hi'?'Nesto के लिए मेज़बान परिचय:\nनाम: ':'Host referral for Nesto:\nName: ')+name+(state.lang==='hi'?'\nफ़ोन: ':'\nPhone: ')+phone+(state.lang==='hi'?'\nस्थान: ':'\nPlace: ')+place;
+        window.open('https://wa.me/?text='+encodeURIComponent(referralText),'_blank','noopener');
+      });
+      document.getElementById('creatorForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        var name=document.getElementById('creatorName').value.trim(),instagram=document.getElementById('creatorInstagram').value.trim(),facebook=document.getElementById('creatorFacebook').value.trim(),audience=document.getElementById('creatorAudience').value.trim(),location=document.getElementById('creatorLocation').value.trim(),feedback=document.getElementById('creatorFeedback');
+        if(!name||!instagram||!facebook||!audience||!location){feedback.textContent=state.lang==='hi'?'नाम, Instagram लिंक, Facebook लिंक, ऑडियंस का आकार और स्थान भरें।':'Add your name, Instagram link, Facebook link, audience size, and location.';return}
+        feedback.textContent='';
+        var intro=(state.lang==='hi'?'Nesto क्रिएटर साझेदारी परिचय:\nनाम: ':'Nesto creator partnership introduction:\nName: ')+name+(state.lang==='hi'?'\nInstagram: ':'\nInstagram: ')+instagram+(state.lang==='hi'?'\nFacebook: ':'\nFacebook: ')+facebook+(state.lang==='hi'?'\nऑडियंस: ':'\nAudience size: ')+audience+(state.lang==='hi'?'\nस्थान: ':'\nLocation: ')+location;
+        window.open('https://wa.me/?text='+encodeURIComponent(intro),'_blank','noopener');
+      });
+      document.getElementById('mockClaimStart').addEventListener('click',function(){nestoStartClaim();});
+    })();
+  </script>
 </body>
 </html>
