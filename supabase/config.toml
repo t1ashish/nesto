@@ -8,3 +8,8 @@ verify_jwt = false
 enabled = true
 verify_jwt = false
 # See above.
+
+[functions.gather-osm]
+enabled = true
+verify_jwt = false
+# No API keys needed (Nominatim + Overpass are free); x-engine-secret still required.

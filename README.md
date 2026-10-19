@@ -15,8 +15,9 @@ nesto-platform/
 │       ├── _shared/
 │       │   ├── supabase.ts          # service client + x-engine-secret auth
 │       │   └── dedup.ts             # phone/name+town dedup rules (pure, testable)
-│       ├── gather-places/          # Google Places town sweep -> staged listings
-│       └── gather-registry/        # tourism registry CSV import -> staged listings
+│       ├── gather-places/          # Google Places town sweep -> staged listings (needs API key)
+│       ├── gather-registry/        # tourism registry CSV import -> staged listings (no key)
+│       └── gather-osm/             # OpenStreetMap town sweep -> staged listings (no key, free)
 └── frontend/                        # guest site — LIVE, no build step (index.html + styles.css + config.js + i18n.js + app.js)
 ```
 
