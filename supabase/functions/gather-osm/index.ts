@@ -2,8 +2,10 @@
 // POST /functions/v1/gather-osm
 //   Headers: x-engine-secret: <NESTO_ENGINE_SECRET>
 //   Body:    { "town": "Mussoorie", "region_group": "Mussoorie", "radius_m": 10000, "max_results": 50 }
-// Env: none. Uses the free Nominatim geocoder (1 req/call, proper User-Agent)
-//   and the Overpass API (tries 3 public mirrors in order).
+//   Optional: { "lat": "30.45", "lon": "78.07" } skips geocoding entirely.
+// Env: none. Uses a built-in coordinate table for 32 Uttarakhand towns,
+//   falling back to the free Nominatim geocoder for unknown towns, and the
+//   Overpass API (tries 3 public mirrors in order) for POIs.
 //
 // Pipeline: geocode -> Overpass tourism POIs -> normalize -> dedup -> stage.
 // New rows land with pipeline_status='not_contacted' and public_visibility=false:
@@ -24,6 +26,44 @@ const OVERPASS_URLS = [
   "https://overpass.openstreetmap.fr/api/interpreter",
 ];
 const USER_AGENT = "NestoStays/1.0 (Uttarakhand homestay discovery)";
+
+// Built-in coordinates for Uttarakhand towns — avoids the Nominatim geocoder
+// entirely for known towns (Supabase's egress IPs get 403s from Nominatim).
+// Unknown towns fall back to Nominatim; callers can also pass lat/lon directly.
+const TOWN_COORDS: Record<string, { lat: string; lon: string }> = {
+  "nainital": { lat: "29.2949950", lon: "79.4162511" },
+  "mussoorie": { lat: "30.4569012", lon: "78.0782906" },
+  "rishikesh": { lat: "30.1086537", lon: "78.2916193" },
+  "almora": { lat: "29.7026510", lon: "79.4326318" },
+  "binsar": { lat: "29.6967018", lon: "79.7538113" },
+  "kausani": { lat: "29.3375718", lon: "79.5047951" },
+  "ranikhet": { lat: "29.6323007", lon: "79.4154142" },
+  "munsiyari": { lat: "30.1224907", lon: "80.2415348" },
+  "chaukori": { lat: "29.8380478", lon: "80.0314983" },
+  "auli": { lat: "30.5377872", lon: "79.5657242" },
+  "joshimath": { lat: "30.5555752", lon: "79.5612607" },
+  "chopta": { lat: "30.1801851", lon: "79.3676850" },
+  "lansdowne": { lat: "29.8378415", lon: "78.6817560" },
+  "ramnagar": { lat: "29.3948350", lon: "79.1269340" },
+  "dehradun": { lat: "30.3255646", lon: "78.0436813" },
+  "pithoragarh": { lat: "29.5858710", lon: "80.2151670" },
+  "dharchula": { lat: "29.8491135", lon: "80.5414711" },
+  "mukteshwar": { lat: "29.4720782", lon: "79.6480433" },
+  "bhimtal": { lat: "29.3506056", lon: "79.5541717" },
+  "dhanaulti": { lat: "30.4582924", lon: "78.2083778" },
+  "kanatal": { lat: "30.4153341", lon: "78.3211899" },
+  "tehri": { lat: "30.4026021", lon: "78.3883579" },
+  "uttarkashi": { lat: "30.9635733", lon: "78.6362521" },
+  "pauri": { lat: "30.0652314", lon: "78.7315716" },
+  "rudraprayag": { lat: "30.4915835", lon: "79.0366067" },
+  "chamoli": { lat: "30.4985956", lon: "79.6190537" },
+  "kotdwar": { lat: "29.7459823", lon: "78.5201358" },
+  "haridwar": { lat: "29.9384473", lon: "78.1452985" },
+  "badrinath": { lat: "30.7423302", lon: "79.4930256" },
+  "kedarnath": { lat: "30.7338877", lon: "79.0669073" },
+  "gangotri": { lat: "30.9943684", lon: "78.9398699" },
+  "yamunotri": { lat: "30.9992140", lon: "78.4626951" },
+};
 
 const TOURISM_VALUES = [
   "guest_house",
@@ -54,7 +94,16 @@ interface OsmElement {
   tags?: Record<string, string>;
 }
 
-async function geocodeTown(town: string): Promise<{ lat: string; lon: string } | null> {
+async function geocodeTown(
+  town: string,
+  latLon?: { lat: string; lon: string } | null,
+): Promise<{ lat: string; lon: string } | null> {
+  // 1. Explicit coordinates win (caller-provided).
+  if (latLon?.lat && latLon?.lon) return latLon;
+  // 2. Built-in table for known Uttarakhand towns.
+  const known = TOWN_COORDS[town.toLowerCase().trim()];
+  if (known) return known;
+  // 3. Fall back to Nominatim (may 403 from cloud egress IPs).
   const url =
     `${NOMINATIM_URL}?` +
     new URLSearchParams({ q: `${town}, Uttarakhand, India`, format: "json", limit: "1" });
@@ -132,6 +181,11 @@ serve(async (req) => {
   const region_group = String(body.region_group ?? "").trim() || town;
   const radius_m = Math.min(Math.max(Number(body.radius_m) || 10000, 1000), 50000);
   const max_results = Math.min(Math.max(Number(body.max_results) || 50, 1), 200);
+  // Optional explicit coordinates — skips geocoding entirely.
+  const latLon =
+    body.lat != null && body.lon != null
+      ? { lat: String(body.lat), lon: String(body.lon) }
+      : null;
   if (!town) return json({ error: '"town" is required' }, 400);
 
   const supabase = getServiceClient();
@@ -148,14 +202,22 @@ serve(async (req) => {
     errors: [] as string[],
   };
 
-  // 1. Geocode the town (Nominatim, 1 request)
+  // 1. Geocode the town (built-in table -> explicit lat/lon -> Nominatim fallback)
   let geo: { lat: string; lon: string } | null;
   try {
-    geo = await geocodeTown(town);
+    geo = await geocodeTown(town, latLon);
   } catch (e) {
     return json({ error: "geocode failed", detail: (e as Error).message }, 502);
   }
-  if (!geo) return json({ error: `town not found: ${town}` }, 400);
+  if (!geo) {
+    return json(
+      {
+        error: `town not found: ${town}`,
+        hint: 'pass "lat" and "lon" explicitly, or add the town to TOWN_COORDS',
+      },
+      400,
+    );
+  }
 
   // 2. Fetch tourism POIs (Overpass, with mirror fallback)
   let elements: OsmElement[];
