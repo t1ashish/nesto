@@ -597,7 +597,7 @@
     @keyframes purposeRotate{0%,30%{transform:translateY(0)}40%,65%{transform:translateY(-1.4em)}75%,100%{transform:translateY(-2.8em)}}
     @media (prefers-reduced-motion:reduce){.purpose-lines{animation:none}}
     .quick-nav{align-items:flex-start}
-    .discovery-top{padding-bottom:28px;border-bottom:1px solid var(--line)}
+    .discovery-top{padding-bottom:12px;border-bottom:1px solid var(--line)}
     #searchButton{border-radius:999px;padding:13px 22px}
     .chip-wrap{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;gap:28px}
     .chip{flex:0 0 auto;background:transparent;border:0;border-bottom:3px solid transparent;border-radius:0;padding:10px 2px 12px;font-size:15px;color:var(--muted)}
@@ -646,12 +646,13 @@
     .wrap.quick-nav a.host-cta:hover{background:transparent;color:var(--ocean-deep);text-decoration:underline}
     .icon-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
     .icon-btn svg{width:19px;height:19px}
-    .badge-row{display:flex;padding:0 0 14px}
+    .badge-row{display:flex;padding:0 0 8px}
     .mobile-nav-menu.open{display:flex}
     .mobile-nav-menu .lang-toggle{flex:1;text-align:center;background:transparent;border:0;color:var(--ink);font-size:12px;font-weight:900;padding:9px 7px;border-radius:10px;cursor:pointer}
     .mobile-nav-menu .lang-toggle:hover{background:var(--surface-2);color:var(--ocean-deep)}
-    .region-tabs{flex-wrap:wrap;justify-content:center;overflow:visible;margin-bottom:18px}
+    .region-tabs{flex-wrap:wrap;justify-content:center;overflow:visible;margin-bottom:10px;row-gap:10px;column-gap:28px}
     .search-box{grid-template-columns:1.25fr 1fr .7fr auto;align-items:stretch}
+    .discovery-top{padding-top:10px}
     .capsule-seg{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:6px 16px;min-width:0}
     .capsule-seg + .capsule-seg{border-left:1px solid var(--line)}
     .seg-label{font-size:13px;font-weight:800;color:var(--ink)}
@@ -717,20 +718,11 @@
       </div>
     </section>
 
-    <div class="wrap filters-shell">
-      <section class="filters" aria-label="Filters">
-        <div class="filters-sub">
-          <strong id="vibeLabel">Pick a feeling</strong>
-          <div class="chip-wrap" id="vibeFilters" aria-label="Filter by vibe"></div>
-          <div class="toggle"><span id="verifiedLabel">Verified only</span><button id="verifiedToggle" type="button" role="switch" aria-pressed="false" aria-label="Show verified stays only"><span class="toggle-track" aria-hidden="true"></span></button></div>
-        </div>
-      </section>
-    </div>
 
     <section class="wrap section" id="stays">
       <div class="section-head">
         <div><h2 id="staysTitle">Stays with a host behind them</h2><p id="staysCopy">Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.</p></div>
-        <div class="view-tools"><span class="count" id="resultCount">Loading stays…</span><div class="sort-control"><label for="sortSelect" id="sortLabel">Sort</label><select id="sortSelect"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option><option value="newest">Newest</option></select></div><div class="view-switch" aria-label="Choose listing view"><button class="active" id="gridViewButton" type="button">Grid</button><button id="mapViewButton" type="button">Map</button></div></div>
+        <div class="view-tools"><span class="count" id="resultCount">Loading stays…</span><div class="toggle"><span id="verifiedLabel">Verified only</span><button id="verifiedToggle" type="button" role="switch" aria-pressed="false" aria-label="Show verified stays only"><span class="toggle-track" aria-hidden="true"></span></button></div><div class="sort-control"><label for="sortSelect" id="sortLabel">Sort</label><select id="sortSelect"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option><option value="newest">Newest</option></select></div><div class="view-switch" aria-label="Choose listing view"><button class="active" id="gridViewButton" type="button">Grid</button><button id="mapViewButton" type="button">Map</button></div></div>
       </div>
       <div class="listing-grid" id="listingGrid"></div>
       <div class="map-shell" id="mapShell"><div><div class="map-canvas" id="mapCanvas" aria-label="Map of sample homestays in Uttarakhand"></div><p class="map-note" id="mapNote">Locations are approximate in this design mock. Select a numbered stay to view details.</p></div><div class="map-side" id="mapSide"></div></div>
@@ -826,12 +818,10 @@
       };
       function t(key){return copy[state.lang][key]||key}
       var regions=['All regions','Nainital','Mussoorie','Rishikesh','Almora / Binsar / Kausani','Ranikhet','Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath','Lansdowne','Pauri Garhwal','Jim Corbett','Dehradun','Pithoragarh / Dharchula'];
-      var vibes=['All vibes','Heritage','Mountain view','Budget','Riverside','Forest retreat','Town homestay'];
       var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,checkIn:'',checkOut:'',current:null,lang:'en',view:'grid',added:{},favs:{}};
       try{state.favs=JSON.parse(localStorage.getItem('nesto-favs')||'{}')||{}}catch(e){state.favs={}}
       var grid=document.getElementById('listingGrid');
       var regionBox=document.getElementById('regionFilters');
-      var vibeBox=document.getElementById('vibeFilters');
 
       function safe(s){return String(s).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]})}
       function statusHTML(item){
@@ -981,7 +971,7 @@
         var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
         var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
-        document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhenLabel').textContent=hi?'कब':'When';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';document.getElementById('vibeLabel').textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
+        document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhenLabel').textContent=hi?'कब':'When';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';var vb=document.getElementById('vibeLabel');if(vb)vb.textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
         document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
         document.getElementById('sortLabel').textContent=hi?'क्रम':'Sort';var sortOptions=document.getElementById('sortSelect').options;sortOptions[0].text=hi?'सुझाया गया':'Recommended';sortOptions[1].text=hi?'कीमत: कम से ज़्यादा':'Price: low to high';sortOptions[2].text=hi?'कीमत: ज़्यादा से कम':'Price: high to low';sortOptions[3].text=hi?'सबसे अच्छी रेटिंग':'Top rated';sortOptions[4].text=hi?'सबसे नया':'Newest';
         document.getElementById('earnLine').textContent=hi?'Nesto स्टे पर शून्य कमीशन लेता है। हमारी कमाई Host Pro सदस्यता और अनुभवों से होती है।':'Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.';document.getElementById('earnLink').textContent=hi?'यह कैसे काम करता है':'How it works';document.getElementById('how-nesto-earns-detail').textContent=hi?'मेज़बान कमरे की पूरी कमाई रखते हैं। वैकल्पिक Host Pro टूल और स्थानीय अतिथि अनुभव प्लेटफ़ॉर्म को चलाते हैं; अनुभव जोड़ने से पहले कीमत साफ़ दिखती है।':'Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.';
@@ -989,7 +979,7 @@
         document.getElementById('referHostKicker').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('referHostTitle').textContent=hi?'क्या आप किसी होमस्टे मालिक को जानते हैं? उन्हें Nesto से जोड़ें।':'Know a homestay owner? Refer them to Nesto.';document.getElementById('referHostCopy').textContent=hi?'कुछ विवरण साझा करें और उत्तराखंड के एक स्वतंत्र मेज़बान को नेटवर्क से जोड़ें।':'Share a few details and introduce an independent Uttarakhand host to the network.';document.getElementById('referralHostReward').textContent=hi?'आपके परिचय से Nesto Verified बनने वाला हर मेज़बान आपको 3 महीने का Host Pro मुफ़्त दिलाता है — कोई सीमा नहीं।':'Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap.';document.getElementById('referralNonHostReward').textContent=hi?'नए कलेक्शन और अनुभवों की शुरुआती पहुँच के साथ Nesto Founding Circle में शामिल हों।':'Join the Nesto Founding Circle with early access to new collections and experiences.';document.getElementById('referralTrigger').textContent=hi?'इनाम तभी मिलता है जब सुझाया गया मेज़बान सत्यापित हो जाए—सिर्फ़ परिचय भेजने पर नहीं।':'The reward unlocks when the referred host is verified—not when the referral is submitted.';document.getElementById('referralNameLabel').textContent=hi?'मेज़बान का नाम':'Host name';document.getElementById('referralPhoneLabel').textContent=hi?'फ़ोन':'Phone';document.getElementById('referralPlaceLabel').textContent=hi?'स्थान':'Place';document.getElementById('referralSubmit').textContent=hi?'WhatsApp पर परिचय भेजें':'Refer on WhatsApp';document.getElementById('referralNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp एक तैयार संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with a referral draft.';
         document.getElementById('partnerKicker').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';document.getElementById('partnerTitle').textContent=hi?'यात्रा क्रिएटर, Nesto के साथ उत्तराखंड की कहानियाँ साझा करें।':'Travel creators, tell Uttarakhand stories with Nesto.';document.getElementById('partnerCopy').textContent=hi?'स्वतंत्र स्टे, स्थानीय मेज़बान और ईमानदार यात्रा की परवाह करने वाले क्रिएटर्स के लिए एक स्पष्ट साझेदारी।':'A clear exchange for creators who care about independent stays, local hosts, and honest travel.';document.getElementById('creatorGetsTitle').textContent=hi?'आपको क्या मिलेगा':'What you get';document.getElementById('creatorGetsCopy').textContent=hi?'फ़ीचर करने के लिए स्टे, नए कलेक्शन की शुरुआती पहुँच, और Nesto के साथ आगे बढ़ने का अवसर।':'Featured stays to explore, early access to new collections, and a chance to grow with Nesto.';document.getElementById('creatorAsksTitle').textContent=hi?'Nesto आपसे क्या चाहता है':'What Nesto asks';document.getElementById('creatorAsksCopy').textContent=hi?'आपकी अपनी आवाज़ में प्रामाणिक कंटेंट और उन यात्रियों तक सार्थक पहुँच जो इन जगहों को महत्व देंगे।':'Authentic content in your own voice and meaningful reach to travellers who will value these places.';document.getElementById('creatorNameLabel').textContent=hi?'नाम':'Name';document.getElementById('creatorInstagramLabel').textContent=hi?'Instagram लिंक':'Instagram link';document.getElementById('creatorFacebookLabel').textContent=hi?'Facebook लिंक':'Facebook link';document.getElementById('creatorAudienceLabel').textContent=hi?'ऑडियंस का आकार':'Audience size';document.getElementById('creatorLocationLabel').textContent=hi?'स्थान':'Location';document.getElementById('creatorContact').textContent=hi?'WhatsApp पर अपना परिचय दें':'Introduce yourself on WhatsApp';document.getElementById('creatorNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp आपके परिचय संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with your introduction draft.';document.getElementById('detailHostLabel').textContent=hi?'केवल प्रॉपर्टी के मेज़बान के लिए':'For the property host';document.getElementById('detailHostInviteTitle').textContent=hi?'क्या आप मेज़बान हैं?':'Are you the host?';document.getElementById('detailHostInviteCopy').textContent=hi?'इस लिस्टिंग को क्लेम और सत्यापित करें। यह अतिथि बुकिंग से अलग है।':'Claim and verify this listing. This is separate from guest booking.';document.getElementById('detailClaimButton').textContent=hi?'अभी क्लेम करें':'Claim now';
         document.getElementById('detailShare').textContent=t('share');document.getElementById('availabilityTitle').textContent=hi?'उपलब्धता':'Availability';document.getElementById('reviewsTitle').textContent=hi?'अतिथि समीक्षाएँ':'Guest reviews';document.getElementById('experiencesTitle').textContent=hi?'अपने स्टे को बेहतर बनाएं':'Enhance your stay';document.getElementById('openLegend').textContent=t('open');document.getElementById('fullLegend').textContent=t('full');
-        makeChips(regions,regionBox,'region');makeChips(vibes,vibeBox,'vibe');render();
+        makeChips(regions,regionBox,'region');render();
         if(state.current){document.getElementById('availabilityGrid').innerHTML=calendarHTML(state.current.id);renderExperiences();document.getElementById('detailStatus').innerHTML=statusHTML(state.current);var st=document.querySelector('#detailStatus .status');if(st){st.style.position='static';st.style.display='inline-flex'}}
       }
 
@@ -1089,7 +1079,7 @@
       function nestoBoot(){
         nestoFetchListings().then(function(){
           var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
-          makeChips(regions,regionBox,'region');makeChips(vibes,vibeBox,'vibe');render();applyLanguage();
+          makeChips(regions,regionBox,'region');render();applyLanguage();
         }).catch(function(){
           document.getElementById('resultCount').textContent='Couldn\u2019t load stays';
           document.getElementById('listingGrid').innerHTML='<div style="padding:48px 24px;text-align:center;color:#5B6B7F;grid-column:1/-1"><strong>Couldn\u2019t reach the listings database.</strong><br>Check the Supabase anon key in <code>config.js</code>.</div>';
