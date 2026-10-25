@@ -681,6 +681,18 @@
     .book-btn{min-height:32px;padding:6px 12px;font-size:12.5px}
     @media (min-width:1200px){.listing-grid{grid-template-columns:repeat(4,1fr)}}
     .hero-tagline{font-family:"Nunito",sans-serif;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.2;color:var(--ink);text-align:center;margin:2px 0 10px}
+    .tag{background:#e6f3f6;color:#0b5f77;font-weight:700;font-size:12px;padding:6px 10px;border:0;border-radius:999px}
+    @media (max-width:720px){
+      body{overflow-x:clip}
+      input,select,textarea{font-size:16px}
+      .region-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+      .region-tabs::-webkit-scrollbar{display:none}
+      .region-tabs>*{flex:0 0 auto}
+      .card-btn{min-height:44px;font-size:13px}
+      .book-btn{min-height:40px}
+      #searchButton{width:52px;height:52px}
+      .overlay{padding-bottom:max(8px,env(safe-area-inset-bottom))}
+    }
   </style>
 </head>
 <body>
@@ -845,6 +857,8 @@
         (item.otaLinks||[]).forEach(function(o){links.push('<a class="book-btn" href="'+safe(o.url)+'" target="_blank" rel="noopener">'+safe(o.platform)+'</a>');});
         return '<div class="book-with"><span class="book-with-label">'+t('bookWith')+'</span><div class="book-buttons">'+links.join('')+'</div></div>';
       }
+      function tagLabel(t){var s=String(t).replace(/-/g,' ');return s.charAt(0).toUpperCase()+s.slice(1);}
+      function displayTags(item){return (item.tags||[]).filter(function(t){return t!=='unverified-find'&&t!=='tourism-registry';});}
       function cardActionsHTML(item){
         return '<div class="card-actions"><button class="card-btn" type="button" data-view="'+item.id+'">'+t('view')+'</button><button class="card-btn primary" type="button" data-chat="'+item.id+'">'+t('chat')+'</button><button class="card-btn share-btn" type="button" data-share="'+item.id+'">'+t('share')+'</button></div>';
       }
@@ -870,7 +884,7 @@
         var note=nestoPriceNote(item);
         if(!item._phone)note+=' '+(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u0905\u092d\u0940 \u0928\u0939\u0940\u0902 \u0939\u0948 \u2014 Nesto \u0938\u0947 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0935\u093e\u090f\u0902\u0964':'No host number on file yet \u2014 ask Nesto and we will reach out and confirm.');
         var claimLink=item.verified?'':'<a class="claim-link" href="#" data-claim="'+item.id+'">'+(state.lang==='hi'?'\u0907\u0938 \u0939\u094b\u092e\u0938\u094d\u091f\u0947 \u0915\u094b \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0947\u0902 \u2014 \u092f\u0939 \u092e\u0941\u092b\u094d\u0924 \u0939\u0948':'Claim this homestay \u2014 it\'s free')+'</a>';
-        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(item.place)+' \u00b7 '+safe(item.region)+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+item.tags.map(function(tag){return '<span class="tag">'+safe(tag)+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
+        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(item.place)+' \u00b7 '+safe(item.region)+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+displayTags(item).map(function(tag){return '<span class="tag">'+safe(tagLabel(tag))+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
       }
       function priceValue(item){
         var match=String(item.price).replace(/,/g,'').match(/[0-9]+/);
@@ -933,7 +947,7 @@
         state.current=item;document.getElementById('guestCount').textContent=state.guests;
         document.getElementById('detailImage').src=item.image;document.getElementById('detailImage').alt=item.alt;
         document.getElementById('detailPlace').textContent=item.place+' · '+item.region;document.getElementById('detailTitle').textContent=item.name;document.getElementById('detailPrice').textContent=item.price;document.getElementById('detailOtaNote').textContent=nestoPriceNote(item);
-        document.getElementById('detailTags').innerHTML=item.tags.map(function(t){return '<span class="tag">'+safe(t)+'</span>'}).join('');document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
+        document.getElementById('detailTags').innerHTML=displayTags(item).map(function(t){return '<span class="tag">'+safe(tagLabel(t))+'</span>'}).join('');document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
         document.getElementById('detailAmenities').textContent=item.amenities;document.getElementById('detailMeals').textContent=item.meals||'Meal details have not been confirmed. Ask the host when you request your dates.';document.getElementById('detailKnow').textContent=item.know;
         document.getElementById('detailHostName').textContent=item.hostName||'Host introduction pending';document.getElementById('detailHostProfile').textContent=item.hostProfile||'The host has not introduced themselves on Nesto yet. Claiming the listing will add their story here.';document.getElementById('detailHostProfile').classList.toggle('pending',!item.hostProfile);
         document.getElementById('detailStatus').innerHTML=statusHTML(item);var s=document.querySelector('#detailStatus .status');if(s){s.style.position='static';s.style.display='inline-flex';}
