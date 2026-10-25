@@ -635,6 +635,7 @@
     .claim-link:hover{text-decoration:underline}
     @media (max-width:900px){.listing-grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:600px){.listing-grid{grid-template-columns:1fr}}
+    #stays,#story,#hosts,#how-nesto-earns,#refer-host,#partners{scroll-margin-top:120px}
   </style>
 </head>
 <body>
@@ -686,7 +687,7 @@
     <section class="wrap section" id="stays">
       <div class="section-head">
         <div><h2 id="staysTitle">Stays with a host behind them</h2><p id="staysCopy">Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.</p></div>
-        <div class="view-tools"><span class="count" id="resultCount">6 stays</span><div class="sort-control"><label for="sortSelect" id="sortLabel">Sort</label><select id="sortSelect"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option><option value="newest">Newest</option></select></div><div class="view-switch" aria-label="Choose listing view"><button class="active" id="gridViewButton" type="button">Grid</button><button id="mapViewButton" type="button">Map</button></div></div>
+        <div class="view-tools"><span class="count" id="resultCount">Loading stays…</span><div class="sort-control"><label for="sortSelect" id="sortLabel">Sort</label><select id="sortSelect"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option><option value="newest">Newest</option></select></div><div class="view-switch" aria-label="Choose listing view"><button class="active" id="gridViewButton" type="button">Grid</button><button id="mapViewButton" type="button">Map</button></div></div>
       </div>
       <div class="listing-grid" id="listingGrid"></div>
       <div class="map-shell" id="mapShell"><div><div class="map-canvas" id="mapCanvas" aria-label="Map of sample homestays in Uttarakhand"></div><p class="map-note" id="mapNote">Locations are approximate in this design mock. Select a numbered stay to view details.</p></div><div class="map-side" id="mapSide"></div></div>
@@ -1034,6 +1035,7 @@
           var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
           makeChips(regions,regionBox,'region');makeChips(vibes,vibeBox,'vibe');render();applyLanguage();
         }).catch(function(){
+          document.getElementById('resultCount').textContent='Couldn\u2019t load stays';
           document.getElementById('listingGrid').innerHTML='<div style="padding:48px 24px;text-align:center;color:#5B6B7F;grid-column:1/-1"><strong>Couldn\u2019t reach the listings database.</strong><br>Check the Supabase anon key in <code>config.js</code>.</div>';
         });
       }
