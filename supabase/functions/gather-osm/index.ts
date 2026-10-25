@@ -20,10 +20,12 @@ import { getServiceClient, requireEngineSecret, json } from "../_shared/supabase
 import { normalizePhone, decideDedup, type ExistingListing } from "../_shared/dedup.ts";
 
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
+// .fr first — it was the only mirror that answered during Oct 2026 testing;
+// .de and kumi hang from some networks, so each attempt is time-boxed below.
 const OVERPASS_URLS = [
-  "https://overpass-api.de/api/interpreter",
-  "https://overpass.kumi.systems/api/interpreter",
   "https://overpass.openstreetmap.fr/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass-api.de/api/interpreter",
 ];
 const USER_AGENT = "NestoStays/1.0 (Uttarakhand homestay discovery)";
 
@@ -103,15 +105,22 @@ async function geocodeTown(
   // 2. Built-in table for known Uttarakhand towns.
   const known = TOWN_COORDS[town.toLowerCase().trim()];
   if (known) return known;
-  // 3. Fall back to Nominatim (may 403 from cloud egress IPs).
+  // 3. Fall back to Nominatim (may 403 from cloud egress IPs). Time-boxed
+  // so a hanging geocoder can't eat the platform budget either.
   const url =
     `${NOMINATIM_URL}?` +
     new URLSearchParams({ q: `${town}, Uttarakhand, India`, format: "json", limit: "1" });
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
-  if (!res.ok) throw new Error(`Nominatim ${res.status}`);
-  const data = await res.json();
-  if (!data?.length) return null;
-  return { lat: String(data[0].lat), lon: String(data[0].lon) };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15_000);
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": USER_AGENT }, signal: ctrl.signal });
+    if (!res.ok) throw new Error(`Nominatim ${res.status}`);
+    const data = await res.json();
+    if (!data?.length) return null;
+    return { lat: String(data[0].lat), lon: String(data[0].lon) };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function fetchOsmPois(lat: string, lon: string, radiusM: number): Promise<OsmElement[]> {
@@ -123,6 +132,10 @@ async function fetchOsmPois(lat: string, lon: string, radiusM: number): Promise<
     `out center tags;`;
   let lastErr = "no mirrors attempted";
   for (const base of OVERPASS_URLS) {
+    // 30s per mirror — a hanging mirror must fail fast, not eat the 150s
+    // platform budget, or the whole call dies with IDLE_TIMEOUT.
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 30_000);
     try {
       const res = await fetch(base, {
         method: "POST",
@@ -131,6 +144,7 @@ async function fetchOsmPois(lat: string, lon: string, radiusM: number): Promise<
           "User-Agent": USER_AGENT,
         },
         body: new URLSearchParams({ data: ql }).toString(),
+        signal: ctrl.signal,
       });
       if (!res.ok) {
         lastErr = `HTTP ${res.status} at ${base}`;
@@ -139,7 +153,10 @@ async function fetchOsmPois(lat: string, lon: string, radiusM: number): Promise<
       const data = await res.json();
       return (data.elements ?? []) as OsmElement[];
     } catch (e) {
-      lastErr = `${(e as Error).message} at ${base}`;
+      const reason = (e as Error).name === "AbortError" ? "timed out after 30s" : (e as Error).message;
+      lastErr = `${reason} at ${base}`;
+    } finally {
+      clearTimeout(timer);
     }
   }
   throw new Error(`Overpass failed on all mirrors: ${lastErr}`);
