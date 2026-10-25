@@ -675,6 +675,12 @@
       .header-actions{gap:6px}
       .wrap.quick-nav a.host-cta{font-size:13px}
     }
+    .card-btn{min-height:36px;padding:7px 6px;font-size:12.5px;border-radius:10px}
+    .card-btn:hover{border-color:var(--ocean);color:var(--ocean-deep)}
+    .card-btn.primary:hover{background:var(--ocean-deep);border-color:var(--ocean-deep);color:#fff}
+    .book-btn{min-height:32px;padding:6px 12px;font-size:12.5px}
+    @media (min-width:1200px){.listing-grid{grid-template-columns:repeat(4,1fr)}}
+    .hero-tagline{font-family:"Nunito",sans-serif;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.2;color:var(--ink);text-align:center;margin:2px 0 10px}
   </style>
 </head>
 <body>
@@ -700,6 +706,7 @@
 
   <main>
     <section class="wrap discovery-top" aria-label="Search stays">
+      <h1 class="hero-tagline" id="heroTagline">Book the host. Not just the room.</h1>
       <div class="chip-wrap region-tabs" id="regionFilters" aria-label="Filter by region"></div>
       <div class="search-box" role="search">
         <label class="capsule-seg">
@@ -969,7 +976,7 @@
         var hi=state.lang==='hi';
         document.getElementById('languageToggle').textContent=hi?'हिन्दी / EN':'EN / हिन्दी';document.getElementById('languageToggle').setAttribute('aria-label',hi?'Switch language to English':'Switch language to Hindi');
         var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
-        var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
+        var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('heroTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
         document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhenLabel').textContent=hi?'कब':'When';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';var vb=document.getElementById('vibeLabel');if(vb)vb.textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
         document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
