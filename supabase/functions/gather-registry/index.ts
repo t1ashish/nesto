@@ -5,8 +5,10 @@
 // The registry is the highest-trust bulk source: officially registered homestays.
 // Same pipeline as gather-places: normalize -> dedup -> stage (admin-only until approved).
 //
-// CSV columns (header row required): name, town, phone, address
+// CSV columns (header row required): name, town, phone, address, price (optional)
 // Keep CSVs clean (no quoted commas) — this is a minimal parser for admin uploads.
+// Price is the nightly portal price in rupees (digits only, e.g. 1200); empty or 0
+// means "Price not confirmed".
 
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { getServiceClient, requireEngineSecret, json } from "../_shared/supabase.ts";
@@ -17,6 +19,7 @@ interface RegistryRow {
   town: string;
   phone: string;
   address: string;
+  price: string;
 }
 
 function parseCsv(text: string): RegistryRow[] {
@@ -24,7 +27,7 @@ function parseCsv(text: string): RegistryRow[] {
   if (lines.length < 2) return [];
   const header = lines[0].split(",").map((h) => h.trim().toLowerCase());
   const idx = (col: string) => header.indexOf(col);
-  const iName = idx("name"), iTown = idx("town"), iPhone = idx("phone"), iAddr = idx("address");
+  const iName = idx("name"), iTown = idx("town"), iPhone = idx("phone"), iAddr = idx("address"), iPrice = idx("price");
   if (iName < 0) throw new Error('CSV needs a header row with at least a "name" column');
   return lines.slice(1).map((line) => {
     const cells = line.split(",").map((c) => c.trim());
@@ -33,6 +36,7 @@ function parseCsv(text: string): RegistryRow[] {
       town: iTown >= 0 ? cells[iTown] ?? "" : "",
       phone: iPhone >= 0 ? cells[iPhone] ?? "" : "",
       address: iAddr >= 0 ? cells[iAddr] ?? "" : "",
+      price: iPrice >= 0 ? cells[iPrice] ?? "" : "",
     };
   }).filter((r) => r.name);
 }
@@ -106,7 +110,14 @@ serve(async (req) => {
   for (const row of rows) {
     const town = row.town || default_town || region_group;
     const phone = normalizePhone(row.phone);
-    const externalId = `registry:${normalizePhone(row.phone) || row.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    // Phone-less rows MUST include town in the external id: several distinct
+    // homestays share a name (e.g. four "Bisht Homestay" in different villages),
+    // and a name-only id would silently drop all but the first.
+    const nameSlug = row.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const townSlug = town.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const externalId = `registry:${phone || `${nameSlug}@${townSlug}`}`;
+    const priceNum = parseInt((row.price ?? "").replace(/[^0-9]/g, ""), 10);
+    const hasPrice = Number.isFinite(priceNum) && priceNum > 0;
     try {
       const decision = decideDedup({ name: row.name, town, phone, externalId }, existing, externalIds);
       if (decision.kind === "exact_external_id" || decision.kind === "exact_phone") {
@@ -134,8 +145,10 @@ serve(async (req) => {
         town,
         region: region_group,
         region_group,
-        price_display: "Price not confirmed",
-        price_note: "Rate to be confirmed with the host.",
+        price_display: hasPrice ? `₹${priceNum}` : "Price not confirmed",
+        price_note: hasPrice
+          ? "Nightly price as listed on the UTDB portal; the host confirms the final price."
+          : "Rate to be confirmed with the host.",
         position: `A registered homestay in ${town} — details not yet confirmed by the host.`,
         description:
           `${row.name} is registered with the Uttarakhand tourism homestay registry` +
