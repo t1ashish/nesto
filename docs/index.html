@@ -969,7 +969,7 @@
         return {
           id:i+1,name:r.name,place:r.town,region:r.region_group,
           price:r.price_display||'Price on request',tags:tags,verified:!!r.nesto_verified,
-          image:nestoPlaceholder(r.name),alt:r.name+' in '+r.town,
+          image:(details.photo_url||nestoPlaceholder(r.name)),alt:r.name+' in '+r.town,
           copy:r.position||String(r.description||'').slice(0,180),
           amenities:details.amenities||null,meals:details.meals||null,know:details.know||null,
           hostName:host.name||null,hostProfile:host.story||null,
@@ -1030,6 +1030,13 @@
         window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
         closeOverlay('claimOverlay');
       }
+      document.addEventListener('error',function(e){
+        var t=e.target;
+        if(t&&t.tagName==='IMG'&&t.closest&&(t.closest('.card-image')||t.closest('.detail-photo'))&&!t.dataset.fbk){
+          t.dataset.fbk='1';
+          t.src=nestoPlaceholder((t.alt||'N').split(' in ')[0]||'N');
+        }
+      },true);
       function nestoBoot(){
         nestoFetchListings().then(function(){
           var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
