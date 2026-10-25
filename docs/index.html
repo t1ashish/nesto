@@ -825,7 +825,7 @@
   
   
   <script src="config.js"></script>
-    <script>
+    <div class="overlay" id="langChoiceOverlay" role="dialog" aria-modal="true" aria-labelledby="langChoiceTitle"><div class="modal" style="max-width:440px;text-align:center"><button class="close" data-close="langChoiceOverlay" aria-label="Close language choice">×</button><h2 id="langChoiceTitle">English or Hindi?</h2><p>Choose the language for your WhatsApp message. / अपना WhatsApp संदेश किस भाषा में भेजना चाहते हैं?</p><div style="display:flex;gap:10px;justify-content:center;margin-top:16px"><button class="btn" type="button" data-send-lang="en">English</button><button class="btn" type="button" data-send-lang="hi">हिन्दी</button></div><button class="btn btn-soft" type="button" data-close="langChoiceOverlay" style="margin-top:14px">Cancel</button></div></div><script>
     (function(){
       var listings=[];
       var sampleReviews=[
@@ -870,12 +870,12 @@
       function cardActionsHTML(item){
         return '<div class="card-actions"><button class="card-btn" type="button" data-view="'+item.id+'">'+t('view')+'</button><button class="card-btn primary" type="button" data-chat="'+item.id+'">'+t('chat')+'</button><button class="card-btn share-btn" type="button" data-share="'+item.id+'">'+t('share')+'</button></div>';
       }
-      function nestoArrange(item){
+      function nestoArrange(item,lang){
         if(!item)return;
         var cfg=window.NESTO_CONFIG||{};
         var owner=nestoDigits(cfg.OWNER_WHATSAPP||'');
         if(!owner){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u094d\u0932\u0947\u092e \u091c\u0932\u094d\u0926 \u0936\u0941\u0930\u0942 \u0939\u094b\u0902\u0917\u0947\u0964':'Ask Nesto to arrange \u2014 host contact coming soon.');return;}
-        var msg=state.lang==='hi'
+        var msg=lang==='hi'
           ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u0915\u0943\u092a\u092f\u093e '+item.name+', '+item.place+' \u092e\u0947\u0902 \u092e\u0947\u0930\u0947 \u0920\u0939\u0930\u0928\u0947 \u0915\u0940 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0947\u0902\u0964'
           :'Hi Nesto! Please arrange a stay for me at '+item.name+', '+item.place+'.';
         window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
@@ -975,16 +975,16 @@
             openDetail(getItem(card.dataset.id));
           });
         });
-        document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoChatHost(getItem(a.dataset.book));});});
-        document.querySelectorAll('[data-arrange]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoArrange(getItem(a.dataset.arrange));});});
+        document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoAskLang(function(l){nestoChatHost(getItem(a.dataset.book),l)});});});
+        document.querySelectorAll('[data-arrange]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoAskLang(function(l){nestoArrange(getItem(a.dataset.arrange),l)});});});
         document.querySelectorAll('[data-claim]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openClaim(getItem(a.dataset.claim));});});
         document.querySelectorAll('[data-view]').forEach(function(btn){btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openDetail(getItem(btn.dataset.view));});});
-        document.querySelectorAll('[data-chat]').forEach(function(btn){btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var it=getItem(btn.dataset.chat);if(it._phone)nestoChatHost(it);else nestoArrange(it);});});
-        document.querySelectorAll('[data-share]').forEach(function(btn){btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();shareStay(getItem(btn.dataset.share));});});
+        document.querySelectorAll('[data-chat]').forEach(function(btn){btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var it=getItem(btn.dataset.chat);if(it._phone)nestoAskLang(function(l){nestoChatHost(it,l)});else nestoAskLang(function(l){nestoArrange(it,l)});});});
+        document.querySelectorAll('[data-share]').forEach(function(btn){btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoAskLang(function(l){shareStay(getItem(btn.dataset.share),l)});});});
         document.querySelectorAll('[data-fav]').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();toggleFav(btn);});});
       }
-      function shareStay(item){
-        var text=(state.lang==='hi'?'Nesto पर यह होमस्टे देखें: ':'Have a look at this Nesto homestay: ')+item.name+' — '+item.place+'. '+item.price+(state.lang==='hi'?'. मेज़बान से सीधे WhatsApp पर बात करें।':'. Chat directly with the host on WhatsApp.');
+      function shareStay(item,lang){
+        var text=(lang==='hi'?'Nesto पर यह होमस्टे देखें: ':'Have a look at this Nesto homestay: ')+item.name+' — '+item.place+'. '+item.price+(state.lang==='hi'?'. मेज़बान से सीधे WhatsApp पर बात करें।':'. Chat directly with the host on WhatsApp.');
         window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
       }
       function openDetail(item){
@@ -1100,20 +1100,24 @@
           if(t){var s=t.closest('section');if(s)s.style.display='none';}
         });
       }
-      function nestoChatHost(item){
+      var pendingSend=null;
+      function nestoAskLang(fn){pendingSend=fn;var en=document.querySelector('[data-send-lang="en"]');var hi=document.querySelector('[data-send-lang="hi"]');if(en)en.textContent=(state.lang==='hi'?'English':'✓ English');if(hi)hi.textContent=(state.lang==='hi'?'✓ हिन्दी':'हिन्दी');openOverlay('langChoiceOverlay');}
+      document.querySelectorAll('[data-send-lang]').forEach(function(b){b.addEventListener('click',function(){var l=b.getAttribute('data-send-lang');closeOverlay('langChoiceOverlay');var f=pendingSend;pendingSend=null;if(f)f(l);});});
+      document.querySelectorAll('[data-close="langChoiceOverlay"]').forEach(function(b){b.addEventListener('click',function(){pendingSend=null;closeOverlay('langChoiceOverlay');});});
+      function nestoChatHost(item,lang){
         if(!item)return;
         if(!item._phone){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u091c\u0932\u094d\u0926 \u0906 \u0930\u0939\u093e \u0939\u0948\u0964':'Host contact coming soon.');return;}
-        var msg=state.lang==='hi'
+        var msg=lang==='hi'
           ?'\u0928\u092e\u0938\u094d\u0924\u0947! \u092e\u0948\u0902 '+item.name+', '+item.place+' \u092e\u0947\u0902 \u0920\u0939\u0930\u0928\u0947 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u092a\u0942\u091b\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902 (Nesto Stays \u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947)\u0964'
           :'Hi! I\u2019d like to enquire about staying at '+item.name+', '+item.place+' (via Nesto Stays).';
         window.open('https://wa.me/'+nestoDigits(item._phone)+'?text='+encodeURIComponent(msg),'_blank','noopener');
       }
-      function nestoBookRequest(item,a,b){
+      function nestoBookRequest(item,a,b,lang){
         if(!item||!item._phone){
           document.getElementById('bookingError').textContent=state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0928\u0947 \u0905\u092d\u0940 \u0938\u0902\u092a\u0930\u094d\u0915 \u0928\u0902\u092c\u0930 \u0938\u093e\u091d\u093e \u0928\u0939\u0940\u0902 \u0915\u093f\u092f\u093e \u0939\u0948\u0964':'The host hasn\u2019t shared a contact number yet.';
           return;
         }
-        var msg=state.lang==='hi'
+        var msg=lang==='hi'
           ?'\u0928\u092e\u0938\u094d\u0924\u0947! \u092e\u0948\u0902 '+item.name+', '+item.place+' \u092e\u0947\u0902 '+a+' \u0938\u0947 '+b+' \u0924\u0915 \u0920\u0939\u0930\u0928\u0947 \u0915\u093e \u0905\u0928\u0941\u0930\u094b\u0927 \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902 (Nesto Stays \u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947)\u0964'
           :'Hi! I\u2019d like to request a stay at '+item.name+', '+item.place+' from '+a+' to '+b+' (via Nesto Stays).';
         window.open('https://wa.me/'+nestoDigits(item._phone)+'?text='+encodeURIComponent(msg),'_blank','noopener');
@@ -1123,12 +1127,12 @@
         document.getElementById('bookForm').style.display='none';
         document.getElementById('successState').style.display='block';
       }
-      function nestoStartClaim(){
+      function nestoStartClaim(lang){
         var cfg=window.NESTO_CONFIG||{};
         var owner=nestoDigits(cfg.OWNER_WHATSAPP||'');
         var label=document.getElementById('claimName').textContent.replace(/^Claim /,'');
         if(!owner){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u094d\u0932\u0947\u092e \u091c\u0932\u094d\u0926 \u0936\u0941\u0930\u0942 \u0939\u094b\u0902\u0917\u0947\u0964':'Host claims open soon.');return;}
-        var msg=state.lang==='hi'
+        var msg=lang==='hi'
           ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u092e\u0948\u0902 '+label+' \u0915\u093e/\u0915\u0940 \u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0939\u0942\u0902 \u0914\u0930 \u0905\u092a\u0928\u0940 \u092e\u0941\u092b\u093c\u0924 \u0932\u093f\u0938\u094d\u091f\u093f\u0902\u0917 \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902\u0964'
           :'Hi Nesto! I\u2019m the host of '+label+' and I\u2019d like to claim my free listing.';
         window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
@@ -1160,7 +1164,7 @@
       mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeMenu)});
       document.getElementById('gridViewButton').addEventListener('click',function(){setView('grid')});document.getElementById('mapViewButton').addEventListener('click',function(){setView('map')});
       document.getElementById('sortSelect').addEventListener('change',function(e){state.sort=e.target.value;state.page=1;render()});
-      document.getElementById('detailShare').addEventListener('click',function(){if(state.current)shareStay(state.current)});
+      document.getElementById('detailShare').addEventListener('click',function(){if(state.current)nestoAskLang(function(l){shareStay(state.current,l)});});
       document.getElementById('detailClaimButton').addEventListener('click',function(){if(state.current){closeOverlay('detailOverlay');openClaim(state.current)}});
       document.getElementById('verifiedToggle').addEventListener('click',function(e){state.verified=!state.verified;e.currentTarget.setAttribute('aria-pressed',String(state.verified));state.page=1;render()});
       function applySearch(){state.query=document.getElementById('searchInput').value;state.page=1;render();document.getElementById('stays').scrollIntoView({behavior:'smooth'})}
@@ -1178,7 +1182,7 @@
         var a=document.getElementById('checkIn').value,b=document.getElementById('checkOut').value,err=document.getElementById('bookingError');err.textContent='';
         if(!a||!b){err.textContent=state.lang==='hi'?'\u0926\u094b\u0928\u094b\u0902 \u0924\u093e\u0930\u0940\u0916\u0947\u0902 \u091a\u0941\u0928\u0947\u0902\u0964':'Choose both dates to preview the request.';return}
         if(new Date(b)<=new Date(a)){err.textContent=state.lang==='hi'?'\u091a\u0947\u0915-\u0906\u0909\u091f \u091a\u0947\u0915-\u0907\u0928 \u0915\u0947 \u092c\u093e\u0926 \u0939\u094b\u0928\u093e \u091a\u093e\u0939\u093f\u090f\u0964':'Check-out must be after check-in.';return}
-        nestoBookRequest(state.current,a,b);
+        nestoAskLang(function(l){nestoBookRequest(state.current,a,b,l)});
       });
       document.getElementById('resetBooking').addEventListener('click',function(){document.getElementById('bookForm').style.display='block';document.getElementById('successState').style.display='none';document.getElementById('checkIn').value='';document.getElementById('checkOut').value=''});
       document.getElementById('referralForm').addEventListener('submit',function(e){
@@ -1186,18 +1190,18 @@
         var name=document.getElementById('referralName').value.trim(),phone=document.getElementById('referralPhone').value.trim(),place=document.getElementById('referralPlace').value.trim(),feedback=document.getElementById('referralFeedback');
         if(!name||!phone||!place){feedback.textContent=state.lang==='hi'?'मेज़बान का नाम, फ़ोन और स्थान भरें।':'Add the host name, phone, and place.';return}
         feedback.textContent='';
-        var referralText=(state.lang==='hi'?'Nesto के लिए मेज़बान परिचय:\nनाम: ':'Host referral for Nesto:\nName: ')+name+(state.lang==='hi'?'\nफ़ोन: ':'\nPhone: ')+phone+(state.lang==='hi'?'\nस्थान: ':'\nPlace: ')+place;
-        window.open('https://wa.me/?text='+encodeURIComponent(referralText),'_blank','noopener');
+        nestoAskLang(function(l){var t=(l==='hi'?'Nesto के लिए मेज़बान परिचय:\nनाम: ':'Host referral for Nesto:\nName: ')+name+(l==='hi'?'\nफ़ोन: ':'\nPhone: ')+phone+(l==='hi'?'\nस्थान: ':'\nPlace: ')+place;
+        window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');});
       });
       document.getElementById('creatorForm').addEventListener('submit',function(e){
         e.preventDefault();
         var name=document.getElementById('creatorName').value.trim(),instagram=document.getElementById('creatorInstagram').value.trim(),facebook=document.getElementById('creatorFacebook').value.trim(),audience=document.getElementById('creatorAudience').value.trim(),location=document.getElementById('creatorLocation').value.trim(),feedback=document.getElementById('creatorFeedback');
         if(!name||!instagram||!facebook||!audience||!location){feedback.textContent=state.lang==='hi'?'नाम, Instagram लिंक, Facebook लिंक, ऑडियंस का आकार और स्थान भरें।':'Add your name, Instagram link, Facebook link, audience size, and location.';return}
         feedback.textContent='';
-        var intro=(state.lang==='hi'?'Nesto क्रिएटर साझेदारी परिचय:\nनाम: ':'Nesto creator partnership introduction:\nName: ')+name+(state.lang==='hi'?'\nInstagram: ':'\nInstagram: ')+instagram+(state.lang==='hi'?'\nFacebook: ':'\nFacebook: ')+facebook+(state.lang==='hi'?'\nऑडियंस: ':'\nAudience size: ')+audience+(state.lang==='hi'?'\nस्थान: ':'\nLocation: ')+location;
-        window.open('https://wa.me/?text='+encodeURIComponent(intro),'_blank','noopener');
+        nestoAskLang(function(l){var t=(l==='hi'?'Nesto क्रिएटर साझेदारी परिचय:\nनाम: ':'Nesto creator partnership introduction:\nName: ')+name+(l==='hi'?'\nInstagram: ':'\nInstagram: ')+instagram+(l==='hi'?'\nFacebook: ':'\nFacebook: ')+facebook+(l==='hi'?'\nऑडियंस: ':'\nAudience size: ')+audience+(l==='hi'?'\nस्थान: ':'\nLocation: ')+location;
+        window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');});
       });
-      document.getElementById('mockClaimStart').addEventListener('click',function(){nestoStartClaim();});
+      document.getElementById('mockClaimStart').addEventListener('click',function(){nestoAskLang(function(l){nestoStartClaim(l)});});
     })();
   </script>
 </body>
