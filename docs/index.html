@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="color-scheme" content="light dark" />
+  <meta name="color-scheme" content="light" />
   <link rel="icon" href="data:," />
   <title>Nesto Stays — Book the host. Not just the room.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,21 +12,21 @@
   
   <style>
     :root{
-      color-scheme: light dark;
-      --ink:#122b3a;
-      --muted:#60737e;
-      --paper:#f8fbfa;
+      color-scheme: light;
+      --ink:#222222;
+      --muted:#717171;
+      --paper:#ffffff;
       --surface:#ffffff;
-      --surface-2:#edf5f3;
-      --ocean:#087ea4;
-      --ocean-deep:#075a78;
-      --ocean-soft:#dff2f5;
+      --surface-2:#f7f7f7;
+      --ocean:#0f7f9e;
+      --ocean-deep:#0b5f77;
+      --ocean-soft:#e6f3f6;
       --sun:#f4b942;
-      --sun-soft:#fff2c9;
+      --sun-soft:#fff6e0;
       --pine:#27624a;
-      --line:#d8e5e3;
-      --shadow:0 18px 50px rgba(16, 54, 69, .12);
-      --shadow-soft:0 8px 28px rgba(16, 54, 69, .08);
+      --line:#e5e5e5;
+      --shadow:0 18px 50px rgba(0,0,0,.10);
+      --shadow-soft:0 8px 28px rgba(0,0,0,.08);
       --danger-soft:#f6eeee;
       --danger:#815b5b;
       --radius-sm:12px;
@@ -34,27 +34,7 @@
       --radius-lg:34px;
       --max:1240px;
     }
-    @media (prefers-color-scheme: dark){
-      :root{
-        --ink:#ecf7f5;
-        --muted:#a7bebd;
-        --paper:#09171c;
-        --surface:#10242b;
-        --surface-2:#173139;
-        --ocean:#52bbd8;
-        --ocean-deep:#80d5eb;
-        --ocean-soft:#143947;
-        --sun:#f4be4e;
-        --sun-soft:#453819;
-        --pine:#7bc29f;
-        --line:#28434a;
-        --shadow:0 20px 55px rgba(0,0,0,.34);
-        --shadow-soft:0 8px 28px rgba(0,0,0,.22);
-        --danger-soft:#352626;
-        --danger:#d8adad;
-      }
-    }
-    *{box-sizing:border-box}
+        *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:"Manrope",sans-serif;font-size:16px;line-height:1.5}
     button,input{font:inherit}
@@ -347,7 +327,7 @@
       --paper:#f7faf9;
       --surface:#ffffff;
       --surface-2:#eef4f3;
-      --ocean:#087ea4;
+      --ocean:#0f7f9e;
       --ocean-deep:#075f7d;
       --ocean-soft:#e3f2f5;
       --sun:#f4b942;
@@ -376,27 +356,7 @@
       --type-section:42px;
       --max:1240px;
     }
-    @media (prefers-color-scheme: dark){
-      :root{
-        --ink:#edf7f6;
-        --muted:#a9bdbc;
-        --paper:#0a171c;
-        --surface:#10242b;
-        --surface-2:#183139;
-        --ocean:#4db5d3;
-        --ocean-deep:#7bd3e8;
-        --ocean-soft:#153a47;
-        --sun:#f4bf50;
-        --sun-soft:#40371d;
-        --pine:#82c4a6;
-        --line:#294249;
-        --shadow:0 20px 56px rgba(0,0,0,.34);
-        --shadow-soft:0 8px 24px rgba(0,0,0,.24);
-        --danger-soft:#392929;
-        --danger:#dfb1b1;
-      }
-    }
-    body{font-family:"Manrope",sans-serif;font-size:var(--type-ui);line-height:1.6;letter-spacing:-.006em}
+        body{font-family:"Manrope",sans-serif;font-size:var(--type-ui);line-height:1.6;letter-spacing:-.006em}
     button,input{font-family:"Manrope",sans-serif}
     h1,h2,h3,.brand-word,.story-mark,.empty h3,.success-state h3,.claim-modal h2{
       font-family:"Nunito",sans-serif!important;font-weight:900!important;font-style:italic;letter-spacing:-.035em
@@ -625,13 +585,64 @@
       .claim-modal{padding:var(--space-4) var(--space-3)}
     }
   </style>
+  <style>
+    /* v15 live: Airbnb-inspired light theme, Book-with cards (overrides base sheet) */
+    .brand-col{display:flex;flex-direction:column;gap:8px;margin-right:auto;min-width:0}
+    .brand-col .brand-mark{width:40px;height:40px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+    .brand-col .brand-word{font-size:26px}
+    .purpose-badge{align-self:flex-start;background:#0f7f9e;border-radius:999px;padding:8px 16px;max-width:100%;box-shadow:0 4px 14px rgba(15,127,158,.30)}
+    .purpose-rotator{height:1.4em;overflow:hidden;margin:0}
+    .purpose-lines{display:flex;flex-direction:column;animation:purposeRotate 9s ease-in-out infinite}
+    .purpose-line{font-family:"Nunito",sans-serif;font-size:16px;font-weight:900;font-style:italic;letter-spacing:-.01em;line-height:1.4;color:#fff;white-space:nowrap}
+    @keyframes purposeRotate{0%,30%{transform:translateY(0)}40%,65%{transform:translateY(-1.4em)}75%,100%{transform:translateY(-2.8em)}}
+    @media (prefers-reduced-motion:reduce){.purpose-lines{animation:none}}
+    .quick-nav{align-items:flex-start}
+    .discovery-top{padding-bottom:28px;border-bottom:1px solid var(--line)}
+    #searchButton{border-radius:999px;padding:13px 22px}
+    .chip-wrap{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;gap:28px}
+    .chip{flex:0 0 auto;background:transparent;border:0;border-bottom:3px solid transparent;border-radius:0;padding:10px 2px 12px;font-size:15px;color:var(--muted)}
+    .chip:hover{border-color:transparent;color:var(--ink)}
+    .chip.active{background:transparent;border-color:transparent;border-bottom-color:var(--ink);color:var(--ink)}
+    .vibe-chip{background:transparent;border-color:transparent}
+    .vibe-chip.active{background:transparent;border-color:transparent;border-bottom-color:var(--ink);color:var(--ink)}
+    .section h2{font-size:22px;letter-spacing:-.01em}
+    .count{background:transparent;color:var(--muted);padding:0}
+    .listing-grid{gap:16px}
+    .card{background:transparent;border:0;box-shadow:none;border-radius:0;cursor:pointer}
+    .card:hover{box-shadow:none}
+    .card-image{position:relative;border-radius:18px;overflow:hidden}
+    .card-image .status{position:absolute;top:12px;left:12px;background:#fff;color:#222;font-size:12px;font-weight:800;padding:7px 11px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+    .card-image .status.unverified{color:#717171}
+    .card-image .heart{position:absolute;top:12px;right:12px;width:26px;height:26px;color:#222;background:none;border:0;padding:0;cursor:pointer;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35))}
+    .card-image .heart svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2}
+    .card-image .heart.fav-on svg{fill:#0f7f9e;stroke:#0f7f9e}
+    .card .card-body{padding:14px 2px 0}
+    .card .card-body h3{font-size:16px;font-weight:800;margin:0 0 3px}
+    .card .card-body .place{font-size:14px;color:var(--muted);margin:0 0 4px}
+    .card .card-body .price{font-size:15px;font-weight:700;margin:0}
+    .card .tags:empty{display:none}
+    .card .tag{background:#f7f7f7;border:0;color:#717171;font-size:12px;padding:6px 10px}
+    .card .instagram-link{font-size:13px}
+    .book-with{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+    .book-with-label{display:block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .book-links{font-size:14px}
+    .book-links a{color:var(--muted);text-decoration:none}
+    .book-links a:hover{text-decoration:underline}
+    .book-links a.nesto-link{color:var(--ocean);font-weight:800}
+    .book-links .sep{color:#ccc;margin:0 6px}
+    .book-note{font-size:12.5px;color:var(--muted);margin:10px 0 0;line-height:1.55}
+    .claim-link{display:inline-block;color:var(--ocean);font-weight:800;font-size:13px;margin-top:12px;text-decoration:none}
+    .claim-link:hover{text-decoration:underline}
+    @media (max-width:900px){.listing-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.listing-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
   <header class="top-strip" id="top">
     <nav class="wrap quick-nav" aria-label="Page sections">
-      <div class="brand-cluster">
+            <div class="brand-col">
         <a class="brand-lockup brand-lockup--compact" href="#top" aria-label="Nesto home"><img class="brand-mark" src="data:image/webp;base64,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" alt=""><span class="brand-word">nest<span>o</span></span></a>
-        <span class="header-tagline" id="headerTagline">Book the host. Not just the room.</span>
+        <div class="purpose-badge"><div class="purpose-rotator"><div class="purpose-lines"><span class="purpose-line">Talk to the host before you book.</span><span class="purpose-line">All Uttarakhand Homestays in one place</span><span class="purpose-line" aria-hidden="true">Talk to the host before you book.</span></div></div></div>
       </div>
       <a href="#stays" id="navStays">Find a stay</a>
       <a href="#story" id="navStory">Our story</a>
@@ -654,7 +665,7 @@
           <span class="screen-reader">Search by place or stay</span>
           <input id="searchInput" type="search" placeholder="Try Mukteshwar, riverside, heritage…" autocomplete="off">
         </label>
-        <button class="btn btn-primary" id="searchButton">Find stays</button>
+        <button class="btn btn-ocean" id="searchButton">Find stays</button>
       </div>
     </section>
 
@@ -766,13 +777,14 @@
         {id:'bonfire',name:'Bonfire evening',price:'₹500'}
       ];
       var copy={
-        en:{verified:'Nesto Verified',unverified:'Unverified — details not confirmed by host',view:'View stay',chat:'Chat with host',share:'Share on WhatsApp',claim:'Are you the host? Claim now',stay:'stay',stays:'stays',allRegions:'All regions',allVibes:'All vibes',grid:'Grid',map:'Map',added:'Added',add:'Add',open:'Open',full:'Full'},
-        hi:{verified:'Nesto सत्यापित',unverified:'असत्यापित — मेज़बान ने विवरण की पुष्टि नहीं की',view:'स्टे देखें',chat:'मेज़बान से बात करें',share:'WhatsApp पर साझा करें',claim:'क्या आप मेज़बान हैं? अभी क्लेम करें',stay:'स्टे',stays:'स्टे',allRegions:'सभी क्षेत्र',allVibes:'सभी अनुभव',grid:'ग्रिड',map:'मानचित्र',added:'जोड़ा गया',add:'जोड़ें',open:'खाली',full:'भरा हुआ'}
+        en:{verified:'Nesto Verified',unverified:'Unverified — details not confirmed by host',view:'View stay',chat:'Chat with host',share:'Share on WhatsApp',claim:'Are you the host? Claim now',bookWith:'Book with:',stay:'stay',stays:'stays',allRegions:'All regions',allVibes:'All vibes',grid:'Grid',map:'Map',added:'Added',add:'Add',open:'Open',full:'Full'},
+        hi:{verified:'Nesto सत्यापित',unverified:'असत्यापित — मेज़बान ने विवरण की पुष्टि नहीं की',view:'स्टे देखें',chat:'मेज़बान से बात करें',share:'WhatsApp पर साझा करें',claim:'क्या आप मेज़बान हैं? अभी क्लेम करें',bookWith:'बुक करें:',stay:'स्टे',stays:'स्टे',allRegions:'सभी क्षेत्र',allVibes:'सभी अनुभव',grid:'ग्रिड',map:'मानचित्र',added:'जोड़ा गया',add:'जोड़ें',open:'खाली',full:'भरा हुआ'}
       };
       function t(key){return copy[state.lang][key]||key}
       var regions=['All regions','Nainital','Mussoorie','Rishikesh','Almora / Binsar / Kausani','Ranikhet','Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath','Lansdowne','Pauri Garhwal','Jim Corbett','Dehradun','Pithoragarh / Dharchula'];
       var vibes=['All vibes','Heritage','Mountain view','Budget','Riverside','Forest retreat','Town homestay'];
-      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,current:null,lang:'en',view:'grid',added:{}};
+      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,current:null,lang:'en',view:'grid',added:{},favs:{}};
+      try{state.favs=JSON.parse(localStorage.getItem('nesto-favs')||'{}')||{}}catch(e){state.favs={}}
       var grid=document.getElementById('listingGrid');
       var regionBox=document.getElementById('regionFilters');
       var vibeBox=document.getElementById('vibeFilters');
@@ -785,10 +797,36 @@
         if(!item.instagram||!item.instagramUrl)return '';
         return '<a class="instagram-link" href="'+item.instagramUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Open '+safe(item.name)+' on Instagram at '+safe(item.instagram)+'"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>'+safe(item.instagram)+'</a>';
       }
+      function bookWithHTML(item){
+        var links=[];
+        if(item._phone){links.push('<a class="nesto-link" href="#" data-book="'+item.id+'">\u2605 Nesto</a>');}
+        else{links.push('<a class="nesto-link" href="#" data-arrange="'+item.id+'">\u2605 Nesto</a>');}
+        (item.otaLinks||[]).forEach(function(o){links.push('<a href="'+safe(o.url)+'" target="_blank" rel="noopener">'+safe(o.platform)+'</a>');});
+        return '<div class="book-with"><span class="book-with-label">'+t('bookWith')+'</span><div class="book-links">'+links.join('<span class="sep">\u00b7</span>')+'</div></div>';
+      }
+      function nestoArrange(item){
+        if(!item)return;
+        var cfg=window.NESTO_CONFIG||{};
+        var owner=nestoDigits(cfg.OWNER_WHATSAPP||'');
+        if(!owner){toast(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u094d\u0932\u0947\u092e \u091c\u0932\u094d\u0926 \u0936\u0941\u0930\u0942 \u0939\u094b\u0902\u0917\u0947\u0964':'Ask Nesto to arrange \u2014 host contact coming soon.');return;}
+        var msg=state.lang==='hi'
+          ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u0915\u0943\u092a\u092f\u093e '+item.name+', '+item.place+' \u092e\u0947\u0902 \u092e\u0947\u0930\u0947 \u0920\u0939\u0930\u0928\u0947 \u0915\u0940 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0947\u0902\u0964'
+          :'Hi Nesto! Please arrange a stay for me at '+item.name+', '+item.place+'.';
+        window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
+      }
+      function toggleFav(btn){
+        var id=btn.dataset.fav;
+        if(state.favs[id]){delete state.favs[id];btn.classList.remove('fav-on');btn.setAttribute('aria-pressed','false');}
+        else{state.favs[id]=true;btn.classList.add('fav-on');btn.setAttribute('aria-pressed','true');}
+        try{localStorage.setItem('nesto-favs',JSON.stringify(state.favs));}catch(e){}
+      }
       function cardHTML(item){
-        var night=state.lang==='hi'?' / रात':' / night';
-        var hostInvite=item.verified?'':'<div class="host-invite-strip"><div><span>'+(state.lang==='hi'?'केवल प्रॉपर्टी के मेज़बान के लिए':'For the property host')+'</span><strong>'+(state.lang==='hi'?'क्या यह आपका होमस्टे है?':'Is this your homestay?')+'</strong></div><button class="claim claim-btn" data-id="'+item.id+'">'+t('claim')+'</button></div>';
-        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'</div>'+hostInvite+'<div class="card-body"><div class="place">'+safe(item.place)+' · '+safe(item.region)+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+item.tags.map(function(tag){return '<span class="tag">'+safe(tag)+'</span>'}).join('')+'</div>'+instagramHTML(item)+'<p class="ota-note">'+nestoPriceNote(item)+'</p><div class="card-actions"><button class="btn btn-ghost btn-small view-btn" data-id="'+item.id+'">'+t('view')+'</button><button class="btn btn-ocean btn-small chat-btn" data-id="'+item.id+'">'+t('chat')+'</button><button class="btn btn-ghost btn-small share-btn" data-id="'+item.id+'">'+t('share')+'</button></div></div></article>';
+        var night=state.lang==='hi'?' / \u0930\u093e\u0924':' / night';
+        var fav=(state.favs&&state.favs[item.id])?' fav-on':'';
+        var note=nestoPriceNote(item);
+        if(!item._phone)note+=' '+(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u0905\u092d\u0940 \u0928\u0939\u0940\u0902 \u0939\u0948 \u2014 Nesto \u0938\u0947 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0935\u093e\u090f\u0902\u0964':'No host number on file yet \u2014 ask Nesto and we will reach out and confirm.');
+        var claimLink=item.verified?'':'<a class="claim-link" href="#" data-claim="'+item.id+'">'+(state.lang==='hi'?'\u0907\u0938 \u0939\u094b\u092e\u0938\u094d\u091f\u0947 \u0915\u094b \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0947\u0902 \u2014 \u092f\u0939 \u092e\u0941\u092b\u094d\u0924 \u0939\u0948':'Claim this homestay \u2014 it\'s free')+'</a>';
+        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(item.place)+' \u00b7 '+safe(item.region)+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+item.tags.map(function(tag){return '<span class="tag">'+safe(tag)+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+'</div></article>';
       }
       function priceValue(item){
         var match=String(item.price).replace(/,/g,'').match(/[0-9]+/);
@@ -829,10 +867,16 @@
       }
       function getItem(id){return listings.find(function(x){return x.id===Number(id)})}
       function bindCards(){
-        document.querySelectorAll('.view-btn').forEach(function(btn){btn.addEventListener('click',function(){openDetail(getItem(btn.dataset.id))})});
-        document.querySelectorAll('.chat-btn').forEach(function(btn){btn.addEventListener('click',function(){nestoChatHost(getItem(btn.dataset.id))})});
-        document.querySelectorAll('.share-btn').forEach(function(btn){btn.addEventListener('click',function(){shareStay(getItem(btn.dataset.id))})});
-        document.querySelectorAll('.claim-btn').forEach(function(btn){btn.addEventListener('click',function(){openClaim(getItem(btn.dataset.id))})});
+        document.querySelectorAll('.card').forEach(function(card){
+          card.addEventListener('click',function(e){
+            if(e.target.closest('a,button'))return;
+            openDetail(getItem(card.dataset.id));
+          });
+        });
+        document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoChatHost(getItem(a.dataset.book));});});
+        document.querySelectorAll('[data-arrange]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();nestoArrange(getItem(a.dataset.arrange));});});
+        document.querySelectorAll('[data-claim]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openClaim(getItem(a.dataset.claim));});});
+        document.querySelectorAll('[data-fav]').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();toggleFav(btn);});});
       }
       function shareStay(item){
         var text=(state.lang==='hi'?'Nesto पर यह होमस्टे देखें: ':'Have a look at this Nesto homestay: ')+item.name+' — '+item.place+'. '+item.price+(state.lang==='hi'?'. मेज़बान से सीधे WhatsApp पर बात करें।':'. Chat directly with the host on WhatsApp.');
@@ -885,7 +929,7 @@
         var hi=state.lang==='hi';
         document.getElementById('languageToggle').textContent=hi?'हिन्दी / EN':'EN / हिन्दी';document.getElementById('languageToggle').setAttribute('aria-label',hi?'Switch language to English':'Switch language to Hindi');
         document.getElementById('navStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('navStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('navHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
-        document.getElementById('headerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
+        var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
         document.getElementById('searchInput').placeholder=hi?'मुक्तेश्वर, नदी किनारा, हेरिटेज खोजें…':'Try Mukteshwar, riverside, heritage…';document.getElementById('searchButton').textContent=hi?'स्टे खोजें':'Find stays';document.getElementById('filterTitle').textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';document.getElementById('vibeLabel').textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
         document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
@@ -930,6 +974,7 @@
           hostName:host.name||null,hostProfile:host.story||null,
           instagram:ig,instagramUrl:igUrl,
           reviewSources:reviews.map(function(x){return{label:x.label||'Reviews',url:x.url};}),
+          otaLinks:(Array.isArray(details.ota_links)?details.ota_links.filter(function(o){return o&&o.url;}).map(function(o){return{platform:o.platform||'Booking',url:o.url};}):[]),
           _phone:phone
         };
       }
