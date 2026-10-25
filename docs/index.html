@@ -640,50 +640,89 @@
     @media (max-width:900px){.listing-grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:600px){.listing-grid{grid-template-columns:1fr}}
     #stays,#story,#hosts,#how-nesto-earns,#refer-host,#partners{scroll-margin-top:120px}
+    .quick-nav{flex-wrap:wrap}
+    .header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+    .wrap.quick-nav a.host-cta{color:var(--ink);font-weight:800;font-size:14px;text-decoration:none;padding:8px 4px}
+    .wrap.quick-nav a.host-cta:hover{background:transparent;color:var(--ocean-deep);text-decoration:underline}
+    .icon-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+    .icon-btn svg{width:19px;height:19px}
+    .badge-row{display:flex;padding:0 0 14px}
+    .mobile-nav-menu.open{display:flex}
+    .mobile-nav-menu .lang-toggle{flex:1;text-align:center;background:transparent;border:0;color:var(--ink);font-size:12px;font-weight:900;padding:9px 7px;border-radius:10px;cursor:pointer}
+    .mobile-nav-menu .lang-toggle:hover{background:var(--surface-2);color:var(--ocean-deep)}
+    .region-tabs{flex-wrap:wrap;justify-content:center;overflow:visible;margin-bottom:18px}
+    .search-box{grid-template-columns:1.25fr 1fr .7fr auto;align-items:stretch}
+    .capsule-seg{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:6px 16px;min-width:0}
+    .capsule-seg + .capsule-seg{border-left:1px solid var(--line)}
+    .seg-label{font-size:13px;font-weight:800;color:var(--ink)}
+    .capsule-seg input{border:0;background:transparent;color:var(--ink);min-width:0;width:100%;outline:none;font-weight:600;font-size:13px;padding:2px 0}
+    .capsule-seg input::placeholder{color:var(--muted)}
+    .seg-dates{display:flex;align-items:center;gap:6px}
+    .seg-dates input{width:100%}
+    .seg-to{color:var(--muted);font-size:12px}
+    .seg-stepper{display:flex;align-items:center;gap:10px}
+    .seg-stepper button{width:26px;height:26px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);font-size:16px;font-weight:800;cursor:pointer;line-height:1;padding:0}
+    .seg-stepper strong{font-size:14px;min-width:14px;text-align:center}
+    #searchButton{width:48px;height:48px;padding:0;border-radius:50%;align-self:center}
+    #searchButton svg{width:20px;height:20px}
+    .filters-sub{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .filters-sub .toggle{margin-left:auto}
+    @media (max-width:700px){
+      .search-box{grid-template-columns:1fr}
+      .capsule-seg + .capsule-seg{border-left:0;border-top:1px solid var(--line)}
+      #searchButton{justify-self:end;margin-top:6px}
+      .header-actions{gap:6px}
+      .wrap.quick-nav a.host-cta{font-size:13px}
+    }
   </style>
 </head>
 <body>
   <header class="top-strip" id="top">
     <nav class="wrap quick-nav" aria-label="Page sections">
-            <div class="brand-col">
         <a class="brand-lockup brand-lockup--compact" href="#top" aria-label="Nesto home"><img class="brand-mark" src="data:image/webp;base64,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" alt=""><span class="brand-word">nest<span>o</span></span></a>
-        <div class="purpose-badge"><div class="purpose-rotator"><div class="purpose-lines"><span class="purpose-line">Talk to the host before you book.</span><span class="purpose-line">All Uttarakhand Homestays in one place</span><span class="purpose-line" aria-hidden="true">Talk to the host before you book.</span></div></div></div>
+      <div class="header-actions">
+        <a class="host-cta" href="#hosts">List your homestay</a>
+        <button class="icon-btn" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="icon-btn" id="profileButton" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-3.3 3.6-5 8-5s8 1.7 8 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       </div>
-      <a href="#stays" id="navStays">Find a stay</a>
-      <a href="#story" id="navStory">Our story</a>
-      <a href="#hosts" id="navHosts">Become a host</a>
-      <button class="lang-toggle" id="languageToggle" type="button" aria-label="Switch language to Hindi">EN / हिन्दी</button>
-      <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </nav>
+    <div class="wrap badge-row">
+        <div class="purpose-badge"><div class="purpose-rotator"><div class="purpose-lines"><span class="purpose-line">Talk to the host before you book.</span><span class="purpose-line">All Uttarakhand Homestays in one place</span><span class="purpose-line" aria-hidden="true">Talk to the host before you book.</span></div></div></div>
+    </div>
     <nav class="mobile-nav-menu" id="mobileNav" aria-label="Mobile page sections">
       <a href="#stays" id="mobileNavStays">Find a stay</a>
       <a href="#story" id="mobileNavStory">Our story</a>
       <a href="#hosts" id="mobileNavHosts">Become a host</a>
+      <button class="lang-toggle" id="languageToggle" type="button" aria-label="Switch language to Hindi">EN / हिन्दी</button>
     </nav>
   </header>
 
   <main>
     <section class="wrap discovery-top" aria-label="Search stays">
+      <div class="chip-wrap region-tabs" id="regionFilters" aria-label="Filter by region"></div>
       <div class="search-box" role="search">
-        <label class="search-field">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span class="screen-reader">Search by place or stay</span>
-          <input id="searchInput" type="search" placeholder="Try Mukteshwar, riverside, heritage…" autocomplete="off">
+        <label class="capsule-seg">
+          <span class="seg-label" id="capsuleWhereLabel">Where</span>
+          <input id="searchInput" type="search" placeholder="Search destinations" autocomplete="off">
         </label>
-        <button class="btn btn-ocean" id="searchButton">Find stays</button>
+        <div class="capsule-seg">
+          <span class="seg-label" id="capsuleWhenLabel">When</span>
+          <span class="seg-dates"><input id="capsuleCheckIn" type="date" aria-label="Check-in date"><span class="seg-to">→</span><input id="capsuleCheckOut" type="date" aria-label="Check-out date"></span>
+        </div>
+        <div class="capsule-seg">
+          <span class="seg-label" id="capsuleWhoLabel">Who</span>
+          <span class="seg-stepper"><button id="capsuleMinus" type="button" aria-label="Fewer guests">−</button><strong id="capsuleGuestCount">2</strong><button id="capsulePlus" type="button" aria-label="More guests">+</button></span>
+        </div>
+        <button class="btn btn-ocean" id="searchButton" type="button" aria-label="Find stays"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="screen-reader">Find stays</span></button>
       </div>
     </section>
 
     <div class="wrap filters-shell">
-      <section class="filters" aria-labelledby="filterTitle">
-        <div class="filter-head">
-          <h2 id="filterTitle">Where do you want to wake up?</h2>
-          <div class="toggle"><span id="verifiedLabel">Verified only</span><button id="verifiedToggle" type="button" role="switch" aria-pressed="false" aria-label="Show verified stays only"><span class="toggle-track" aria-hidden="true"></span></button></div>
-        </div>
-        <div class="chip-wrap" id="regionFilters" aria-label="Filter by region"></div>
+      <section class="filters" aria-label="Filters">
         <div class="filters-sub">
           <strong id="vibeLabel">Pick a feeling</strong>
           <div class="chip-wrap" id="vibeFilters" aria-label="Filter by vibe"></div>
+          <div class="toggle"><span id="verifiedLabel">Verified only</span><button id="verifiedToggle" type="button" role="switch" aria-pressed="false" aria-label="Show verified stays only"><span class="toggle-track" aria-hidden="true"></span></button></div>
         </div>
       </section>
     </div>
@@ -788,7 +827,7 @@
       function t(key){return copy[state.lang][key]||key}
       var regions=['All regions','Nainital','Mussoorie','Rishikesh','Almora / Binsar / Kausani','Ranikhet','Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath','Lansdowne','Pauri Garhwal','Jim Corbett','Dehradun','Pithoragarh / Dharchula'];
       var vibes=['All vibes','Heritage','Mountain view','Budget','Riverside','Forest retreat','Town homestay'];
-      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,current:null,lang:'en',view:'grid',added:{},favs:{}};
+      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,checkIn:'',checkOut:'',current:null,lang:'en',view:'grid',added:{},favs:{}};
       try{state.favs=JSON.parse(localStorage.getItem('nesto-favs')||'{}')||{}}catch(e){state.favs={}}
       var grid=document.getElementById('listingGrid');
       var regionBox=document.getElementById('regionFilters');
@@ -894,7 +933,7 @@
         window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
       }
       function openDetail(item){
-        state.current=item;state.guests=2;document.getElementById('guestCount').textContent='2';
+        state.current=item;document.getElementById('guestCount').textContent=state.guests;
         document.getElementById('detailImage').src=item.image;document.getElementById('detailImage').alt=item.alt;
         document.getElementById('detailPlace').textContent=item.place+' · '+item.region;document.getElementById('detailTitle').textContent=item.name;document.getElementById('detailPrice').textContent=item.price;document.getElementById('detailOtaNote').textContent=nestoPriceNote(item);
         document.getElementById('detailTags').innerHTML=item.tags.map(function(t){return '<span class="tag">'+safe(t)+'</span>'}).join('');document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
@@ -903,7 +942,7 @@
         document.getElementById('detailStatus').innerHTML=statusHTML(item);var s=document.querySelector('#detailStatus .status');if(s){s.style.position='static';s.style.display='inline-flex';}
         document.getElementById('detailHostInvite').classList.toggle('open',!item.verified);
         nestoHideMockSections();document.getElementById('reviewList').innerHTML=reviewsHTML(item);
-        document.getElementById('bookForm').style.display='block';document.getElementById('successState').style.display='none';document.getElementById('bookingError').textContent='';document.getElementById('checkIn').value='';document.getElementById('checkOut').value='';openOverlay('detailOverlay');
+        document.getElementById('bookForm').style.display='block';document.getElementById('successState').style.display='none';document.getElementById('bookingError').textContent='';document.getElementById('checkIn').value=state.checkIn||'';document.getElementById('checkOut').value=state.checkOut||'';openOverlay('detailOverlay');
       }
 
       function calendarHTML(seed){
@@ -939,10 +978,10 @@
         document.documentElement.lang=state.lang==='hi'?'hi':'en';
         var hi=state.lang==='hi';
         document.getElementById('languageToggle').textContent=hi?'हिन्दी / EN':'EN / हिन्दी';document.getElementById('languageToggle').setAttribute('aria-label',hi?'Switch language to English':'Switch language to Hindi');
-        document.getElementById('navStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('navStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('navHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
+        var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
         var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
-        document.getElementById('searchInput').placeholder=hi?'मुक्तेश्वर, नदी किनारा, हेरिटेज खोजें…':'Try Mukteshwar, riverside, heritage…';document.getElementById('searchButton').textContent=hi?'स्टे खोजें':'Find stays';document.getElementById('filterTitle').textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';document.getElementById('vibeLabel').textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
+        document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhenLabel').textContent=hi?'कब':'When';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';document.getElementById('vibeLabel').textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
         document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
         document.getElementById('sortLabel').textContent=hi?'क्रम':'Sort';var sortOptions=document.getElementById('sortSelect').options;sortOptions[0].text=hi?'सुझाया गया':'Recommended';sortOptions[1].text=hi?'कीमत: कम से ज़्यादा':'Price: low to high';sortOptions[2].text=hi?'कीमत: ज़्यादा से कम':'Price: high to low';sortOptions[3].text=hi?'सबसे अच्छी रेटिंग':'Top rated';sortOptions[4].text=hi?'सबसे नया':'Newest';
         document.getElementById('earnLine').textContent=hi?'Nesto स्टे पर शून्य कमीशन लेता है। हमारी कमाई Host Pro सदस्यता और अनुभवों से होती है।':'Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.';document.getElementById('earnLink').textContent=hi?'यह कैसे काम करता है':'How it works';document.getElementById('how-nesto-earns-detail').textContent=hi?'मेज़बान कमरे की पूरी कमाई रखते हैं। वैकल्पिक Host Pro टूल और स्थानीय अतिथि अनुभव प्लेटफ़ॉर्म को चलाते हैं; अनुभव जोड़ने से पहले कीमत साफ़ दिखती है।':'Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.';
@@ -1058,10 +1097,12 @@
       }
       /* ===== end NESTO-LIVE ===== */
       nestoBoot();
-      document.getElementById('languageToggle').addEventListener('click',function(){state.lang=state.lang==='en'?'hi':'en';applyLanguage()});
+      document.getElementById('languageToggle').addEventListener('click',function(){state.lang=state.lang==='en'?'hi':'en';applyLanguage();closeMenu();});
       var mobileMenuButton=document.getElementById('mobileMenuButton'),mobileNav=document.getElementById('mobileNav');
-      mobileMenuButton.addEventListener('click',function(){var open=!mobileNav.classList.contains('open');mobileNav.classList.toggle('open',open);mobileMenuButton.setAttribute('aria-expanded',String(open));mobileMenuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});
-      mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){mobileNav.classList.remove('open');mobileMenuButton.setAttribute('aria-expanded','false');mobileMenuButton.setAttribute('aria-label','Open navigation')})});
+      function toggleMenu(){var open=!mobileNav.classList.contains('open');mobileNav.classList.toggle('open',open);mobileMenuButton.setAttribute('aria-expanded',String(open));mobileMenuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation');var pb=document.getElementById('profileButton');if(pb)pb.setAttribute('aria-expanded',String(open));}
+      function closeMenu(){mobileNav.classList.remove('open');mobileMenuButton.setAttribute('aria-expanded','false');mobileMenuButton.setAttribute('aria-label','Open navigation');var pb=document.getElementById('profileButton');if(pb)pb.setAttribute('aria-expanded','false');}
+      mobileMenuButton.addEventListener('click',toggleMenu);document.getElementById('profileButton').addEventListener('click',toggleMenu);
+      mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeMenu)});
       document.getElementById('gridViewButton').addEventListener('click',function(){setView('grid')});document.getElementById('mapViewButton').addEventListener('click',function(){setView('map')});
       document.getElementById('sortSelect').addEventListener('change',function(e){state.sort=e.target.value;render()});
       document.getElementById('detailShare').addEventListener('click',function(){if(state.current)shareStay(state.current)});
@@ -1069,12 +1110,17 @@
       document.getElementById('verifiedToggle').addEventListener('click',function(e){state.verified=!state.verified;e.currentTarget.setAttribute('aria-pressed',String(state.verified));render()});
       function applySearch(){state.query=document.getElementById('searchInput').value;render();document.getElementById('stays').scrollIntoView({behavior:'smooth'})}
       document.getElementById('searchButton').addEventListener('click',applySearch);document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter')applySearch()});
+      function setGuests(n){state.guests=Math.max(1,Math.min(12,n));var c=document.getElementById('capsuleGuestCount');if(c)c.textContent=state.guests;document.getElementById('guestCount').textContent=state.guests;}
+      document.getElementById('capsuleMinus').addEventListener('click',function(){setGuests(state.guests-1)});
+      document.getElementById('capsulePlus').addEventListener('click',function(){setGuests(state.guests+1)});
+      document.getElementById('capsuleCheckIn').addEventListener('change',function(e){state.checkIn=e.target.value});
+      document.getElementById('capsuleCheckOut').addEventListener('change',function(e){state.checkOut=e.target.value});
       document.getElementById('hostClaimButton').addEventListener('click',function(){openClaim(null)});
       document.querySelectorAll('[data-close]').forEach(function(btn){btn.addEventListener('click',function(){closeOverlay(btn.dataset.close)})});
       document.querySelectorAll('.overlay').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)closeOverlay(ov.id)})});
       document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(function(ov){closeOverlay(ov.id)})});
-      document.getElementById('minusGuest').addEventListener('click',function(){state.guests=Math.max(1,state.guests-1);document.getElementById('guestCount').textContent=state.guests});
-      document.getElementById('plusGuest').addEventListener('click',function(){state.guests=Math.min(12,state.guests+1);document.getElementById('guestCount').textContent=state.guests});
+      document.getElementById('minusGuest').addEventListener('click',function(){setGuests(state.guests-1)});
+      document.getElementById('plusGuest').addEventListener('click',function(){setGuests(state.guests+1)});
       document.getElementById('requestButton').addEventListener('click',function(){
         var a=document.getElementById('checkIn').value,b=document.getElementById('checkOut').value,err=document.getElementById('bookingError');err.textContent='';
         if(!a||!b){err.textContent=state.lang==='hi'?'\u0926\u094b\u0928\u094b\u0902 \u0924\u093e\u0930\u0940\u0916\u0947\u0902 \u091a\u0941\u0928\u0947\u0902\u0964':'Choose both dates to preview the request.';return}
