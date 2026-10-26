@@ -803,6 +803,16 @@ section[id]{scroll-margin-top:120px;}
 .usp-strip{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:20px 0 0;font-size:14px;font-weight:700;color:var(--ink);text-align:center;}
 .usp-strip .usp-sep{color:var(--muted);font-weight:400;}
 @media (max-width:720px){.usp-strip{font-size:13px;margin-top:14px;}}
+
+/* ===== DESIGN PASS ROUND 5 (2026-10-26) — single-field premium search: Who stepper removed, capsule = Where input + button on one row at all widths, USP strip stacks cleanly on mobile ===== */
+.search-box{grid-template-columns:minmax(0,1fr) auto;align-items:center;}
+#searchButton{align-self:center;justify-self:end;}
+@media (max-width:720px){
+.search-box{grid-template-columns:minmax(0,1fr) auto;}
+#searchButton{margin-top:0;}
+.usp-strip{flex-direction:column;gap:6px;}
+.usp-strip .usp-sep{display:none;}
+}
 </style>
 </head>
 <body>
@@ -836,10 +846,7 @@ section[id]{scroll-margin-top:120px;}
           <input id="searchInput" type="search" placeholder="Search destinations" autocomplete="off">
         </label>
         
-        <div class="capsule-seg">
-          <span class="seg-label" id="capsuleWhoLabel">Who</span>
-          <span class="seg-stepper"><button id="capsuleMinus" type="button" aria-label="Fewer guests">−</button><strong id="capsuleGuestCount">2</strong><button id="capsulePlus" type="button" aria-label="More guests">+</button></span>
-        </div>
+        
         <button class="btn btn-ocean" id="searchButton" type="button" aria-label="Find stays"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="screen-reader">Find stays</span></button>
       </div>
     <div class="usp-strip"><span id="uspZero">Zero commission on stays</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspTalk">Talk to the host before you book</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspKeep">Host keeps every rupee</span></div></section>
@@ -1138,7 +1145,7 @@ section[id]{scroll-margin-top:120px;}
         var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('desktopNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('desktopNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('desktopNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('uspZero').textContent=hi?'ठहरने पर शून्य कमीशन':'Zero commission on stays';document.getElementById('uspTalk').textContent=hi?'बुकिंग से पहले मेज़बान से बात करें':'Talk to the host before you book';document.getElementById('uspKeep').textContent=hi?'मेज़बान को पूरी राशि मिलती है':'Host keeps every rupee';
         var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('heroTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
-        document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';var vb=document.getElementById('vibeLabel');if(vb)vb.textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
+        document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';var vb=document.getElementById('vibeLabel');if(vb)vb.textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
         document.getElementById('staysTitle').textContent=hi?'हर स्टे के पीछे एक मेज़बान':'Stays with a host behind them';document.getElementById('staysCopy').textContent=hi?'सत्यापित घर पहले दिखते हैं। बाकी हर लिस्टिंग साफ़ बताती है कि मेज़बान ने क्या पुष्टि की है और क्या नहीं।':'Verified homes come first. Every other listing tells you plainly what the host has—and has not—confirmed.';document.getElementById('gridViewButton').textContent=t('grid');document.getElementById('mapViewButton').textContent=t('map');document.getElementById('mapNote').textContent=hi?'इस डिज़ाइन मॉक में स्थान अनुमानित हैं। विवरण देखने के लिए नंबर वाला स्टे चुनें।':'Locations are approximate in this design mock. Select a numbered stay to view details.';
         document.getElementById('sortLabel').textContent=hi?'क्रम':'Sort';var sortOptions=document.getElementById('sortSelect').options;sortOptions[0].text=hi?'सुझाया गया':'Recommended';sortOptions[1].text=hi?'कीमत: कम से ज़्यादा':'Price: low to high';sortOptions[2].text=hi?'कीमत: ज़्यादा से कम':'Price: high to low';sortOptions[3].text=hi?'सबसे अच्छी रेटिंग':'Top rated';sortOptions[4].text=hi?'सबसे नया':'Newest';
         document.getElementById('earnLine').textContent=hi?'Nesto स्टे पर शून्य कमीशन लेता है। हमारी कमाई Host Pro सदस्यता और अनुभवों से होती है।':'Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.';document.getElementById('earnLink').textContent=hi?'यह कैसे काम करता है':'How it works';document.getElementById('how-nesto-earns-detail').textContent=hi?'मेज़बान कमरे की पूरी कमाई रखते हैं। वैकल्पिक Host Pro टूल और स्थानीय अतिथि अनुभव प्लेटफ़ॉर्म को चलाते हैं; अनुभव जोड़ने से पहले कीमत साफ़ दिखती है।':'Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.';
@@ -1272,8 +1279,8 @@ section[id]{scroll-margin-top:120px;}
       function applySearch(){state.query=document.getElementById('searchInput').value;state.page=1;render();document.getElementById('stays').scrollIntoView({behavior:'smooth'})}
       document.getElementById('searchButton').addEventListener('click',applySearch);document.querySelectorAll('.brand-home').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();state.region='All regions';state.query='';state.verified=false;state.sort='recommended';state.page=1;state.checkIn='';state.checkOut='';document.getElementById('searchInput').value='';document.getElementById('sortSelect').value='recommended';document.getElementById('verifiedToggle').setAttribute('aria-pressed','false');regionBox.querySelectorAll('.chip').forEach(function(c){c.classList.toggle('active',c.dataset.value==='All regions')});setGuests(2);setView('grid');render();window.scrollTo({top:0,behavior:'smooth'});});});document.getElementById('searchInput').addEventListener('keydown',function(e){if(e.key==='Enter')applySearch()});
       function setGuests(n){state.guests=Math.max(1,Math.min(12,n));var c=document.getElementById('capsuleGuestCount');if(c)c.textContent=state.guests;document.getElementById('guestCount').textContent=state.guests;}
-      document.getElementById('capsuleMinus').addEventListener('click',function(){setGuests(state.guests-1)});
-      document.getElementById('capsulePlus').addEventListener('click',function(){setGuests(state.guests+1)});
+      
+      
       document.getElementById('hostClaimButton').addEventListener('click',function(){openClaim(null)});
       document.querySelectorAll('[data-close]').forEach(function(btn){btn.addEventListener('click',function(){closeOverlay(btn.dataset.close)})});
       document.querySelectorAll('.overlay').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)closeOverlay(ov.id)})});
