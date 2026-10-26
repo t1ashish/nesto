@@ -793,6 +793,11 @@ section[id]{scroll-margin-top:120px;}
 .section-head{gap:24px;align-items:flex-start;}
 .view-tools{flex-wrap:wrap;justify-content:flex-end;gap:12px;}
 }
+
+/* ===== DESIGN PASS ROUND 3 (2026-10-26) — pin card buttons to the card bottom: margin-top:auto only works if the card itself is a flex column, which it was not ===== */
+@media (min-width:721px){
+.card{display:flex;flex-direction:column;}
+}
 </style>
 </head>
 <body>
