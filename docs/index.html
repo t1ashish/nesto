@@ -702,7 +702,74 @@
     .page-status{color:var(--muted);font-size:13px;font-weight:700;margin-left:4px}
     .header-actions .lang-toggle{margin-left:0;white-space:nowrap}
     @media (max-width:420px){.header-actions .host-cta{display:none}}
-  </style>
+  
+/* ===== HIGH-END DESIGN PASS (2026-10-26) — Airbnb-benchmarked: crisp neutrals, one type family, disciplined scale, quiet buttons. Desktop rules are min-width scoped so the mobile pass below is untouched. ===== */
+:root{--ink:#222222;--muted:#717171;--paper:#ffffff;--surface:#ffffff;--surface-2:#f7f7f7;--line:#dddddd;}
+h2,h3,.hero-tagline,.footer-tagline,.purpose-line{font-family:"Manrope",sans-serif;}
+@media (min-width:721px){
+.top-strip{box-shadow:0 1px 2px rgba(0,0,0,.05);}
+.brand-mark{box-shadow:none;}
+.header-actions .host-cta{border:1px solid #dddddd;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;text-decoration:none;}
+.header-actions .host-cta:hover{background:#f7f7f7;color:var(--ink);text-decoration:none;}
+.icon-btn:hover{background:#f7f7f7;}
+#languageToggle{border:1px solid #dddddd;border-radius:999px;padding:10px 14px;font-size:14px;font-weight:600;}
+.hero-tagline{font-size:clamp(38px,4.6vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin:6px 0 18px;}
+.discovery-top{padding:48px 0 24px;}
+.purpose-badge{background:#ffffff;border:1px solid #dddddd;box-shadow:none;padding:8px 18px;}
+.purpose-line{color:var(--ocean-deep);font-size:14px;font-weight:700;font-style:normal;letter-spacing:0;}
+.search-box{width:min(720px,100%);border-radius:999px;border:1px solid #dddddd;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:8px 8px 8px 28px;background:#ffffff;}
+.seg-label{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--ink);}
+.search-box input{font-size:15px;}
+#capsuleMinus,#capsulePlus{width:32px;height:32px;border-radius:50%;border:1px solid #dddddd;background:#ffffff;font-size:16px;}
+.region-tabs{gap:28px;}
+.chip{font-size:14px;font-weight:600;padding:12px 2px 10px;}
+.chip.active{border-bottom:2px solid var(--ink);}
+.chip:hover{background:transparent;color:var(--ink);}
+.section{padding-top:56px;}
+.section-head{margin-bottom:32px;}
+.section h2{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.2;}
+#storyTitle,#visionTitle,#hostTitle,#promiseTitle{font-size:32px;}
+.section-head p{font-size:16px;line-height:1.55;}
+.listing-grid{gap:24px;}
+.card-body{padding:16px 2px 0;}
+.card-body h3{font-size:16px;font-weight:700;line-height:1.35;margin:0 0 4px;letter-spacing:0;}
+.card-body .place{font-size:14px;color:var(--muted);margin:0 0 10px;}
+.card-body .price-row{margin-top:12px;}
+.card-body .price{font-size:16px;font-weight:800;}
+.card-body .book-note{font-size:13px;color:var(--muted);line-height:1.5;margin-top:8px;}
+.card-body .tags{margin-top:10px;gap:6px;}
+.card-body .tag{font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;background:#f7f7f7;color:#222222;border:0;}
+.card-body .claim-link{font-size:13px;font-weight:700;color:var(--ocean-deep);}
+.card-image{border-radius:16px;}
+.card-btn{min-height:38px;font-size:13px;font-weight:700;border-radius:10px;border:1px solid #dddddd;background:#ffffff;}
+.card-btn:hover{border-color:var(--ink);}
+.book-btn{min-height:36px;font-size:13px;font-weight:700;border:1px solid #dddddd;}
+.book-btn.nesto{background:var(--ink);color:#ffffff;border-color:var(--ink);}
+.heart{width:28px;height:28px;}
+.status{font-size:11px;font-weight:700;padding:7px 12px;border-radius:999px;}
+.status.verified{background:var(--ocean);color:#ffffff;}
+.status.unverified{background:rgba(255,255,255,.95);color:#717171;border:1px solid rgba(0,0,0,.08);}
+.btn{font-weight:700;min-height:48px;font-size:14px;border-radius:12px;}
+.partner-card .btn{background:#ffffff;color:var(--ink);}
+.partner-card .btn:hover{background:#f7f7f7;color:var(--ink);}
+.detail-host-invite .btn{background:#ffffff;border:1px solid #dddddd;color:var(--ink);}
+.detail-host-invite .btn:hover{background:#f7f7f7;border-color:#dddddd;}
+.earn-strip{background:#f7f7f7;border-top:1px solid #dddddd;border-bottom:1px solid #dddddd;}
+.earn-inner{font-weight:700;font-size:15px;}
+.earn-detail{font-size:14px;color:var(--muted);}
+.host-banner{background:#ffffff;border:1px solid #dddddd;border-radius:24px;padding:48px;}
+footer.wrap{width:100%;background:#f7f7f7;border-top:1px solid #dddddd;padding:48px 0 28px;margin-top:56px;}
+.footer-row{width:min(1240px,calc(100% - 80px));margin-inline:auto;}
+.footer-links a{font-size:14px;margin:10px 0;color:var(--muted);}
+.footer-links a:hover{color:var(--ink);text-decoration:underline;}
+.footer-tagline{font-size:15px;font-weight:700;}
+.modal{border-radius:24px;}
+#detailTitle{font-size:26px;font-weight:800;letter-spacing:-.02em;}
+.modal h3{font-size:18px;font-weight:700;}
+input,select,textarea{font-size:15px;border:1px solid #dddddd;border-radius:12px;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+}
+</style>
 </head>
 <body>
   <header class="top-strip" id="top">
