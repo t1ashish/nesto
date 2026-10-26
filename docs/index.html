@@ -798,6 +798,11 @@ section[id]{scroll-margin-top:120px;}
 @media (min-width:721px){
 .card{display:flex;flex-direction:column;}
 }
+
+/* ===== DESIGN PASS ROUND 4 (2026-10-26) — prominent USP strip under search: Nesto's core promises above the listings, not buried below them ===== */
+.usp-strip{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:20px 0 0;font-size:14px;font-weight:700;color:var(--ink);text-align:center;}
+.usp-strip .usp-sep{color:var(--muted);font-weight:400;}
+@media (max-width:720px){.usp-strip{font-size:13px;margin-top:14px;}}
 </style>
 </head>
 <body>
@@ -837,7 +842,7 @@ section[id]{scroll-margin-top:120px;}
         </div>
         <button class="btn btn-ocean" id="searchButton" type="button" aria-label="Find stays"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="screen-reader">Find stays</span></button>
       </div>
-    </section>
+    <div class="usp-strip"><span id="uspZero">Zero commission on stays</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspTalk">Talk to the host before you book</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspKeep">Host keeps every rupee</span></div></section>
 
 
     <section class="wrap section" id="stays">
@@ -1130,7 +1135,7 @@ section[id]{scroll-margin-top:120px;}
         document.documentElement.lang=state.lang==='hi'?'hi':'en';
         var hi=state.lang==='hi';
         document.getElementById('languageToggle').textContent=hi?'हिन्दी / EN':'EN / हिन्दी';document.getElementById('languageToggle').setAttribute('aria-label',hi?'Switch language to English':'Switch language to Hindi');
-        var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('desktopNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('desktopNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('desktopNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';
+        var ns=document.getElementById('navStays');if(ns)ns.textContent=hi?'स्टे खोजें':'Find a stay';var nr=document.getElementById('navStory');if(nr)nr.textContent=hi?'हमारी कहानी':'Our story';var nh=document.getElementById('navHosts');if(nh)nh.textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('mobileNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('mobileNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('mobileNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('desktopNavStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('desktopNavStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('desktopNavHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('uspZero').textContent=hi?'ठहरने पर शून्य कमीशन':'Zero commission on stays';document.getElementById('uspTalk').textContent=hi?'बुकिंग से पहले मेज़बान से बात करें':'Talk to the host before you book';document.getElementById('uspKeep').textContent=hi?'मेज़बान को पूरी राशि मिलती है':'Host keeps every rupee';
         var ht=document.getElementById('headerTagline');if(ht)ht.textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('footerTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';document.getElementById('heroTagline').textContent=hi?'मेज़बान को बुक करें। सिर्फ़ कमरा नहीं।':'Book the host. Not just the room.';
         document.getElementById('footerStays').textContent=hi?'स्टे खोजें':'Find a stay';document.getElementById('footerStory').textContent=hi?'हमारी कहानी':'Our story';document.getElementById('footerEarns').textContent=hi?'Nesto कैसे कमाता है':'How Nesto earns';document.getElementById('footerHosts').textContent=hi?'मेज़बान बनें':'Become a host';document.getElementById('footerVerified').textContent=hi?'Nesto सत्यापित':'Nesto Verified';document.getElementById('footerRefer').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('footerPartner').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';
         document.getElementById('searchInput').placeholder=hi?'गंतव्य खोजें':'Search destinations';document.getElementById('searchButton').setAttribute('aria-label',hi?'स्टे खोजें':'Find stays');var ft=document.getElementById('filterTitle');if(ft)ft.textContent=hi?'आप कहाँ जागना चाहेंगे?':'Where do you want to wake up?';document.getElementById('capsuleWhereLabel').textContent=hi?'कहाँ':'Where';document.getElementById('capsuleWhoLabel').textContent=hi?'कौन':'Who';document.getElementById('verifiedLabel').textContent=hi?'केवल सत्यापित':'Verified only';var vb=document.getElementById('vibeLabel');if(vb)vb.textContent=hi?'अपना अनुभव चुनें':'Pick a feeling';
