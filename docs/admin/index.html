@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Nesto Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Nunito:ital,wght@1,900&display=swap" rel="stylesheet">
+<script src="../config.js"></script>
+<style>
+:root{--ink:#222222;--muted:#717171;--paper:#ffffff;--surface-2:#f7f7f7;--line:#dddddd;--ocean:#0f7f9e;--ocean-deep:#075f7d;}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Manrope",sans-serif;background:#ffffff;color:var(--ink);font-size:15px;line-height:1.55;}
+a{color:var(--ocean-deep)}
+.wrap{width:min(1080px,calc(100% - 40px));margin-inline:auto;}
+/* lock screen */
+#lockView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.lock-card{width:min(420px,100%);border:1px solid var(--line);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.08);}
+.brand{font-family:"Nunito",sans-serif;font-style:italic;font-weight:900;font-size:40px;letter-spacing:-.03em;margin:0;}
+.brand span{color:var(--ocean);}
+.lock-card h1{font-size:22px;margin:12px 0 4px;}
+.lock-card p{color:var(--muted);margin:0 0 20px;font-size:14px;}
+.lock-card input{width:100%;font-size:18px;font-family:"Manrope",sans-serif;padding:14px 16px;border:1px solid var(--line);border-radius:12px;text-align:center;letter-spacing:.3em;}
+.lock-card input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+.lock-card button{width:100%;margin-top:14px;min-height:50px;border:0;border-radius:12px;background:var(--ink);color:#fff;font-size:15px;font-weight:700;cursor:pointer;}
+.lock-card button:hover{background:#000;}
+.lock-error{color:#b3261e;font-size:13px;font-weight:700;min-height:20px;margin-top:10px;}
+.lock-note{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5;}
+/* app */
+#appView{display:none;}
+.topbar{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);}
+.topbar-in{display:flex;align-items:center;gap:16px;padding:14px 0;}
+.topbar .brand{font-size:26px;}
+.topbar-sub{font-size:13px;color:var(--muted);margin:0;}
+.topbar-actions{margin-left:auto;display:flex;gap:8px;}
+.btn{font-family:"Manrope",sans-serif;min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:700;cursor:pointer;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.btn:hover{border-color:var(--ink);}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-dark:hover{background:#000;}
+.btn-ocean{background:var(--ocean);color:#fff;border-color:var(--ocean);}
+.btn-ocean:hover{background:var(--ocean-deep);}
+.btn-sm{min-height:36px;padding:7px 12px;font-size:13px;}
+h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;}
+.section{padding:36px 0 8px;}
+.section p.sub{color:var(--muted);margin:0 0 18px;max-width:640px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.stat{border:1px solid var(--line);border-radius:16px;padding:18px;}
+.stat b{display:block;font-size:30px;line-height:1.1;}
+.stat span{font-size:13px;color:var(--muted);font-weight:600;}
+.host-card{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;}
+.host-card h3{margin:0 0 2px;font-size:17px;}
+.host-meta{color:var(--muted);font-size:13px;margin:0 0 10px;}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;}
+.pill{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink);}
+.pill.ocean{background:#e6f4f7;color:var(--ocean-deep);}
+.pill.warn{background:#fff6e0;color:#7a5b00;}
+textarea{width:100%;font-family:"Manrope",sans-serif;font-size:14px;line-height:1.55;padding:12px;border:1px solid var(--line);border-radius:12px;min-height:150px;}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+input,select{font-family:"Manrope",sans-serif;font-size:15px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;width:100%;}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.lang-toggle{display:flex;gap:8px;margin-bottom:10px;}
+.lang-toggle button{flex:1;}
+.lang-toggle button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.filters input,.filters select{width:auto;flex:1;min-width:160px;}
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
+.tpl{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;}
+.tpl pre{white-space:pre-wrap;font-family:"Manrope",sans-serif;font-size:14px;line-height:1.6;margin:10px 0 0;}
+.draft-note{background:#fff6e0;border:1px solid #f4d488;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;margin-bottom:12px;}
+.foot{border-top:1px solid var(--line);margin-top:40px;padding:20px 0 32px;color:var(--muted);font-size:13px;line-height:1.6;}
+.status{font-size:13px;color:var(--muted);}
+@media (max-width:720px){
+.stats{grid-template-columns:repeat(2,1fr);}
+.section{padding-top:28px;}
+h2{font-size:21px;}
+table{font-size:13px;}
+.hide-mobile{display:none;}
+}
+</style>
+</head>
+<body>
+<div id="lockView">
+  <div class="lock-card">
+    <p class="brand">nesto<span>.</span></p>
+    <h1>Admin</h1>
+    <p>Private owner console. Enter the access code to continue.</p>
+    <input id="codeInput" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Access code">
+    <button id="unlockBtn" type="button">Unlock</button>
+    <div class="lock-error" id="lockError"></div>
+    <p class="lock-note">This page is code-gated for casual privacy only. It is a static page, so the gate cannot hide anything from someone who reads the page source — no sensitive keys or private research notes are stored here.</p>
+  </div>
+</div>
+<div id="appView">
+  <header class="topbar"><div class="wrap topbar-in">
+    <div><p class="brand">nesto<span>.</span></p><p class="topbar-sub">Owner admin · live listings + outreach</p></div>
+    <div class="topbar-actions"><button class="btn btn-sm" id="lockBtn" type="button">Lock</button></div>
+  </div></header>
+  <main class="wrap">
+    <section class="section" id="dashSection">
+      <h2>Dashboard</h2>
+      <p class="sub" id="dashStatus">Loading live listings…</p>
+      <div class="stats" id="statsRow"></div>
+      <p class="status" style="margin-top:12px">Sending rules: manual 1:1 only · about 20/day max · 3 touches max per host · Day 0 → Day 3 nudge → Day 7 last nudge → park. Wave 3 hosts have no channel on file — find one first, never pitch blind.</p>
+    </section>
+    <section class="section" id="todaySection">
+      <h2>Today's 5</h2>
+      <p class="sub">Highest-ranked reachable hosts you have not marked sent yet. Edit the draft, then send from your phone.</p>
+      <div id="todayList"></div>
+    </section>
+    <section class="section" id="pipeSection">
+      <h2>Outreach pipeline</h2>
+      <p class="sub">All reachable hosts, ranked. Filter by wave, tier, or channel.</p>
+      <div class="filters">
+        <input id="pipeSearch" type="search" placeholder="Search name or town">
+        <select id="pipeWave"><option value="all">All waves</option><option value="1">Wave 1</option><option value="2">Wave 2</option><option value="3">Wave 3</option></select>
+        <select id="pipeTier"><option value="all">All tiers</option><option value="Reach first">Reach first</option><option value="Reach next">Reach next</option><option value="Reach after">Reach after</option><option value="Low priority">Low priority</option></select>
+        <select id="pipeChannel"><option value="all">All channels</option><option value="WhatsApp">WhatsApp</option><option value="Call">Call</option><option value="Instagram">Instagram</option><option value="None">None</option></select>
+      </div>
+      <div id="pipeList"></div>
+    </section>
+    <section class="section" id="acctSection">
+      <h2>Accounts</h2>
+      <p class="sub">Every host. Portal badge comes from live data; “My tracking” is saved on this device only.</p>
+      <div class="filters"><input id="acctSearch" type="search" placeholder="Search name or town"></div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Host</th><th>Town</th><th>Channel</th><th>Wave / Tier</th><th>Portal badge</th><th>My tracking</th></tr></thead>
+        <tbody id="acctBody"></tbody>
+      </table></div>
+    </section>
+    <section class="section" id="tplSection">
+      <h2>Templates</h2>
+      <p class="sub">First-outreach drafts. Edit the per-host draft before sending — nothing here sends anything by itself.</p>
+      <div class="draft-note">DRAFT — these v2 drafts await the owner's approval. The private console still carries the live templates.</div>
+      <div class="tpl"><h3 style="margin:0">Hindi — first outreach (draft)</h3><pre id="tplHi"></pre><button class="btn btn-sm" type="button" data-copy-tpl="hi">Copy Hindi draft</button></div>
+      <div class="tpl"><h3 style="margin:0">English — first outreach (draft)</h3><pre id="tplEn"></pre><button class="btn btn-sm" type="button" data-copy-tpl="en">Copy English draft</button></div>
+    </section>
+    <footer class="foot">
+      <p>Tracking (sent / replied / claimed) saves in this browser only and does not sync to other devices. Flipping the public Nesto Verified badge needs an authenticated write — use the private Owner Console for that. This page loads listings live from the same public feed the guest portal uses and stores no keys, no service credentials, and no private research notes.</p>
+    </footer>
+  </main>
+</div>
+<script>
+var PORTAL_URL = 'https://t1ashish.github.io/nesto/';
+var CODE_HASH = 'ca153fc499ffc25f1118ad5e58ff242584f3b3a285d4d9428615325613633e3e';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function digits(s){return String(s||'').replace(/\D/g,'');}
+function waDigits(s){var d=digits(s);if(d.length===10)d='91'+d;return d;}
+function sha256Hex(str){var data=new TextEncoder().encode(str);return crypto.subtle.digest('SHA-256',data).then(function(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('00'+b.toString(16)).slice(-2);}).join('');});}
+function showApp(){document.getElementById('lockView').style.display='none';document.getElementById('appView').style.display='block';}
+function showLock(){document.getElementById('appView').style.display='none';document.getElementById('lockView').style.display='flex';}
+document.getElementById('unlockBtn').addEventListener('click',function(){
+  var v=document.getElementById('codeInput').value||'';
+  var err=document.getElementById('lockError');
+  if(!window.crypto||!crypto.subtle){err.textContent='This browser cannot verify the code here. Try a modern browser over https.';return;}
+  sha256Hex(v).then(function(h){
+    if(h===CODE_HASH){try{sessionStorage.setItem('nesto-admin-unlocked','1');}catch(e){}err.textContent='';document.getElementById('codeInput').value='';showApp();loadData();}
+    else{err.textContent='Wrong code. Try again.';}
+  });
+});
+document.getElementById('codeInput').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('unlockBtn').click();});
+document.getElementById('lockBtn').addEventListener('click',function(){try{sessionStorage.removeItem('nesto-admin-unlocked');}catch(e){}showLock();});
+try{if(sessionStorage.getItem('nesto-admin-unlocked')==='1'){showApp();}else{showLock();}}catch(e){showLock();}
+
+/* Onboarding probability model (ranking only, not a forecast — same priors as the owner's tracker). */
+var INTERCEPT=-2.4;
+var WEIGHTS={whatsapp:1.4,callOnly:0.9,instagram:0.6,ota1:0.4,ota2plus:0.7,photoOwn:0.3,photoGoogle:0.2,photoOta:0.1,priceConfirmed:0.2,sharedPhone:-0.5};
+function fromSupabaseRow(row,phoneCounts){
+  var contacts=Array.isArray(row.contacts)?row.contacts:[];
+  var details=row.details||{};
+  var wa=null,call=null,ig=null;
+  contacts.forEach(function(c){if(!c)return;if(c.type==='whatsapp'&&c.number&&!wa)wa=c;if(c.type==='call'&&c.number&&!call)call=c;if(c.type==='instagram'&&!ig)ig=c;});
+  var phone=wa?wa.number:(call?call.number:null);
+  var otaLinks=Array.isArray(details.ota_links)?details.ota_links:[];
+  var photoUrl=details.photo_url||null;
+  var photoSource=(details.photo_source||'').toLowerCase();
+  return {id:row.id,name:row.name,town:row.town,region:row.region_group,verified:!!row.nesto_verified,
+    whatsapp:!!wa,callOnly:!wa&&!!call,instagram:!!ig,phone:phone,igHandle:ig?(ig.handle||null):null,
+    otaCount:otaLinks.length,hasPhoto:!!photoUrl,
+    photoSource:photoUrl?(photoSource.indexOf('ota')>=0?'ota':(photoSource.indexOf('google')>=0?'google':'own')):null,
+    priceConfirmed:!!row.price_display&&row.price_display!=='Price not confirmed',
+    sharedPhone:!!phone&&(phoneCounts[digits(phone)]||0)>1};
+}
+function scoreListing(f){
+  if(f.verified)return {probability:null,tier:'Already onboarded',reasons:['Nesto Verified'],channel:'-'};
+  var z=INTERCEPT;var reasons=[];
+  if(f.whatsapp){z+=WEIGHTS.whatsapp;reasons.push('WhatsApp number on file');}
+  else if(f.callOnly){z+=WEIGHTS.callOnly;reasons.push('Call-only number on file');}
+  if(f.instagram){z+=WEIGHTS.instagram;reasons.push('Instagram presence');}
+  if(f.otaCount===1){z+=WEIGHTS.ota1;reasons.push('Listed on 1 OTA');}
+  else if(f.otaCount>=2){z+=WEIGHTS.ota2plus;reasons.push('Listed on '+f.otaCount+' OTAs');}
+  if(f.hasPhoto){
+    if(f.photoSource==='own'){z+=WEIGHTS.photoOwn;reasons.push('Photo on file');}
+    else if(f.photoSource==='google'){z+=WEIGHTS.photoGoogle;reasons.push('Photo on file');}
+    else{z+=WEIGHTS.photoOta;reasons.push('OTA-sourced photo');}
+  }
+  if(f.priceConfirmed){z+=WEIGHTS.priceConfirmed;reasons.push('Price confirmed');}
+  if(f.sharedPhone){z+=WEIGHTS.sharedPhone;reasons.push('Shared number — may be an agent');}
+  if(!f.whatsapp&&!f.callOnly&&!f.instagram)reasons.push('No phone, Instagram, or OTA link on file');
+  var p=1/(1+Math.exp(-z));
+  var tier=p>=0.55?'Reach first':(p>=0.35?'Reach next':(p>=0.2?'Reach after':'Low priority'));
+  var channel=f.whatsapp?'WhatsApp':(f.callOnly?'Call':(f.instagram?'Instagram':'None'));
+  return {probability:Math.round(p*1000)/1000,tier:tier,reasons:reasons,channel:channel};
+}
+
+/* First-outreach drafts (v2, awaiting owner approval — editable before every send). */
+var TPL_HI = `नमस्ते {name} जी 🙏
+
+उत्तराखंड की असली पहचान यहाँ की खूबसूरती के साथ आप जैसे मेज़बानों का अपनापन भी है। Nesto Stays पर हमारी कोशिश है कि यह अपनापन ज़्यादा यात्रियों तक पहुँचे। यहाँ मेहमान सिर्फ़ कमरा नहीं, अपने मेज़बान और उनके आतिथ्य को भी चुनें। 🏡🌿
+
+हमने आपके होमस्टे की लिस्टिंग तैयार की है। एक बार देखकर बताइए, जानकारी सही है या कुछ बदलना चाहेंगे:
+{portal_link}
+
+Nesto Stays से जुड़ने पर आपके होमस्टे को क्या फ़ायदा होगा?
+
+✓ ज़्यादा लोगों तक पहुँच: आपके होमस्टे को उन यात्रियों तक पहुँचाने में मदद, जो उत्तराखंड में स्थानीय अनुभव और घर जैसा ठहराव ढूँढ़ रहे हैं।
+✓ बेहतर पहचान: आपके कमरों, सुविधाओं और आपकी मेज़बानी की खासियतों को एक जगह दिखाने का मौका।
+✓ बुकिंग के ज़्यादा अवसर: बेहतर पहुँच और भरोसे के साथ पूछताछ और बुकिंग बढ़ने की संभावना।
+✓ Nesto Verified बैज: आपकी पुष्टि मिलते ही लिस्टिंग पर लगेगा, ताकि मेहमानों को भरोसा रहे कि यह असली मेज़बान की लिस्टिंग है।
+✓ पुष्टि किए गए होमस्टे को प्राथमिकता: हमारी डायरेक्टरी में बेहतर विज़िबिलिटी, ताकि मेहमान आपको आसानी से खोज सकें।
+✓ पहले 100 मेज़बानों के लिए मुफ़्त लिस्टिंग, कोई कमीशन नहीं।
+
+अपनी लिस्टिंग वेरिफ़ाई करना बहुत आसान है:
+
+इसी WhatsApp नंबर पर सिर्फ़ 'हाँ' लिखकर भेज दीजिए — आपके नंबर से आया जवाब ही आपकी पुष्टि है। हम आपकी लिस्टिंग पर Nesto Verified बैज लगा देंगे। ✅
+
+इसमें 1 मिनट से भी कम लगेगा। चूँकि यह मैसेज सीधे आपके रजिस्टर्ड नंबर पर आया है, आपके जवाब से पुष्टि हो जाएगी कि लिस्टिंग आपकी है — कोई दूसरा इसे अपने नाम से क्लेम नहीं कर सकेगा।
+
+कोई सवाल हो या मदद चाहिए, तो इसी नंबर पर मैसेज कर दीजिए। आइए, मिलकर उत्तराखंड की मेहमाननवाज़ी को और लोगों तक पहुँचाएँ। 😊
+
+सादर,
+टीम Nesto Stays`;
+var TPL_EN = `Hi {host_name} 🙏
+
+This is Nesto Stays — a new platform for Uttarakhand homestays where guests choose the host, not just the room.
+
+We've created your listing — have a look:
+{portal_link}
+
+To confirm it's yours, just reply YES to this message — a reply from your registered number is all the verification we need, and we'll add the Nesto Verified badge to your listing right away. ✅
+
+That reply proves the listing is genuinely yours — so nobody else can claim it in your name.
+
+Once verified you get:
+✓ Nesto Verified badge — guest trust, more bookings
+✓ Higher placement in the directory
+✓ FREE listing for the first 100 hosts, zero commission
+
+Takes a minute. Reply here if you have any questions.
+— Team Nesto Stays`;
+function messageFor(host,lang){
+  var t=lang==='hi'?TPL_HI:TPL_EN;
+  return t.split('{name}').join(host.name).split('{host_name}').join(host.name).split('{portal_link}').join(PORTAL_URL);
+}
+function waLink(host,msg){
+  if(!host.phone)return null;
+  return 'https://wa.me/'+waDigits(host.phone)+'?text='+encodeURIComponent(msg);
+}
+
+/* Tracking lives in this browser only (localStorage). */
+function loadTrack(){try{return JSON.parse(localStorage.getItem('nesto-admin-track')||'{}');}catch(e){return {};}}
+function saveTrack(t){try{localStorage.setItem('nesto-admin-track',JSON.stringify(t));}catch(e){}}
+var track=loadTrack();
+function trackStatus(id){var t=track[id];if(!t)return 'Not contacted';if(t.claimed)return 'Claimed';if(t.replied)return 'Replied';if(t.sent)return 'Contacted';return 'Not contacted';}
+function todayISO(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+
+var ALL=[],REACHABLE=[],BYID={};
+function assignWaves(){
+  var sorted=REACHABLE.slice().sort(function(a,b){return b.probability-a.probability||a.name.localeCompare(b.name);});
+  sorted.forEach(function(h,i){h.wave=i<10?1:2;});
+  ALL.forEach(function(h){if(h.channel==='None'&&!h.verified)h.wave=3;});
+}
+function statCard(v,l){return '<div class="stat"><b>'+v+'</b><span>'+l+'</span></div>';}
+function pill(t,cls){return '<span class="pill '+(cls||'')+'">'+esc(t)+'</span>';}
+function composerHTML(host,visible){
+  var wa=waLink(host,messageFor(host,'hi'));
+  var open=visible?' open':'';
+  var inner='<div class="lang-toggle">'
+    +'<button type="button" class="active" data-lang-btn="hi" data-host="'+host.id+'">Hindi</button>'
+    +'<button type="button" data-lang-btn="en" data-host="'+host.id+'">English</button></div>'
+    +'<textarea data-msg="'+host.id+'" rows="10">'+esc(messageFor(host,'hi'))+'</textarea>'
+    +'<p class="status">Draft — fix the greeting with the host\u2019s name before sending.</p><div class="row-actions">'
+    +'<button class="btn btn-sm" type="button" data-copy-msg="'+host.id+'">Copy message</button>';
+  if(host.whatsapp&&wa)inner+='<a class="btn btn-ocean btn-sm" data-wa-link="'+host.id+'" href="'+esc(wa)+'" target="_blank" rel="noopener">Send on WhatsApp</a>';
+  else if(host.callOnly&&host.phone)inner+='<a class="btn btn-ocean btn-sm" href="tel:'+esc(digits(host.phone))+'">Call host</a>';
+  else if(host.instagram&&host.igHandle)inner+='<a class="btn btn-ocean btn-sm" href="https://instagram.com/'+esc(host.igHandle.charAt(0)==='@'?host.igHandle.slice(1):host.igHandle)+'" target="_blank" rel="noopener">Open Instagram</a>';
+  else inner+='<span class="status">No channel on file — find one first, never pitch blind.</span>';
+  inner+='<button class="btn btn-sm" type="button" data-mark-sent="'+host.id+'">Mark sent</button>'
+    +'<button class="btn btn-sm" type="button" data-mark-replied="'+host.id+'">Mark replied</button>'
+    +'<button class="btn btn-sm" type="button" data-mark-claimed="'+host.id+'">Mark claimed</button></div>';
+  if(visible)return inner;
+  return '<details'+open+' style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">Message draft</summary><div style="margin-top:10px">'+inner+'</div></details>';
+}
+function hostCardHTML(host,composerVisible){
+  return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+' · tracking: '+esc(trackStatus(host.id))+'</p>'
+    +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+'</div>'
+    +'<p class="status">'+esc(host.reasons.join(' · '))+'</p>'
+    +composerHTML(host,composerVisible)+'</div>';
+}
+function refreshWALinks(){
+  document.querySelectorAll('[data-wa-link]').forEach(function(a){
+    var id=a.getAttribute('data-wa-link');var h=BYID[id];if(!h)return;
+    var ta=document.querySelector('[data-msg="'+id+'"]');
+    if(ta)a.href=waLink(h,ta.value);
+  });
+}
+function bindComposer(scope){
+  scope.querySelectorAll('[data-lang-btn]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-host');var lang=b.getAttribute('data-lang-btn');var h=BYID[id];if(!h)return;
+      var card=b.closest('.host-card')||document;
+      card.querySelectorAll('[data-lang-btn]').forEach(function(x){x.classList.toggle('active',x===b);});
+      var ta=card.querySelector('[data-msg="'+id+'"]');if(ta)ta.value=messageFor(h,lang);
+      refreshWALinks();
+    });
+  });
+  scope.querySelectorAll('textarea[data-msg]').forEach(function(ta){ta.addEventListener('input',refreshWALinks);});
+  scope.querySelectorAll('[data-copy-msg]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-copy-msg');var ta=document.querySelector('[data-msg="'+id+'"]');if(!ta)return;
+      function done(){var old=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=old;},1500);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(done).catch(function(){ta.select();document.execCommand('copy');done();});}
+      else{ta.select();document.execCommand('copy');done();}
+    });
+  });
+  scope.querySelectorAll('[data-mark-sent]').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-mark-sent');track[id]=track[id]||{};track[id].sent=todayISO();saveTrack(track);renderAll();});});
+  scope.querySelectorAll('[data-mark-replied]').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-mark-replied');track[id]=track[id]||{};track[id].replied=true;if(!track[id].sent)track[id].sent=todayISO();saveTrack(track);renderAll();});});
+  scope.querySelectorAll('[data-mark-claimed]').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-mark-claimed');track[id]=track[id]||{};track[id].claimed=true;if(!track[id].replied)track[id].replied=true;if(!track[id].sent)track[id].sent=todayISO();saveTrack(track);renderAll();});});
+}
+function renderDashboard(){
+  var total=ALL.length;
+  var verified=ALL.filter(function(h){return h.verified;}).length;
+  var w1=REACHABLE.filter(function(h){return h.wave===1;}).length;
+  var w2=REACHABLE.filter(function(h){return h.wave===2;}).length;
+  var w3=ALL.filter(function(h){return h.wave===3;}).length;
+  var contacted=Object.keys(track).filter(function(id){return track[id].sent;}).length;
+  var replied=Object.keys(track).filter(function(id){return track[id].replied;}).length;
+  document.getElementById('statsRow').innerHTML=statCard(total,'Listings live')+statCard(REACHABLE.length,'Reachable hosts')+statCard(w1,'Wave 1')+statCard(w2,'Wave 2')+statCard(w3,'Wave 3 · no channel')+statCard(verified,'Nesto Verified')+statCard(contacted,'Contacted (this device)')+statCard(replied,'Replied (this device)');
+  document.getElementById('dashStatus').textContent='Live · '+total+' listings · '+REACHABLE.length+' reachable · '+verified+' verified · founding-100 progress: '+verified+' of 100 verified.';
+}
+function renderToday(){
+  var queue=REACHABLE.slice().sort(function(a,b){return b.probability-a.probability||a.name.localeCompare(b.name);}).filter(function(h){return !(track[h.id]&&track[h.id].sent);}).slice(0,5);
+  var el=document.getElementById('todayList');
+  if(!queue.length){el.innerHTML='<p class="status">All ranked reachable hosts are marked sent on this device. Clear a mark from Accounts tracking, or move to the next wave in the pipeline below.</p>';return;}
+  el.innerHTML=queue.map(function(h){return hostCardHTML(h,true);}).join('');
+  bindComposer(el);
+}
+function renderPipeline(){
+  var q=(document.getElementById('pipeSearch').value||'').toLowerCase();
+  var w=document.getElementById('pipeWave').value;
+  var t=document.getElementById('pipeTier').value;
+  var c=document.getElementById('pipeChannel').value;
+  var list=REACHABLE.slice().sort(function(a,b){return b.probability-a.probability||a.name.localeCompare(b.name);}).filter(function(h){
+    if(q&&((h.name+' '+h.town).toLowerCase().indexOf(q)<0))return false;
+    if(w!=='all'&&String(h.wave)!==w)return false;
+    if(t!=='all'&&h.tier!==t)return false;
+    if(c!=='all'&&h.channel!==c)return false;
+    return true;
+  });
+  var el=document.getElementById('pipeList');
+  var noChannel=ALL.filter(function(h){return h.wave===3;});
+  var html=list.map(function(h){return hostCardHTML(h,false);}).join('');
+  if(w==='all'||w==='3'){
+    html+='<h3 style="margin-top:24px">Wave 3 — no channel on file ('+noChannel.length+')</h3><p class="status">Find a channel first (search, communities, local pioneers). Never pitch blind.</p>'
+      +noChannel.map(function(h){return '<div class="host-card"><h3>'+esc(h.name)+'</h3><p class="host-meta">'+esc(h.town)+' · '+esc(h.region)+'</p><div class="pills">'+pill('Wave 3','ocean')+pill(h.tier)+'</div></div>';}).join('');
+  }
+  el.innerHTML=html||'<p class="status">No hosts match these filters.</p>';
+  bindComposer(el);
+}
+function renderAccounts(){
+  var q=(document.getElementById('acctSearch').value||'').toLowerCase();
+  var rows=ALL.slice().sort(function(a,b){return a.name.localeCompare(b.name);}).filter(function(h){
+    return !q||((h.name+' '+h.town).toLowerCase().indexOf(q)>=0);
+  });
+  document.getElementById('acctBody').innerHTML=rows.map(function(h){
+    return '<tr><td><b>'+esc(h.name)+'</b></td><td>'+esc(h.town)+'</td><td>'+esc(h.channel)+'</td><td>Wave '+(h.verified?'-':h.wave)+' · '+esc(h.tier)+'</td><td>'+(h.verified?'Nesto Verified':'Pending')+'</td><td>'+esc(trackStatus(h.id))+'</td></tr>';
+  }).join('');
+}
+function renderTemplates(){
+  document.getElementById('tplHi').textContent=TPL_HI;
+  document.getElementById('tplEn').textContent=TPL_EN;
+  document.querySelectorAll('[data-copy-tpl]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var txt=b.getAttribute('data-copy-tpl')==='hi'?TPL_HI:TPL_EN;
+      function done(){var old=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=old;},1500);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(function(){done();});}else{done();}
+    });
+  });
+}
+function renderAll(){renderDashboard();renderToday();renderPipeline();renderAccounts();}
+var dataLoaded=false;
+function loadData(){
+  if(dataLoaded)return;dataLoaded=true;
+  var cfg=window.NESTO_CONFIG||{};
+  var status=document.getElementById('dashStatus');
+  if(!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY){status.textContent='Could not load the portal configuration. Make sure config.js sits next to the portal (../config.js).';return;}
+  var url=cfg.SUPABASE_URL+'/rest/v1/listings?select=id,name,town,region_group,price_display,contacts,details,nesto_verified,public_visibility&limit=500';
+  fetch(url,{headers:{apikey:cfg.SUPABASE_ANON_KEY,Authorization:'Bearer '+cfg.SUPABASE_ANON_KEY}}).then(function(res){
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return res.json();
+  }).then(function(rows){
+    var pub=rows.filter(function(r){return r.public_visibility!==false;});
+    var phoneCounts={};
+    pub.forEach(function(r){(Array.isArray(r.contacts)?r.contacts:[]).forEach(function(c){if(c&&c.number){var d=digits(c.number);phoneCounts[d]=(phoneCounts[d]||0)+1;}});});
+    ALL=pub.map(function(r){var f=fromSupabaseRow(r,phoneCounts);var s=scoreListing(f);var h={};Object.keys(f).forEach(function(k){h[k]=f[k];});Object.keys(s).forEach(function(k){h[k]=s[k];});return h;});
+    ALL.forEach(function(h){BYID[h.id]=h;});
+    REACHABLE=ALL.filter(function(h){return !h.verified&&h.channel!=='None';});
+    assignWaves();
+    renderAll();renderTemplates();
+  }).catch(function(e){
+    status.textContent='Could not reach the listings database ('+e.message+'). Check connection and reload.';
+  });
+}
+['pipeSearch','pipeWave','pipeTier','pipeChannel'].forEach(function(id){document.getElementById(id).addEventListener('input',renderPipeline);document.getElementById(id).addEventListener('change',renderPipeline);});
+document.getElementById('acctSearch').addEventListener('input',renderAccounts);
+try{if(sessionStorage.getItem('nesto-admin-unlocked')==='1'){loadData();}}catch(e){}
+</script>
+</body>
+</html>
