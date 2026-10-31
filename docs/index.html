@@ -906,6 +906,43 @@ footer{background:var(--surface-2)}
 .match-banner b{color:var(--ocean-deep)}
 .match-chip{background:var(--ocean-soft);color:var(--ocean-deep);border-color:#a8dab5}
 .match-free:focus{border-color:var(--ocean);box-shadow:0 0 0 1px var(--ocean)}
+
+/* ===== NESTO CONCIERGE CHAT (2026-10-31) — grounded assistant, answers from live listings only ===== */
+.concierge-fab{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border-radius:50%;border:0;background:var(--ocean);color:#fff;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center}
+.concierge-fab svg{width:27px;height:27px}
+.concierge-fab-ai{position:absolute;top:-2px;right:-2px;background:#FBBC05;color:#202124;font-size:10px;font-weight:900;border-radius:999px;padding:2px 6px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.concierge-panel{position:fixed;right:18px;bottom:86px;z-index:60;width:min(400px,calc(100vw - 36px));max-height:min(560px,calc(100vh - 110px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.concierge-panel[hidden]{display:none}
+.concierge-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.concierge-avatar{width:36px;height:36px;flex:0 0 36px;border-radius:50%;background:var(--ocean);color:#fff;display:grid;place-items:center;font-family:"Nunito",sans-serif;font-style:italic;font-weight:900;font-size:20px}
+.concierge-head-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.concierge-head-text strong{font-size:15px}
+.concierge-head-text span{font-size:12px;color:var(--muted)}
+.concierge-close{border:0;background:transparent;font-size:24px;line-height:1;cursor:pointer;color:var(--muted);padding:4px 8px}
+.concierge-msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:180px}
+.concierge-msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.55}
+.concierge-msg.bot{background:var(--surface-2);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+.concierge-msg.user{background:var(--ocean-soft);color:var(--ink);align-self:flex-end;border-bottom-right-radius:4px}
+.concierge-thinking{animation:conciergePulse 1s ease-in-out infinite}
+@keyframes conciergePulse{0%,100%{opacity:.35}50%{opacity:1}}
+.concierge-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 12px}
+.concierge-chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;color:var(--ocean-deep)}
+.concierge-chip:hover{border-color:var(--ocean);background:var(--ocean-soft)}
+.concierge-stay{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.concierge-stay b{display:block;font-size:14px}
+.concierge-stay span{font-size:12.5px;color:var(--muted)}
+.concierge-stay-actions{display:flex;gap:8px;margin-top:8px}
+.concierge-stay-actions button{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 6px;font-size:12.5px;font-weight:800;cursor:pointer}
+.concierge-stay-actions button.primary{background:var(--ocean);border-color:var(--ocean);color:#fff}
+.concierge-actions{display:flex;flex-wrap:wrap;gap:8px}
+.concierge-actions button{border:1px solid var(--ocean);background:var(--surface);color:var(--ocean-deep);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:800;cursor:pointer}
+.concierge-actions button.primary{background:var(--ocean);color:#fff}
+.concierge-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.concierge-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:11px 14px;font-size:14px;outline:none;font-family:inherit}
+.concierge-form input:focus{border-color:var(--ocean);box-shadow:0 0 0 1px var(--ocean)}
+.concierge-send{width:44px;height:44px;flex:0 0 44px;border-radius:50%;border:0;background:var(--ocean);color:#fff;font-size:18px;cursor:pointer}
+@media (max-width:520px){.concierge-panel{right:12px;left:12px;width:auto;bottom:84px}}
+@media (prefers-reduced-motion:reduce){.concierge-thinking{animation:none}}
 </style>
 </head>
 <body>
@@ -1274,6 +1311,7 @@ footer{background:var(--surface-2)}
         makeChips(regions,regionBox,'region');render();
         if(state.current){document.getElementById('availabilityGrid').innerHTML=calendarHTML(state.current.id);renderExperiences();document.getElementById('detailStatus').innerHTML=statusHTML(state.current);var st=document.querySelector('#detailStatus .status');if(st){st.style.position='static';st.style.display='inline-flex'}}
         if(typeof applyMatchLang==='function')applyMatchLang();
+        if(typeof applyConciergeLang==='function')applyConciergeLang();
       }
 
       function openClaim(item){document.getElementById('claimName').textContent=item?'Claim '+item.name:'For Uttarakhand homestay owners';openOverlay('claimOverlay')}
@@ -1376,7 +1414,7 @@ footer{background:var(--surface-2)}
       function nestoBoot(){
         nestoFetchListings().then(function(){
           var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
-          makeChips(regions,regionBox,'region');render();applyLanguage();if(typeof matchInit==='function')matchInit();
+          makeChips(regions,regionBox,'region');render();applyLanguage();if(typeof matchInit==='function')matchInit();if(typeof conciergeInit==='function')conciergeInit();
         }).catch(function(){
           document.getElementById('resultCount').textContent='Couldn\u2019t load stays';
           document.getElementById('listingGrid').innerHTML='<div style="padding:48px 24px;text-align:center;color:#5f6368;grid-column:1/-1"><strong>Couldn\u2019t reach the listings database.</strong><br>Check the Supabase anon key in <code>config.js</code>.</div>';
@@ -1731,6 +1769,244 @@ function matchRanked(q){
         var send = document.getElementById('matchSendReq');
         if (send) send.addEventListener('click', matchSendReq);
       }
+      
+      /* ===== NESTO CONCIERGE (2026-10-31) — grounded in live listings, never invents stays ===== */
+      var CONCIERGE_I18N = {
+        en: {
+          title: 'Nesto Assistant',
+          sub: 'Answers from live Nesto listings',
+          placeholder: 'Ask about a stay or how Nesto works…',
+          greeting: 'Namaste! I\u2019m Nesto\u2019s assistant. Tell me what kind of stay you want — a place, a budget, a feeling — or ask how Nesto works.',
+          chips: ['Find a stay under \u20B93,000', 'Pet-friendly stays', 'How do I book?', 'What does Nesto charge?'],
+          about: 'Nesto Stays is a directory of homestays across Uttarakhand. The idea is simple: book the host, not just the room — you talk to the host directly before you book.',
+          commission: 'Nesto adds no commission on stays. You pay the host directly (UPI or cash), and the host keeps every rupee. Booking through Nesto is free for guests.',
+          verified: 'Stays move from Listed to Claimed to Nesto Verified. Verified means the host has confirmed the listing with us. {v} of our {n} stays are Verified so far — the rest are shown honestly while their hosts confirm them.',
+          booking: 'Pick a stay, tap Chat with host or Request to book, agree dates and price with the host, and pay the host directly. Nesto doesn\u2019t take payments — that\u2019s how the host keeps every rupee.',
+          contact: 'Every stay card has a Chat with host button. If a stay has no phone listed, tap Ask Nesto to arrange and we\u2019ll connect you.',
+          cancel: 'Since you pay the host directly, cancellations and refunds follow the host\u2019s own policy. Please ask the host about it before you pay — Nesto doesn\u2019t hold your payment.',
+          count: 'We list {n} stays across {r} regions of Uttarakhand.',
+          regions: 'Our stays cover: {list}.',
+          priceRange: 'Where hosts have shared prices, stays run from \u20B9{min} to \u20B9{max} per night. Some stays show Price on request, and the host confirms it.',
+          food: 'Meals aren\u2019t a listed filter yet — many homestays do offer home-cooked food. Ask the host when you chat, or send your wish to Nesto and we\u2019ll pass it on.',
+          season: 'In general, March\u2013June and September\u2013November are the most pleasant months in the hills; July\u2013August brings monsoon rain, and December\u2013February is cold, especially higher up. Your host can confirm current conditions.',
+          fallback: 'I couldn\u2019t find that in our listings, and I don\u2019t want to guess. Tap Ask Nesto and your question goes to our team on WhatsApp.',
+          loading: 'Listings are still loading — please refresh the page and try again.',
+          found: 'I found {n} stays that fit. Here are the top {k}:',
+          foundNone: 'Nothing fits all of that yet. Try loosening the budget or the place — or send your wish to Nesto and we\u2019ll help arrange it.',
+          seeAll: 'See all matches in AI Match',
+          askNesto: 'Ask Nesto on WhatsApp',
+          view: 'View stay',
+          chatBtn: 'Chat with host',
+          arrangeBtn: 'Ask Nesto to arrange',
+          askIntro: 'Hi Nesto! I asked your assistant:',
+          askTop: 'Top matches it suggested',
+          askHelp: 'Can you help me with this?',
+          photoMark: 'Photo available'
+        },
+        hi: {
+          title: 'Nesto सहायक',
+          sub: 'लाइव Nesto लिस्टिंग से जवाब',
+          placeholder: 'स्टे या Nesto के बारे में पूछिए…',
+          greeting: 'नमस्ते! मैं Nesto का सहायक हूँ। बताइए किस तरह का स्टे चाहिए — जगह, बजट, अनुभव — या पूछिए Nesto कैसे काम करता है।',
+          chips: ['\u20B93,000 के अंदर स्टे', 'पालतू-मित्र स्टे', 'बुकिंग कैसे करें?', 'Nesto क्या शुल्क लेता है?'],
+          about: 'Nesto Stays उत्तराखंड के होमस्टे की एक डायरेक्टरी है। हमारा विचार सरल है: कमरा नहीं, मेज़बान को बुक करें — बुकिंग से पहले आप मेज़बान से सीधे बात करते हैं।',
+          commission: 'Nesto स्टे पर कोई कमीशन नहीं लेता। आप मेज़बान को सीधे भुगतान करते हैं (UPI या नकद), और पूरी राशि मेज़बान को मिलती है। मेहमानों के लिए Nesto से बुकिंग मुफ़्त है।',
+          verified: 'स्टे Listed से Claimed और फिर Nesto Verified तक जाते हैं। Verified का मतलब है मेज़बान ने अपनी लिस्टिंग की पुष्टि कर दी है। अब तक {n} में से {v} स्टे Verified हैं — बाकी की पुष्टि होते ही दिखाए जाते हैं।',
+          booking: 'कोई स्टे चुनें, Chat with host या Request to book पर टैप करें, मेज़बान से तारीख़ और कीमत तय करें, और सीधे मेज़बान को भुगतान करें। Nesto भुगतान नहीं लेता — इसीलिए मेज़बान को पूरी राशि मिलती है।',
+          contact: 'हर स्टे कार्ड पर Chat with host बटन है। अगर किसी स्टे का फ़ोन नंबर नहीं है, तो Ask Nesto to arrange पर टैप करें, हम संपर्क करवा देंगे।',
+          cancel: 'चूँकि आप मेज़बान को सीधे भुगतान करते हैं, रद्द करना और रिफ़ंड मेज़बान की अपनी नीति से होता है। भुगतान से पहले मेज़बान से इसके बारे में ज़रूर पूछें — Nesto आपका भुगतान नहीं रखता।',
+          count: 'हमारे पास उत्तराखंड के {r} क्षेत्रों में {n} स्टे हैं।',
+          regions: 'हमारे स्टे इन क्षेत्रों में हैं: {list}।',
+          priceRange: 'जहाँ मेज़बानों ने कीमत बताई है, स्टे \u20B9{min} से \u20B9{max} प्रति रात तक हैं। कुछ स्टे पर Price on request लिखा है, कीमत मेज़बान बताते हैं।',
+          food: 'खाना अभी फ़िल्टर नहीं है — कई होमस्टे घर का बना खाना देते हैं। चैट में मेज़बान से पूछें, या अपनी चाह Nesto को भेजें, हम पहुँचा देंगे।',
+          season: 'आमतौर पर पहाड़ों में मार्च–जून और सितंबर–नवंबर सबसे सुहावने महीने हैं; जुलाई–अगस्त में मानसून की बारिश होती है, और दिसंबर–फ़रवरी ठंडा रहता है, खासकर ऊँचाई पर। मौजूदा हालात मेज़बान से पूछ सकते हैं।',
+          fallback: 'यह हमारी लिस्टिंग में नहीं मिला, और मैं अंदाज़ा नहीं लगाना चाहता। Ask Nesto पर टैप करें, आपका सवाल WhatsApp पर हमारी टीम तक जाएगा।',
+          loading: 'लिस्टिंग अभी लोड नहीं हुई है, कृपया पेज रीफ़्रेश करें।',
+          found: 'मुझे {n} स्टे मिले जो मेल खाते हैं। टॉप {k} ये रहे:',
+          foundNone: 'अभी इससे पूरी तरह मेल खाता कोई स्टे नहीं है। बजट या जगह थोड़ी ढीली करके देखें — या अपनी चाह Nesto को भेजें, हम व्यवस्था में मदद करेंगे।',
+          seeAll: 'AI Match में सभी मैच देखें',
+          askNesto: 'WhatsApp पर Nesto से पूछें',
+          view: 'स्टे देखें',
+          chatBtn: 'मेज़बान से बात करें',
+          arrangeBtn: 'Nesto से व्यवस्था करवाएँ',
+          askIntro: 'नमस्ते Nesto! मैंने आपके सहायक से पूछा:',
+          askTop: 'उसने ये टॉप मैच सुझाए',
+          askHelp: 'क्या आप इसमें मदद कर सकते हैं?',
+          photoMark: 'फ़ोटो उपलब्ध'
+        }
+      };
+      var conciergeGreeted = false, conciergeLastUser = '', conciergeLastStays = [];
+      function conciergeDict(lang){ return CONCIERGE_I18N[lang] || CONCIERGE_I18N.en; }
+      function conciergeFmt(s, o){ return String(s).replace(/\{(\w+)\}/g, function(m, k){ return o[k] !== undefined ? o[k] : m; }); }
+      function conciergeStats(){
+        var regions = {}, prices = [], verified = 0;
+        listings.forEach(function(item){
+          regions[item.region] = (regions[item.region] || 0) + 1;
+          var p = priceValue(item); if (p !== null) prices.push(p);
+          if (item.verified) verified++;
+        });
+        prices.sort(function(a, b){ return a - b; });
+        return { n: listings.length, regionNames: Object.keys(regions), verified: verified, min: prices[0], max: prices[prices.length - 1] };
+      }
+      function conciergeAnswer(text){
+        var lang = /[\u0900-\u097F]/.test(text) ? 'hi' : state.lang;
+        var d = conciergeDict(lang);
+        var low = text.toLowerCase();
+        var q = parseFreeText(text);
+        var st = conciergeStats();
+        function faq(txt){ return { text: txt, actions: ['ask'], lang: lang }; }
+        var hasFilter = q.region || q.town || q.budget || q.tags.length;
+        if (!hasFilter){
+          if (/(commission|charge|fee|free|कमीशन|शुल्क|फीस|मुफ़्त)/.test(low)) return faq(d.commission);
+          if (/(verif|trust|safe|genuine|fake|सत्यापित|भरोसा|असली)/.test(low)) return faq(conciergeFmt(d.verified, {v: st.verified, n: st.n}));
+          if (/(cancel|refund|रद्द|रिफंड|वापस)/.test(low)) return faq(d.cancel);
+          if (/(how.*book|booking process|बुकिंग कैसे|कैसे बुक)/.test(low)) return faq(d.booking);
+          if (/(contact|phone|number|call|talk to host|संपर्क|नंबर|फ़ोन)/.test(low)) return faq(d.contact);
+          if (/(what is nesto|about nesto|nesto क्या)/.test(low)) return faq(d.about);
+          if (/(how many|number of stays|कितने)/.test(low)) return faq(conciergeFmt(d.count, {n: st.n, r: st.regionNames.length}));
+          if (/(which places|regions|where|areas|कहाँ|किन जगह|क्षेत्रों)/.test(low)) return faq(conciergeFmt(d.regions, {list: st.regionNames.join(', ')}));
+          if (/(price range|rates|cost per|price|किराया|दाम|कीमत)/.test(low)) return faq(st.min ? conciergeFmt(d.priceRange, {min: st.min.toLocaleString('en-IN'), max: st.max.toLocaleString('en-IN')}) : d.fallback);
+          if (/(food|meal|breakfast|dinner|खाना|भोजन|नाश्ता)/.test(low)) return faq(d.food);
+          if (/(season|weather|best time|when to visit|मौसम|कब जाएँ|सबसे अच्छा समय)/.test(low)) return faq(d.season);
+        }
+        var stayWords = /(stay|stays|homestay|room|book|want|need|looking|find|show|cheap|under|near|स्टे|कमरा|रूम|बुक|चाहिए|ढूँढ़|दिखा|सस्ता)/.test(low);
+        if (hasFilter || stayWords){
+          var ranked = matchRanked(q);
+          var hard = ranked.filter(function(r){ return matchHardOk(r.item, q); });
+          var fallback = false, shown;
+          if (hard.length){ shown = hard.slice(0, 3); }
+          else { fallback = true; shown = ranked.slice(0, 3); }
+          if (/cheapest|lowest|sabse sasta|सबसे सस्ता/.test(low)){
+            shown = shown.slice().sort(function(a, b){ var pa = priceValue(a.item), pb = priceValue(b.item); if (pa === null && pb === null) return 0; if (pa === null) return 1; if (pb === null) return -1; return pa - pb; });
+          }
+          if (!shown.length) return { text: d.foundNone, actions: ['ask'], lang: lang };
+          var head = fallback ? d.foundNone : conciergeFmt(d.found, {n: hard.length, k: shown.length});
+          return { text: head, stays: shown.map(function(r){ return r.item; }), actions: ['seeAll', 'ask'], lang: lang };
+        }
+        return { text: d.fallback, actions: ['ask'], lang: lang };
+      }
+      function conciergeAddMsg(text, who){
+        var box = document.getElementById('conciergeMsgs');
+        var div = document.createElement('div');
+        div.className = 'concierge-msg ' + who;
+        div.textContent = text;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+        return div;
+      }
+      function conciergeAddHTML(html){
+        var box = document.getElementById('conciergeMsgs');
+        box.insertAdjacentHTML('beforeend', html);
+        box.scrollTop = box.scrollHeight;
+      }
+      function conciergeStayHTML(item, d){
+        var marks = [];
+        if (item.verified) marks.push('\u2713 Nesto Verified');
+        if (item.hasPhoto) marks.push(d && d.photoMark ? d.photoMark : 'Photo available');
+        var line = safe(item.place) + ', ' + safe(item.price) + (marks.length ? ', ' + marks.join(', ') : '');
+        var chatLabel = (d && d.chatBtn) || 'Chat with host';
+        var arrangeLabel = (d && d.arrangeBtn) || 'Ask Nesto to arrange';
+        var viewLabel = (d && d.view) || 'View stay';
+        return '<div class="concierge-stay"><b>' + safe(item.name) + '</b><span>' + line + '</span><div class="concierge-stay-actions"><button type="button" class="primary" data-cview="' + item.id + '">' + safe(viewLabel) + '</button><button type="button" data-cchat="' + item.id + '">' + safe(item._phone ? chatLabel : arrangeLabel) + '</button></div></div>';
+      }
+      function conciergeSend(text){
+        text = (text || '').trim();
+        if (!text) return;
+        conciergeAddMsg(text, 'user');
+        conciergeLastUser = text;
+        var input = document.getElementById('conciergeInput');
+        if (input) input.value = '';
+        if (!listings.length){
+          conciergeAddMsg(conciergeDict(state.lang).loading, 'bot');
+          return;
+        }
+        var think = conciergeAddMsg('\u2026', 'bot');
+        think.classList.add('concierge-thinking');
+        setTimeout(function(){
+          think.remove();
+          var ans = conciergeAnswer(text);
+          conciergeLastStays = ans.stays || [];
+          conciergeAddMsg(ans.text, 'bot');
+          if (ans.stays){
+            var d = conciergeDict(ans.lang);
+            ans.stays.forEach(function(item){ conciergeAddHTML(conciergeStayHTML(item, d)); });
+          }
+          if (ans.actions && ans.actions.length){
+            var d2 = conciergeDict(ans.lang);
+            var acts = '<div class="concierge-actions">';
+            ans.actions.forEach(function(a){
+              if (a === 'seeAll') acts += '<button type="button" class="primary" data-cseeall>' + safe(d2.seeAll) + '</button>';
+              if (a === 'ask') acts += '<button type="button" data-cask>' + safe(d2.askNesto) + '</button>';
+            });
+            acts += '</div>';
+            conciergeAddHTML(acts);
+          }
+        }, 550);
+      }
+      function conciergeOpen(){
+        var p = document.getElementById('conciergePanel');
+        p.hidden = false;
+        document.getElementById('conciergeFab').setAttribute('aria-expanded', 'true');
+        if (!conciergeGreeted){
+          conciergeGreeted = true;
+          conciergeAddMsg(conciergeDict(state.lang).greeting, 'bot');
+          conciergeRenderChips();
+        }
+        var inp = document.getElementById('conciergeInput');
+        if (inp) inp.focus();
+      }
+      function conciergeClose(){
+        document.getElementById('conciergePanel').hidden = true;
+        document.getElementById('conciergeFab').setAttribute('aria-expanded', 'false');
+      }
+      function conciergeRenderChips(){
+        var d = conciergeDict(state.lang);
+        var box = document.getElementById('conciergeChips');
+        if (!box) return;
+        box.innerHTML = d.chips.map(function(c){ return '<button type="button" class="concierge-chip">' + safe(c) + '</button>'; }).join('');
+        box.querySelectorAll('.concierge-chip').forEach(function(b){ b.addEventListener('click', function(){ conciergeSend(b.textContent); }); });
+      }
+      function applyConciergeLang(){
+        var d = conciergeDict(state.lang);
+        document.querySelectorAll('[data-ci]').forEach(function(el){
+          var k = el.getAttribute('data-ci');
+          if (d[k]) el.textContent = d[k];
+        });
+        var inp = document.getElementById('conciergeInput');
+        if (inp) inp.placeholder = d.placeholder;
+        conciergeRenderChips();
+      }
+      function conciergeAskNesto(){
+        var cfg = window.NESTO_CONFIG || {};
+        var owner = nestoDigits(cfg.OWNER_WHATSAPP || '');
+        if (!owner){ toast(state.lang === 'hi' ? 'मेज़बान से संपर्क जल्द शुरू होगा।' : 'Host contact coming soon.'); return; }
+        nestoAskLang(function(l){
+          var d = conciergeDict(l);
+          var lines = [d.askIntro + ' "' + (conciergeLastUser || '') + '"'];
+          if (conciergeLastStays && conciergeLastStays.length) lines.push(d.askTop + ': ' + conciergeLastStays.map(function(it){ return it.name; }).join(', '));
+          lines.push(d.askHelp);
+          window.open('https://wa.me/' + owner + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+        });
+      }
+      function conciergeInit(){
+        var fab = document.getElementById('conciergeFab');
+        if (fab) fab.addEventListener('click', function(){ var p = document.getElementById('conciergePanel'); if (p.hidden) conciergeOpen(); else conciergeClose(); });
+        var close = document.getElementById('conciergeClose');
+        if (close) close.addEventListener('click', conciergeClose);
+        var form = document.getElementById('conciergeForm');
+        if (form) form.addEventListener('submit', function(ev){ ev.preventDefault(); conciergeSend(document.getElementById('conciergeInput').value); });
+        document.getElementById('conciergeMsgs').addEventListener('click', function(e){
+          var v = e.target.closest('[data-cview]');
+          if (v){ conciergeClose(); openDetail(getItem(v.dataset.cview)); return; }
+          var c = e.target.closest('[data-cchat]');
+          if (c){ var it = getItem(c.dataset.cchat); conciergeClose(); if (it._phone) nestoAskLang(function(l){ nestoChatHost(it, l); }); else nestoAskLang(function(l){ nestoArrange(it, l); }); return; }
+          var s = e.target.closest('[data-cseeall]');
+          if (s){ conciergeClose(); var f = document.getElementById('matchFree'); if (f){ f.value = conciergeLastUser || ''; } var sec = document.getElementById('ai-match'); if (sec && sec.scrollIntoView) sec.scrollIntoView({behavior: 'smooth'}); matchSubmit(); return; }
+          var a = e.target.closest('[data-cask]');
+          if (a){ conciergeClose(); conciergeAskNesto(); return; }
+        });
+        applyConciergeLang();
+      }
       /* ===== end AI MATCH ===== */
       /* ===== end NESTO-LIVE ===== */
       nestoBoot();
@@ -1782,5 +2058,23 @@ function matchRanked(q){
       document.getElementById('mockClaimStart').addEventListener('click',function(){nestoAskLang(function(l){nestoStartClaim(l)});});
     })();
   </script>
+
+<button class="concierge-fab" id="conciergeFab" type="button" aria-label="Chat with Nesto assistant" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <span class="concierge-fab-ai">AI</span>
+</button>
+<div class="concierge-panel" id="conciergePanel" hidden>
+  <div class="concierge-head">
+    <span class="concierge-avatar" aria-hidden="true">n</span>
+    <div class="concierge-head-text"><strong data-ci="title">Nesto Assistant</strong><span data-ci="sub">Answers from live Nesto listings</span></div>
+    <button class="concierge-close" id="conciergeClose" type="button" aria-label="Close chat">×</button>
+  </div>
+  <div class="concierge-msgs" id="conciergeMsgs"></div>
+  <div class="concierge-chips" id="conciergeChips"></div>
+  <form class="concierge-form" id="conciergeForm">
+    <input id="conciergeInput" type="text" autocomplete="off" placeholder="Ask about a stay or how Nesto works…" aria-label="Message Nesto assistant">
+    <button class="concierge-send" type="submit" aria-label="Send message">➤</button>
+  </form>
+</div>
 </body>
 </html>
