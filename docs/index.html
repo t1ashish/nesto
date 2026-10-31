@@ -1777,7 +1777,7 @@ function matchRanked(q){
           sub: 'Answers from live Nesto listings',
           placeholder: 'Ask about a stay or how Nesto works…',
           greeting: 'Namaste! I\u2019m Nesto\u2019s assistant. Tell me what kind of stay you want — a place, a budget, a feeling — or ask how Nesto works.',
-          chips: ['Find a stay under \u20B93,000', 'Pet-friendly stays', 'How do I book?', 'What does Nesto charge?'],
+          chips: ['Find a stay under \u20B93,000', 'Pet-friendly stays', 'How do I book?', 'What does Nesto charge?', 'Lansdowne trip in December?'],
           about: 'Nesto Stays is a directory of homestays across Uttarakhand. The idea is simple: book the host, not just the room — you talk to the host directly before you book.',
           commission: 'Nesto adds no commission on stays. You pay the host directly (UPI or cash), and the host keeps every rupee. Booking through Nesto is free for guests.',
           verified: 'Stays move from Listed to Claimed to Nesto Verified. Verified means the host has confirmed the listing with us. {v} of our {n} stays are Verified so far — the rest are shown honestly while their hosts confirm them.',
@@ -1808,7 +1808,7 @@ function matchRanked(q){
           sub: 'लाइव Nesto लिस्टिंग से जवाब',
           placeholder: 'स्टे या Nesto के बारे में पूछिए…',
           greeting: 'नमस्ते! मैं Nesto का सहायक हूँ। बताइए किस तरह का स्टे चाहिए — जगह, बजट, अनुभव — या पूछिए Nesto कैसे काम करता है।',
-          chips: ['\u20B93,000 के अंदर स्टे', 'पालतू-मित्र स्टे', 'बुकिंग कैसे करें?', 'Nesto क्या शुल्क लेता है?'],
+          chips: ['\u20B93,000 के अंदर स्टे', 'पालतू-मित्र स्टे', 'बुकिंग कैसे करें?', 'Nesto क्या शुल्क लेता है?', 'दिसंबर में लैंसडाउन यात्रा?'],
           about: 'Nesto Stays उत्तराखंड के होमस्टे की एक डायरेक्टरी है। हमारा विचार सरल है: कमरा नहीं, मेज़बान को बुक करें — बुकिंग से पहले आप मेज़बान से सीधे बात करते हैं।',
           commission: 'Nesto स्टे पर कोई कमीशन नहीं लेता। आप मेज़बान को सीधे भुगतान करते हैं (UPI या नकद), और पूरी राशि मेज़बान को मिलती है। मेहमानों के लिए Nesto से बुकिंग मुफ़्त है।',
           verified: 'स्टे Listed से Claimed और फिर Nesto Verified तक जाते हैं। Verified का मतलब है मेज़बान ने अपनी लिस्टिंग की पुष्टि कर दी है। अब तक {n} में से {v} स्टे Verified हैं — बाकी की पुष्टि होते ही दिखाए जाते हैं।',
@@ -1851,27 +1851,27 @@ function matchRanked(q){
 
       /* ===== CONCIERGE LOCATION KNOWLEDGE (2026-10-31) — curated, well-established facts only ===== */
       var LOCATION_KB = [
-        {n: 'Nainital', k: ['nainital', 'नैनीताल'], a: 'A lake town wrapped around Naini Lake, and the largest town in Kumaon.', h: 'नैनी झील के चारों ओर बसा एक झीलों वाला शहर, और कुमाऊँ का सबसे बड़ा शहर।', s: 'Naini Lake, Naina Devi Temple, Mall Road, Snow View Point, Tiffin Top', alt: 'around 2,000 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Nainital is named after Naini Lake — legend says the lake is shaped like an eye, and the town wraps around it.', th: 'नैनीताल का नाम नैनी झील से पड़ा है — कहा जाता है कि झील आँख के आकार की है, और शहर उसी के चारों ओर बसा है।'},
-        {n: 'Mukteshwar', k: ['mukteshwar', 'मुक्तेश्वर'], a: 'A quiet hill village above the Kumaon valleys, known for its temple, orchards and clear Himalayan views.', h: 'कुमाऊँ की घाटियों के ऊपर एक शांत पहाड़ी गाँव, जो अपने मंदिर, बागानों और साफ़ हिमालयी नज़ारों के लिए जाना जाता है।', s: 'Mukteshwar Temple, Chauli ki Jali cliff, orchards, Himalayan viewpoints', alt: 'around 2,200 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'On a clear day, Mukteshwar offers views of peaks like Nanda Devi across the range.', th: 'साफ़ दिन में मुक्तेश्वर से नंदा देवी जैसे शिखरों के दर्शन होते हैं।'},
-        {n: 'Bhimtal', k: ['bhimtal', 'भीमताल'], a: 'A quieter lake town near Nainital, centred on a lake larger than Naini Lake.', h: 'नैनीताल के पास एक शांत झीलों वाला शहर, जिसकी झील नैनी झील से बड़ी है।', s: 'Bhimtal Lake, island aquarium, Bhimeshwar Temple', alt: 'around 1,400 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Bhimtal Lake has a small island in the middle, with an aquarium on it.', th: 'भीमताल झील के बीच एक छोटा द्वीप है, जिस पर एक एक्वेरियम है।'},
-        {n: 'Mussoorie', k: ['mussoorie', 'मसूरी'], a: 'The Queen of the Hills — a classic hill station above Dehradun, popular for its Mall Road walks and viewpoints.', h: 'पहाड़ों की रानी — देहरादून के ऊपर एक प्रसिद्ध हिल स्टेशन, जो मॉल रोड की सैर और नज़ारों के लिए जाना जाता है।', s: 'Mall Road, Kempty Falls, Gun Hill, Lal Tibba, Camel’s Back Road', alt: 'around 2,000 m', ap: 'Jolly Grant, Dehradun', rl: 'Dehradun', fd: 'garhwal', t: 'Mussoorie is called the Queen of the Hills, and it was a favourite summer retreat in British times.', th: 'मसूरी को पहाड़ों की रानी कहा जाता है, और ब्रिटिश काल में यह गर्मियों की पसंदीदा जगह थी।'},
-        {n: 'Rishikesh', k: ['rishikesh', 'ऋषिकेश'], a: 'The Yoga Capital of the World, on the Ganga — famous for yoga, the evening Ganga aarti, and river rafting.', h: 'दुनिया की योग राजधानी, गंगा किनारे — योग, शाम की गंगा आरती और राफ्टिंग के लिए प्रसिद्ध।', s: 'Triveni Ghat, Laxman Jhula, Ram Jhula, Beatles Ashram, rafting on the Ganga', alt: 'around 370 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'The Beatles visited Maharishi Mahesh Yogi’s ashram in Rishikesh in 1968.', th: '1968 में बीटल्स ऋषिकेश में महर्षि महेश योगी के आश्रम आए थे।'},
-        {n: 'Almora', k: ['almora', 'अल्मोड़ा'], a: 'The cultural capital of Kumaon — an old hill town of temples, bazaars and Himalayan sunsets.', h: 'कुमाऊँ की सांस्कृतिक राजधानी — मंदिरों, बाज़ारों और हिमालयी सूर्यास्त वाला पुराना पहाड़ी शहर।', s: 'Kasar Devi Temple, Bright End Corner, Nanda Devi Temple, local bazaars', alt: 'around 1,650 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Almora’s bal mithai — a chocolate-like fudge coated in sugar balls — is the town’s most famous sweet.', th: 'अल्मोड़ा की बाल मिठाई — चीनी की गोलियों से ढकी चॉकलेट जैसी बर्फी — शहर की सबसे प्रसिद्ध मिठाई है।'},
-        {n: 'Binsar', k: ['binsar', 'बिनसर'], a: 'A quiet ridge inside the Binsar Wildlife Sanctuary, loved for its wide Himalayan panorama.', h: 'बिनसर वन्यजीव अभयारण्य के अंदर एक शांत पहाड़ी, जो अपने विस्तृत हिमालयी नज़ारे के लिए जानी जाती है।', s: 'Binsar Zero Point, Binsar Wildlife Sanctuary, Golu Devta Temple', alt: 'around 2,400 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'From Binsar’s Zero Point, you can see a wide panorama of peaks including Nanda Devi and Trishul on a clear day.', th: 'बिनसर के ज़ीरो पॉइंट से साफ़ दिन में नंदा देवी और त्रिशूल सहित कई शिखरों का विस्तृत नज़ारा दिखता है।'},
-        {n: 'Kausani', k: ['kausani', 'कौसानी'], a: 'A small hill town famous for its wide Himalayan panorama and tea gardens.', h: 'अपने विस्तृत हिमालयी नज़ारे और चाय बागानों के लिए प्रसिद्ध एक छोटा पहाड़ी शहर।', s: 'Tea gardens, Baijnath Temple, Himalayan viewpoints', alt: 'around 1,900 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Mahatma Gandhi called Kausani the ‘Switzerland of India’ after staying here in 1929.', th: 'महात्मा गांधी ने 1929 में यहाँ रुकने के बाद कौसानी को ‘भारत का स्विट्ज़रलैंड’ कहा था।'},
-        {n: 'Ranikhet', k: ['ranikhet', 'रानीखेत'], a: 'A quiet cantonment town of meadows, pine forests and Himalayan views.', h: 'घास के मैदानों, चीड़ के जंगलों और हिमालयी नज़ारों वाला एक शांत छावनी शहर।', s: 'Jhula Devi Temple, Chaubatia Gardens, golf course, Himalayan viewpoints', alt: 'around 1,850 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Ranikhet means ‘queen’s meadow’ — legend says a queen chose this spot for her palace.', th: 'रानीखेत का मतलब है ‘रानी का मैदान’ — कहा जाता है कि एक रानी ने यहाँ अपना महल चुना था।'},
-        {n: 'Munsiyari', k: ['munsiyari', 'मुनस्यारी'], a: 'A far-flung hill town at the edge of the high Himalaya, and the base for glacier treks.', h: 'ऊँचे हिमालय के किनारे एक दूरस्थ पहाड़ी शहर, और ग्लेशियर ट्रेक का आधार।', s: 'Panchachuli viewpoints, Milam Glacier trek base, Nanda Devi Temple', alt: 'around 2,200 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Munsiyari is the base for treks to the Milam Glacier, one of the Kumaon Himalaya’s great glacier routes.', th: 'मुनस्यारी मिलम ग्लेशियर ट्रेक का आधार है, जो कुमाऊँ हिमालय के बड़े ग्लेशियर रास्तों में से एक है।'},
-        {n: 'Chaukori', k: ['chaukori', 'चौकोरी'], a: 'A sleepy hill village of tea gardens and big Himalayan views.', h: 'चाय बागानों और बड़े हिमालयी नज़ारों वाला एक शांत पहाड़ी गाँव।', s: 'Tea gardens, Himalayan viewpoints, Mahakali Temple', alt: 'around 2,000 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Chaukori is known for its tea gardens and for sunrise views over the Panchachuli peaks.', th: 'चौकोरी अपने चाय बागानों और पंचाचूली शिखरों पर सूर्योदय के लिए जाना जाता है।'},
-        {n: 'Auli', k: ['auli', 'औली'], a: 'Uttarakhand’s best-known skiing destination, above Joshimath, with wide views of Nanda Devi.', h: 'जोशीमठ के ऊपर उत्तराखंड का सबसे प्रसिद्ध स्कीइंग स्थल, जहाँ से नंदा देवी का विस्तृत नज़ारा दिखता है।', s: 'Ski slopes, Auli ropeway, Gorson Bugyal meadows, Nanda Devi views', alt: 'around 2,800 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Auli’s ropeway runs about 4 km from Joshimath — one of the longest cable cars in India.', th: 'औली का रोपवे जोशीमठ से लगभग 4 किमी चलता है — भारत के सबसे लंबे केबल कारों में से एक।', sn: 'December–February for skiing; March–June for meadows and views', snh: 'स्कीइंग के लिए दिसंबर–फ़रवरी; घास के मैदान और नज़ारों के लिए मार्च–जून'},
-        {n: 'Joshimath', k: ['joshimath', 'जोशीमठ'], a: 'A Himalayan town that is the gateway to Badrinath and to Auli.', h: 'बद्रीनाथ और औली का द्वार, एक हिमालयी शहर।', s: 'Adi Shankaracharya Math, Auli ropeway base, Narsingh Temple', alt: 'around 1,900 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Joshimath is home to one of the four maths established by Adi Shankaracharya.', th: 'जोशीमठ में आदि शंकराचार्य द्वारा स्थापित चार मठों में से एक है।'},
-        {n: 'Chopta', k: ['chopta', 'चोपता'], a: 'A meadow village nicknamed Mini Switzerland, and the base for the Tungnath trek.', h: 'मिनी स्विट्ज़रलैंड कहलाने वाला घास के मैदानों का गाँव, और तुंगनाथ ट्रेक का आधार।', s: 'Meadows, Tungnath trek, Chandrashila summit, Deoria Tal', alt: 'around 2,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Chopta is nicknamed Mini Switzerland for its meadows — and it is the base for the trek to Tungnath, the highest Shiva temple in the world.', th: 'चोपता को अपने घास के मैदानों के लिए मिनी स्विट्ज़रलैंड कहा जाता है — और यह दुनिया के सबसे ऊँचे शिव मंदिर, तुंगनाथ के ट्रेक का आधार है।'},
-        {n: 'Tungnath', k: ['tungnath', 'तुंगनाथ'], a: 'The highest Shiva temple in the world, reached by a trek from Chopta.', h: 'दुनिया का सबसे ऊँचा शिव मंदिर, जहाँ चोपता से ट्रेक करके पहुँचा जाता है।', s: 'Tungnath Temple, Chandrashila summit, meadows', alt: 'around 3,680 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Tungnath is the highest of the five Panch Kedar temples.', th: 'तुंगनाथ पंच केदार मंदिरों में सबसे ऊँचा है।'},
-        {n: 'Lansdowne', k: ['lansdowne', 'लैंसडाउन'], a: 'A quiet cantonment town of pine forests and colonial-era calm, far less crowded than the famous hill stations.', h: 'चीड़ के जंगलों और पुराने दौर की शांति वाला एक शांत छावनी शहर, प्रसिद्ध हिल स्टेशनों से कहीं कम भीड़ वाला।', s: 'Bhulla Tal lake, Garhwal Rifles Museum, Tip-in-Top viewpoint, St. Mary’s Church', alt: 'around 1,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Kotdwar', fd: 'garhwal', t: 'Lansdowne is named after Lord Lansdowne, the Viceroy of India in 1888–1894, and it remains an army cantonment town.', th: 'लैंसडाउन का नाम लॉर्ड लैंसडाउन के नाम पर पड़ा, जो 1888–1894 में भारत के वायसराय थे, और यह आज भी एक सेना छावनी शहर है।'},
-        {n: 'Pauri', k: ['pauri', 'पौड़ी'], a: 'A quiet district town with wide Himalayan views, off the usual tourist circuit.', h: 'विस्तृत हिमालयी नज़ारों वाला एक शांत ज़िला शहर, आम पर्यटन रास्ते से दूर।', s: 'Kandoliya Temple, Nagdev Temple, Himalayan viewpoints', alt: 'around 1,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Kotdwar', fd: 'garhwal', t: 'Pauri is the headquarters town of Pauri Garhwal district, and a quiet base for exploring the region.', th: 'पौड़ी, पौड़ी गढ़वाल ज़िले का मुख्यालय शहर है, और इस क्षेत्र को देखने का एक शांत आधार है।'},
-        {n: 'Jim Corbett', k: ['corbett', 'jim corbett', 'कॉर्बेट'], a: 'India’s oldest national park, on the Ramganga river — famous for Bengal tigers and jeep safaris.', h: 'रामगंगा नदी पर भारत का सबसे पुराना राष्ट्रीय उद्यान — बंगाल टाइगर और जीप सफारी के लिए प्रसिद्ध।', s: 'Dhikala grasslands, Bijrani and Jhirna safari zones, Ramganga river, Corbett Museum', alt: 'around 400 m', ap: 'Pantnagar', rl: 'Ramnagar', fd: 'kumaon', t: 'Jim Corbett National Park (1936) is India’s oldest national park — it was first called Hailey National Park.', th: 'जिम कॉर्बेट राष्ट्रीय उद्यान (1936) भारत का सबसे पुराना राष्ट्रीय उद्यान है — पहले इसे हैली राष्ट्रीय उद्यान कहा जाता था।', sn: 'November–June for safaris', snh: 'सफ़ारी के लिए नवंबर–जून'},
-        {n: 'Dehradun', k: ['dehradun', 'देहरादून'], a: 'Uttarakhand’s capital — a valley city at the foot of the hills, and the gateway to Mussoorie.', h: 'उत्तराखंड की राजधानी — पहाड़ों की तलहटी में एक घाटी शहर, और मसूरी का द्वार।', s: 'Robber’s Cave, Sahastradhara, Forest Research Institute, Paltan Bazaar', alt: 'around 640 m', ap: 'Jolly Grant, Dehradun', rl: 'Dehradun', fd: 'garhwal', t: 'Dehradun’s Forest Research Institute building is a grand colonial-era landmark that has featured in films.', th: 'देहरादून की वन अनुसंधान संस्थान इमारत एक भव्य पुराने दौर की इमारत है जो फ़िल्मों में भी दिखी है।'},
-        {n: 'Pithoragarh', k: ['pithoragarh', 'पिथौरागढ़'], a: 'A valley town in far eastern Kumaon, on the old route towards Kailash-Mansarovar.', h: 'सुदूर पूर्वी कुमाऊँ में एक घाटी शहर, जो कैलाश-मानसरोवर के पुराने रास्ते पर है।', s: 'Kapileshwar Mahadev, Pithoragarh Fort, Chandak viewpoints', alt: 'around 1,650 m', ap: 'Pantnagar', rl: 'Tanakpur', fd: 'kumaon', t: 'Pithoragarh is the last major town before the high valleys that lead towards the Kailash-Mansarovar route.', th: 'पिथौरागढ़ उन ऊँची घाटियों से पहले का आखिरी बड़ा शहर है जो कैलाश-मानसरोवर रास्ते की ओर जाती हैं।'},
-        {n: 'Dharchula', k: ['dharchula', 'धारचूला'], a: 'A remote border town on the Kali river, facing Nepal across the water.', h: 'काली नदी पर एक दूरस्थ सीमावर्ती शहर, जिसके सामने नेपाल है।', s: 'Kali river valley, Adi Kailash and Om Parvat trek routes, Nepal border crossing', alt: 'around 900 m', ap: null, rl: null, fd: 'kumaon', t: 'Dharchula sits on the Kali river, with Nepal just across the water — and it is a base for the Adi Kailash and Om Parvat routes.', th: 'धारचूला काली नदी पर है, जिसके पार नेपाल है — और यह आदि कैलाश और ओम पर्वत रास्तों का आधार है।'},
+        {n: 'Nainital', c: [29.3803, 79.4636], k: ['nainital', 'नैनीताल'], a: 'A lake town wrapped around Naini Lake, and the largest town in Kumaon.', h: 'नैनी झील के चारों ओर बसा एक झीलों वाला शहर, और कुमाऊँ का सबसे बड़ा शहर।', s: 'Naini Lake, Naina Devi Temple, Mall Road, Snow View Point, Tiffin Top', alt: 'around 2,000 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Nainital is named after Naini Lake — legend says the lake is shaped like an eye, and the town wraps around it.', th: 'नैनीताल का नाम नैनी झील से पड़ा है — कहा जाता है कि झील आँख के आकार की है, और शहर उसी के चारों ओर बसा है।'},
+        {n: 'Mukteshwar', c: [29.4749, 79.6489], k: ['mukteshwar', 'मुक्तेश्वर'], a: 'A quiet hill village above the Kumaon valleys, known for its temple, orchards and clear Himalayan views.', h: 'कुमाऊँ की घाटियों के ऊपर एक शांत पहाड़ी गाँव, जो अपने मंदिर, बागानों और साफ़ हिमालयी नज़ारों के लिए जाना जाता है।', s: 'Mukteshwar Temple, Chauli ki Jali cliff, orchards, Himalayan viewpoints', alt: 'around 2,200 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'On a clear day, Mukteshwar offers views of peaks like Nanda Devi across the range.', th: 'साफ़ दिन में मुक्तेश्वर से नंदा देवी जैसे शिखरों के दर्शन होते हैं।'},
+        {n: 'Bhimtal', c: [29.347, 79.5646], k: ['bhimtal', 'भीमताल'], a: 'A quieter lake town near Nainital, centred on a lake larger than Naini Lake.', h: 'नैनीताल के पास एक शांत झीलों वाला शहर, जिसकी झील नैनी झील से बड़ी है।', s: 'Bhimtal Lake, island aquarium, Bhimeshwar Temple', alt: 'around 1,400 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Bhimtal Lake has a small island in the middle, with an aquarium on it.', th: 'भीमताल झील के बीच एक छोटा द्वीप है, जिस पर एक एक्वेरियम है।'},
+        {n: 'Mussoorie', c: [30.4598, 78.0648], k: ['mussoorie', 'मसूरी'], a: 'The Queen of the Hills — a classic hill station above Dehradun, popular for its Mall Road walks and viewpoints.', h: 'पहाड़ों की रानी — देहरादून के ऊपर एक प्रसिद्ध हिल स्टेशन, जो मॉल रोड की सैर और नज़ारों के लिए जाना जाता है।', s: 'Mall Road, Kempty Falls, Gun Hill, Lal Tibba, Camel’s Back Road', alt: 'around 2,000 m', ap: 'Jolly Grant, Dehradun', rl: 'Dehradun', fd: 'garhwal', t: 'Mussoorie is called the Queen of the Hills, and it was a favourite summer retreat in British times.', th: 'मसूरी को पहाड़ों की रानी कहा जाता है, और ब्रिटिश काल में यह गर्मियों की पसंदीदा जगह थी।'},
+        {n: 'Rishikesh', c: [30.0869, 78.2676], k: ['rishikesh', 'ऋषिकेश'], a: 'The Yoga Capital of the World, on the Ganga — famous for yoga, the evening Ganga aarti, and river rafting.', h: 'दुनिया की योग राजधानी, गंगा किनारे — योग, शाम की गंगा आरती और राफ्टिंग के लिए प्रसिद्ध।', s: 'Triveni Ghat, Laxman Jhula, Ram Jhula, Beatles Ashram, rafting on the Ganga', alt: 'around 370 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'The Beatles visited Maharishi Mahesh Yogi’s ashram in Rishikesh in 1968.', th: '1968 में बीटल्स ऋषिकेश में महर्षि महेश योगी के आश्रम आए थे।'},
+        {n: 'Almora', c: [29.5892, 79.6467], k: ['almora', 'अल्मोड़ा'], a: 'The cultural capital of Kumaon — an old hill town of temples, bazaars and Himalayan sunsets.', h: 'कुमाऊँ की सांस्कृतिक राजधानी — मंदिरों, बाज़ारों और हिमालयी सूर्यास्त वाला पुराना पहाड़ी शहर।', s: 'Kasar Devi Temple, Bright End Corner, Nanda Devi Temple, local bazaars', alt: 'around 1,650 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Almora’s bal mithai — a chocolate-like fudge coated in sugar balls — is the town’s most famous sweet.', th: 'अल्मोड़ा की बाल मिठाई — चीनी की गोलियों से ढकी चॉकलेट जैसी बर्फी — शहर की सबसे प्रसिद्ध मिठाई है।'},
+        {n: 'Binsar', c: [29.6987, 79.7459], k: ['binsar', 'बिनसर'], a: 'A quiet ridge inside the Binsar Wildlife Sanctuary, loved for its wide Himalayan panorama.', h: 'बिनसर वन्यजीव अभयारण्य के अंदर एक शांत पहाड़ी, जो अपने विस्तृत हिमालयी नज़ारे के लिए जानी जाती है।', s: 'Binsar Zero Point, Binsar Wildlife Sanctuary, Golu Devta Temple', alt: 'around 2,400 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'From Binsar’s Zero Point, you can see a wide panorama of peaks including Nanda Devi and Trishul on a clear day.', th: 'बिनसर के ज़ीरो पॉइंट से साफ़ दिन में नंदा देवी और त्रिशूल सहित कई शिखरों का विस्तृत नज़ारा दिखता है।'},
+        {n: 'Kausani', c: [29.8436, 79.6034], k: ['kausani', 'कौसानी'], a: 'A small hill town famous for its wide Himalayan panorama and tea gardens.', h: 'अपने विस्तृत हिमालयी नज़ारे और चाय बागानों के लिए प्रसिद्ध एक छोटा पहाड़ी शहर।', s: 'Tea gardens, Baijnath Temple, Himalayan viewpoints', alt: 'around 1,900 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Mahatma Gandhi called Kausani the ‘Switzerland of India’ after staying here in 1929.', th: 'महात्मा गांधी ने 1929 में यहाँ रुकने के बाद कौसानी को ‘भारत का स्विट्ज़रलैंड’ कहा था।'},
+        {n: 'Ranikhet', c: [29.6434, 79.4326], k: ['ranikhet', 'रानीखेत'], a: 'A quiet cantonment town of meadows, pine forests and Himalayan views.', h: 'घास के मैदानों, चीड़ के जंगलों और हिमालयी नज़ारों वाला एक शांत छावनी शहर।', s: 'Jhula Devi Temple, Chaubatia Gardens, golf course, Himalayan viewpoints', alt: 'around 1,850 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Ranikhet means ‘queen’s meadow’ — legend says a queen chose this spot for her palace.', th: 'रानीखेत का मतलब है ‘रानी का मैदान’ — कहा जाता है कि एक रानी ने यहाँ अपना महल चुना था।'},
+        {n: 'Munsiyari', c: [30.0703, 80.2364], k: ['munsiyari', 'मुनस्यारी'], a: 'A far-flung hill town at the edge of the high Himalaya, and the base for glacier treks.', h: 'ऊँचे हिमालय के किनारे एक दूरस्थ पहाड़ी शहर, और ग्लेशियर ट्रेक का आधार।', s: 'Panchachuli viewpoints, Milam Glacier trek base, Nanda Devi Temple', alt: 'around 2,200 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Munsiyari is the base for treks to the Milam Glacier, one of the Kumaon Himalaya’s great glacier routes.', th: 'मुनस्यारी मिलम ग्लेशियर ट्रेक का आधार है, जो कुमाऊँ हिमालय के बड़े ग्लेशियर रास्तों में से एक है।'},
+        {n: 'Chaukori', c: [29.9333, 80.2167], k: ['chaukori', 'चौकोरी'], a: 'A sleepy hill village of tea gardens and big Himalayan views.', h: 'चाय बागानों और बड़े हिमालयी नज़ारों वाला एक शांत पहाड़ी गाँव।', s: 'Tea gardens, Himalayan viewpoints, Mahakali Temple', alt: 'around 2,000 m', ap: 'Pantnagar', rl: 'Kathgodam', fd: 'kumaon', t: 'Chaukori is known for its tea gardens and for sunrise views over the Panchachuli peaks.', th: 'चौकोरी अपने चाय बागानों और पंचाचूली शिखरों पर सूर्योदय के लिए जाना जाता है।'},
+        {n: 'Auli', c: [30.5306, 79.5605], k: ['auli', 'औली'], a: 'Uttarakhand’s best-known skiing destination, above Joshimath, with wide views of Nanda Devi.', h: 'जोशीमठ के ऊपर उत्तराखंड का सबसे प्रसिद्ध स्कीइंग स्थल, जहाँ से नंदा देवी का विस्तृत नज़ारा दिखता है।', s: 'Ski slopes, Auli ropeway, Gorson Bugyal meadows, Nanda Devi views', alt: 'around 2,800 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Auli’s ropeway runs about 4 km from Joshimath — one of the longest cable cars in India.', th: 'औली का रोपवे जोशीमठ से लगभग 4 किमी चलता है — भारत के सबसे लंबे केबल कारों में से एक।', sn: 'December–February for skiing; March–June for meadows and views', snh: 'स्कीइंग के लिए दिसंबर–फ़रवरी; घास के मैदान और नज़ारों के लिए मार्च–जून'},
+        {n: 'Joshimath', c: [30.5572, 79.5629], k: ['joshimath', 'जोशीमठ'], a: 'A Himalayan town that is the gateway to Badrinath and to Auli.', h: 'बद्रीनाथ और औली का द्वार, एक हिमालयी शहर।', s: 'Adi Shankaracharya Math, Auli ropeway base, Narsingh Temple', alt: 'around 1,900 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Joshimath is home to one of the four maths established by Adi Shankaracharya.', th: 'जोशीमठ में आदि शंकराचार्य द्वारा स्थापित चार मठों में से एक है।'},
+        {n: 'Chopta', c: [30.4869, 79.1775], k: ['chopta', 'चोपता'], a: 'A meadow village nicknamed Mini Switzerland, and the base for the Tungnath trek.', h: 'मिनी स्विट्ज़रलैंड कहलाने वाला घास के मैदानों का गाँव, और तुंगनाथ ट्रेक का आधार।', s: 'Meadows, Tungnath trek, Chandrashila summit, Deoria Tal', alt: 'around 2,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Chopta is nicknamed Mini Switzerland for its meadows — and it is the base for the trek to Tungnath, the highest Shiva temple in the world.', th: 'चोपता को अपने घास के मैदानों के लिए मिनी स्विट्ज़रलैंड कहा जाता है — और यह दुनिया के सबसे ऊँचे शिव मंदिर, तुंगनाथ के ट्रेक का आधार है।'},
+        {n: 'Tungnath', c: [30.4897, 79.2168], k: ['tungnath', 'तुंगनाथ'], a: 'The highest Shiva temple in the world, reached by a trek from Chopta.', h: 'दुनिया का सबसे ऊँचा शिव मंदिर, जहाँ चोपता से ट्रेक करके पहुँचा जाता है।', s: 'Tungnath Temple, Chandrashila summit, meadows', alt: 'around 3,680 m', ap: 'Jolly Grant, Dehradun', rl: 'Haridwar', fd: 'garhwal', t: 'Tungnath is the highest of the five Panch Kedar temples.', th: 'तुंगनाथ पंच केदार मंदिरों में सबसे ऊँचा है।', wn: 'The Tungnath temple itself is closed in winter (roughly November to April) — check locally before planning a temple visit.', wnh: 'तुंगनाथ मंदिर सर्दियों में बंद रहता है (लगभग नवंबर से अप्रैल तक) — मंदिर दर्शन की योजना से पहले स्थानीय जानकारी लें।'},
+        {n: 'Lansdowne', c: [29.8401, 78.6856], k: ['lansdowne', 'लैंसडाउन'], a: 'A quiet cantonment town of pine forests and colonial-era calm, far less crowded than the famous hill stations.', h: 'चीड़ के जंगलों और पुराने दौर की शांति वाला एक शांत छावनी शहर, प्रसिद्ध हिल स्टेशनों से कहीं कम भीड़ वाला।', s: 'Bhulla Tal lake, Garhwal Rifles Museum, Tip-in-Top viewpoint, St. Mary’s Church', alt: 'around 1,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Kotdwar', fd: 'garhwal', t: 'Lansdowne is named after Lord Lansdowne, the Viceroy of India in 1888–1894, and it remains an army cantonment town.', th: 'लैंसडाउन का नाम लॉर्ड लैंसडाउन के नाम पर पड़ा, जो 1888–1894 में भारत के वायसराय थे, और यह आज भी एक सेना छावनी शहर है।'},
+        {n: 'Pauri', c: [30.1467, 78.7808], k: ['pauri', 'पौड़ी'], a: 'A quiet district town with wide Himalayan views, off the usual tourist circuit.', h: 'विस्तृत हिमालयी नज़ारों वाला एक शांत ज़िला शहर, आम पर्यटन रास्ते से दूर।', s: 'Kandoliya Temple, Nagdev Temple, Himalayan viewpoints', alt: 'around 1,700 m', ap: 'Jolly Grant, Dehradun', rl: 'Kotdwar', fd: 'garhwal', t: 'Pauri is the headquarters town of Pauri Garhwal district, and a quiet base for exploring the region.', th: 'पौड़ी, पौड़ी गढ़वाल ज़िले का मुख्यालय शहर है, और इस क्षेत्र को देखने का एक शांत आधार है।'},
+        {n: 'Jim Corbett', c: [29.3924, 79.1298], k: ['corbett', 'jim corbett', 'कॉर्बेट'], a: 'India’s oldest national park, on the Ramganga river — famous for Bengal tigers and jeep safaris.', h: 'रामगंगा नदी पर भारत का सबसे पुराना राष्ट्रीय उद्यान — बंगाल टाइगर और जीप सफारी के लिए प्रसिद्ध।', s: 'Dhikala grasslands, Bijrani and Jhirna safari zones, Ramganga river, Corbett Museum', alt: 'around 400 m', ap: 'Pantnagar', rl: 'Ramnagar', fd: 'kumaon', t: 'Jim Corbett National Park (1936) is India’s oldest national park — it was first called Hailey National Park.', th: 'जिम कॉर्बेट राष्ट्रीय उद्यान (1936) भारत का सबसे पुराना राष्ट्रीय उद्यान है — पहले इसे हैली राष्ट्रीय उद्यान कहा जाता था।', sn: 'November–June for safaris', snh: 'सफ़ारी के लिए नवंबर–जून'},
+        {n: 'Dehradun', c: [30.3165, 78.0322], k: ['dehradun', 'देहरादून'], a: 'Uttarakhand’s capital — a valley city at the foot of the hills, and the gateway to Mussoorie.', h: 'उत्तराखंड की राजधानी — पहाड़ों की तलहटी में एक घाटी शहर, और मसूरी का द्वार।', s: 'Robber’s Cave, Sahastradhara, Forest Research Institute, Paltan Bazaar', alt: 'around 640 m', ap: 'Jolly Grant, Dehradun', rl: 'Dehradun', fd: 'garhwal', t: 'Dehradun’s Forest Research Institute building is a grand colonial-era landmark that has featured in films.', th: 'देहरादून की वन अनुसंधान संस्थान इमारत एक भव्य पुराने दौर की इमारत है जो फ़िल्मों में भी दिखी है।'},
+        {n: 'Pithoragarh', c: [29.5831, 80.2167], k: ['pithoragarh', 'पिथौरागढ़'], a: 'A valley town in far eastern Kumaon, on the old route towards Kailash-Mansarovar.', h: 'सुदूर पूर्वी कुमाऊँ में एक घाटी शहर, जो कैलाश-मानसरोवर के पुराने रास्ते पर है।', s: 'Kapileshwar Mahadev, Pithoragarh Fort, Chandak viewpoints', alt: 'around 1,650 m', ap: 'Pantnagar', rl: 'Tanakpur', fd: 'kumaon', t: 'Pithoragarh is the last major town before the high valleys that lead towards the Kailash-Mansarovar route.', th: 'पिथौरागढ़ उन ऊँची घाटियों से पहले का आखिरी बड़ा शहर है जो कैलाश-मानसरोवर रास्ते की ओर जाती हैं।'},
+        {n: 'Dharchula', c: [29.85, 80.5333], k: ['dharchula', 'धारचूला'], a: 'A remote border town on the Kali river, facing Nepal across the water.', h: 'काली नदी पर एक दूरस्थ सीमावर्ती शहर, जिसके सामने नेपाल है।', s: 'Kali river valley, Adi Kailash and Om Parvat trek routes, Nepal border crossing', alt: 'around 900 m', ap: null, rl: null, fd: 'kumaon', t: 'Dharchula sits on the Kali river, with Nepal just across the water — and it is a base for the Adi Kailash and Om Parvat routes.', th: 'धारचूला काली नदी पर है, जिसके पार नेपाल है — और यह आदि कैलाश और ओम पर्वत रास्तों का आधार है।'},
         {n: 'Uttarakhand', k: ['uttarakhand', 'uttaranchal', 'उत्तराखंड'], a: 'Devbhoomi, the Land of the Gods — the state where the Ganga and Yamuna begin, home to the Char Dham pilgrimage and Nanda Devi, India’s second-highest peak.', h: 'देवभूमि, देवताओं की भूमि — वह राज्य जहाँ गंगा और यमुना शुरू होती हैं, चार धाम यात्रा और भारत की दूसरी सबसे ऊँची चोटी नंदा देवी का घर।', s: 'Char Dham (Badrinath, Kedarnath, Gangotri, Yamunotri), Valley of Flowers, Nanda Devi, Haridwar, Rishikesh', alt: null, ap: null, rl: null, fd: null, t: 'Uttarakhand is called Devbhoomi — Land of the Gods — and both the Ganga and Yamuna rivers begin here.', th: 'उत्तराखंड को देवभूमि कहा जाता है — देवताओं की भूमि — और गंगा और यमुना दोनों नदियाँ यहीं से शुरू होती हैं।'}
       ];
       var FOOD_KB = {
@@ -1996,6 +1996,175 @@ function matchRanked(q){
         }
         return { text: parts.join(' '), actions: ['viewstay', 'chatstay'], lang: lang, stay: item };
       }
+
+      /* ===== CONCIERGE LIVE RESEARCH (2026-10-31) — Open-Meteo public APIs, no key, fetched at question time ===== */
+      var MONTH_EN = {january: 1, jan: 1, february: 2, feb: 2, march: 3, mar: 3, april: 4, apr: 4, may: 5, june: 6, jun: 6, july: 7, jul: 7, august: 8, aug: 8, september: 9, sep: 9, sept: 9, october: 10, oct: 10, november: 11, nov: 11, december: 12, dec: 12};
+      var MONTH_HI = {'जनवरी': 1, 'फ़रवरी': 2, 'फरवरी': 2, 'मार्च': 3, 'अप्रैल': 4, 'मई': 5, 'जून': 6, 'जुलाई': 7, 'अगस्त': 8, 'सितंबर': 9, 'अक्टूबर': 10, 'नवंबर': 11, 'दिसंबर': 12};
+      var MONTH_NAMES_EN = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var MONTH_NAMES_HI = ['', 'जनवरी', 'फ़रवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'];
+      function parseMonth(low){
+        for (var k in MONTH_EN){ if (low.indexOf(k) > -1) return MONTH_EN[k]; }
+        for (var k2 in MONTH_HI){ if (low.indexOf(k2) > -1) return MONTH_HI[k2]; }
+        return 0;
+      }
+      function geoCandidate(low){
+        var stop = ['the', 'and', 'for', 'with', 'from', 'about', 'our', 'your', 'this', 'that', 'next', 'week', 'month', 'year', 'good', 'best', 'time', 'trip', 'visit', 'stay', 'stays', 'room', 'rooms', 'hotel', 'place', 'places'];
+        var m = low.match(/\bto\s+([a-z\u0900-\u097f]{3,})/);
+        if (m && !MONTH_EN[m[1]] && !MONTH_HI[m[1]] && stop.indexOf(m[1]) < 0) return m[1];
+        var re = /\bin\s+([a-z\u0900-\u097f]{3,})/g, mm, last = null;
+        while ((mm = re.exec(low)) !== null){
+          if (!MONTH_EN[mm[1]] && !MONTH_HI[mm[1]] && stop.indexOf(mm[1]) < 0) last = mm[1];
+        }
+        return last;
+      }
+      function wmoText(code, lang){
+        var hi = lang === 'hi';
+        if (code === 0) return hi ? 'साफ़ आसमान' : 'clear sky';
+        if (code === 1) return hi ? 'ज़्यादातर साफ़' : 'mostly clear';
+        if (code === 2) return hi ? 'आंशिक बादल' : 'partly cloudy';
+        if (code === 3) return hi ? 'घना बादल' : 'overcast';
+        if (code === 45 || code === 48) return hi ? 'कोहरा' : 'foggy';
+        if (code >= 51 && code <= 57) return hi ? 'हल्की बूँदाबाँदी' : 'light drizzle';
+        if (code >= 61 && code <= 67) return hi ? 'बारिश' : 'rain';
+        if (code >= 71 && code <= 77) return hi ? 'बर्फ़' : 'snow';
+        if (code >= 80 && code <= 82) return hi ? 'बारिश की बौछारें' : 'rain showers';
+        if (code === 85 || code === 86) return hi ? 'बर्फ़ की बौछारें' : 'snow showers';
+        if (code >= 96) return hi ? 'ओलों के साथ आँधी' : 'thunderstorm with hail';
+        if (code === 95) return hi ? 'आँधी-तूफ़ान' : 'thunderstorm';
+        return hi ? 'मिला-जुला मौसम' : 'mixed weather';
+      }
+      function fetchJSON(url, timeoutMs){
+        return Promise.race([
+          fetch(url).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }),
+          new Promise(function(_, rej){ setTimeout(function(){ rej(new Error('timeout')); }, timeoutMs || 12000); })
+        ]);
+      }
+      function conciergePlaceStaysFor(entry, placeName){
+        var kw = entry ? entry.k[0] : String(placeName || '').toLowerCase();
+        return listings.filter(function(item){
+          var r = (item.region || '').toLowerCase(), p = (item.place || '').toLowerCase();
+          return r.indexOf(kw) > -1 || p.indexOf(kw) > -1 || kw.indexOf(p) > -1;
+        });
+      }
+      function conciergeRunResearch(res, lang){
+        var hi = lang === 'hi';
+        function availSection(placeStays, placeName){
+          if (!placeStays.length){
+            return hi ? 'उपलब्धता: ' + placeName + ' में अभी हमारे पास कोई स्टे लिस्ट नहीं है — Ask Nesto पर टैप करें, हम व्यवस्था की कोशिश करेंगे।'
+                      : 'Availability: we don’t list stays in ' + placeName + ' yet — tap Ask Nesto and we’ll try to arrange one.';
+          }
+          var pv = placeStays.map(function(it){ return priceValue(it); }).filter(function(p){ return p !== null; }).sort(function(a, b){ return a - b; });
+          var range = pv.length ? ' (₹' + pv[0].toLocaleString('en-IN') + '–₹' + pv[pv.length - 1].toLocaleString('en-IN') + ' per night where prices are listed)' : '';
+          var rangeHi = pv.length ? ' (जहाँ कीमत बताई गई है, ₹' + pv[0].toLocaleString('en-IN') + '–₹' + pv[pv.length - 1].toLocaleString('en-IN') + ' प्रति रात)' : '';
+          return hi ? 'उपलब्धता: Nesto पर अभी ' + placeName + ' में ' + placeStays.length + ' स्टे लिस्ट हैं' + rangeHi + '। Nesto लाइव कमरा कैलेंडर नहीं रखता, इसलिए अपनी तारीख़ें मेज़बान से सीधे पुष्टि करें।'
+                    : 'Availability: Nesto lists ' + placeStays.length + ' stays in ' + placeName + ' right now' + range + '. Nesto doesn’t track live room calendars, so confirm your dates with the host directly.';
+        }
+        function finish(entry, placeName, lat, lon){
+          var now = new Date();
+          var curMonth = now.getMonth() + 1, curYear = now.getFullYear();
+          var month = res.month;
+          var mode = (month && month !== curMonth) ? 'archive' : 'forecast';
+          var placeStays = conciergePlaceStaysFor(entry, placeName);
+          var showStays = res.wantAvail || res.wantVerdict;
+          function compose(weatherTxt, verdictTxt){
+            var parts = [];
+            if (res.wantWeather && weatherTxt) parts.push(weatherTxt);
+            if (res.wantVerdict && verdictTxt) parts.push(verdictTxt);
+            if (entry && entry.wn && month && [11, 12, 1, 2, 3, 4].indexOf(month) > -1) parts.push(hi ? entry.wnh : entry.wn);
+            if (entry && entry.alt && month && [12, 1, 2].indexOf(month) > -1){
+              var altNum = parseInt(String(entry.alt).replace(/[^0-9]/g, ''), 10);
+              if (altNum >= 2400) parts.push(hi ? 'इस ऊँचाई पर गहरी सर्दी में बर्फ़ से सड़कें बंद हो सकती हैं — सड़क की स्थिति मेज़बान से पुष्टि करें।' : 'At this altitude, snow can block roads in deep winter — confirm road access with your host.');
+            }
+            if (res.wantAvail) parts.push(availSection(placeStays, placeName));
+            return { text: parts.join(' '), stays: (showStays && placeStays.length) ? placeStays.slice(0, 3) : undefined, actions: (showStays && placeStays.length) ? ['seeAll', 'ask'] : ['ask'], lang: lang };
+          }
+          if (!res.wantWeather && !res.wantVerdict){
+            return Promise.resolve(compose(null, null));
+          }
+          if (mode === 'archive'){
+            var year = month < curMonth ? curYear : curYear - 1;
+            var days = new Date(year, month, 0).getDate();
+            var pad = function(n){ return n < 10 ? '0' + n : '' + n; };
+            var url = 'https://archive-api.open-meteo.com/v1/archive?latitude=' + lat + '&longitude=' + lon + '&start_date=' + year + '-' + pad(month) + '-01&end_date=' + year + '-' + pad(month) + '-' + pad(days) + '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=Asia%2FKolkata';
+            return fetchJSON(url, 20000).then(function(j){
+              var dd = j.daily || {};
+              var mx = dd.temperature_2m_max || [], mn = dd.temperature_2m_min || [], pr = dd.precipitation_sum || [], sn = dd.snowfall_sum || [];
+              var avg = function(a){ return a.length ? a.reduce(function(x, y){ return x + y; }, 0) / a.length : null; };
+              var aMax = avg(mx), aMin = avg(mn);
+              var rainy = pr.filter(function(p){ return p > 1; }).length;
+              var snowy = sn.filter(function(p){ return p > 0.5; }).length;
+              var mName = hi ? MONTH_NAMES_HI[month] : MONTH_NAMES_EN[month];
+              var weatherTxt;
+              if (aMax === null){
+                weatherTxt = hi ? placeName + ' में ' + mName + ' का पिछला मौसम आँकड़ा नहीं मिला।' : 'No past weather records came back for ' + mName + ' in ' + placeName + '.';
+              } else {
+                var rainNote = rainy === 0 ? (hi ? 'लगभग सूखा' : 'mostly dry') : (hi ? 'लगभग ' + rainy + ' दिन बारिश' : 'rain on about ' + rainy + ' days');
+                var snowNote = snowy > 0 ? (hi ? ', ' + snowy + ' दिन बर्फ़' : ', snow on about ' + snowy + ' days') : '';
+                weatherTxt = hi
+                  ? placeName + ' में ' + mName + ' आमतौर पर: दिन में लगभग ' + Math.round(aMax) + '°C, रात में लगभग ' + Math.round(aMin) + '°C, ' + rainNote + snowNote + '। (स्रोत: ' + mName + ' ' + year + ' के दर्ज दैनिक आँकड़े, Open-Meteo।)'
+                  : mName + ' in ' + placeName + ' is typically: daytime around ' + Math.round(aMax) + '°C, nights around ' + Math.round(aMin) + '°C, ' + rainNote + snowNote + '. (Source: daily records for ' + mName + ' ' + year + ', Open-Meteo.)';
+              }
+              var verdictTxt = null;
+              if (res.wantVerdict && aMax !== null){
+                var pre, body;
+                if (rainy >= 12){ pre = hi ? 'हाँ, लेकिन एक चेतावनी के साथ — ' : 'Yes, with a caveat — '; body = hi ? 'यह वहाँ गीला महीना है; कई दिन बारिश की उम्मीद रखें।' : 'this is a wet month there; expect rain on many days.'; }
+                else if (aMin < 0){ pre = hi ? 'हाँ, अगर आपको ठंडे, साफ़ दिन पसंद हैं — ' : 'Yes, if you like cold, clear days — '; body = hi ? 'रातें शून्य से नीचे जाती हैं, लेकिन दिन आमतौर पर साफ़ रहते हैं। भारी सर्दियों के कपड़े पैक करें।' : 'nights go below freezing, but days are usually clear. Pack heavy winter layers.'; }
+                else if (aMin < 6){ pre = hi ? 'हाँ — ' : 'Yes — '; body = hi ? 'ठंड लेकिन आमतौर पर साफ़ — शांत यात्रा के लिए अच्छा। शाम के लिए गर्म कपड़े पैक करें।' : 'cold but usually clear — good for a quiet trip. Pack warm layers for evenings.'; }
+                else if (aMax > 32){ pre = hi ? 'हाँ, अगर आपको पहाड़ों की गर्मी पसंद है — ' : 'Yes, if you like summer in the hills — '; body = hi ? 'दिन गर्म रहते हैं; हल्के कपड़े और धूप से बचाव रखें।' : 'days are warm; carry light clothes and sun protection.'; }
+                else { pre = hi ? 'हाँ — ' : 'Yes — '; body = hi ? mName + ' अच्छा समय है: दिन सुहावने, मौसम ज़्यादातर सूखा।' : mName + ' is a good time: mild days and mostly dry weather.'; }
+                verdictTxt = pre + body;
+              }
+              return compose(weatherTxt, verdictTxt);
+            }).catch(function(){
+              return compose(hi ? 'लाइव पिछला मौसम अभी नहीं मिल पाया।' : 'Live past weather could not be fetched just now.', null);
+            });
+          } else {
+            var url2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FKolkata&forecast_days=7';
+            return fetchJSON(url2).then(function(j){
+              var dd = j.daily || {};
+              var mx = dd.temperature_2m_max || [], mn = dd.temperature_2m_min || [], pp = dd.precipitation_probability_max || [];
+              var avg = function(a){ return a.length ? a.reduce(function(x, y){ return x + y; }, 0) / a.length : null; };
+              var aMax = avg(mx), aMin = avg(mn);
+              var maxProb = pp.length ? Math.max.apply(null, pp) : null;
+              var cur = j.current || {};
+              var weatherTxt;
+              if (aMax === null){
+                weatherTxt = hi ? placeName + ' का लाइव पूर्वानुमान नहीं मिला।' : 'No live forecast came back for ' + placeName + '.';
+              } else {
+                var cond = wmoText(cur.weather_code, lang);
+                var curTxt = (cur.temperature_2m !== undefined) ? (hi ? ' अभी ' + Math.round(cur.temperature_2m) + '°C (' + cond + ')' : ' right now ' + Math.round(cur.temperature_2m) + '°C (' + cond + ')') : '';
+                weatherTxt = hi
+                  ? placeName + ' का अगले 7 दिन का पूर्वानुमान: दिन में लगभग ' + Math.round(aMax) + '°C, रात में लगभग ' + Math.round(aMin) + '°C;' + curTxt + '। (स्रोत: Open-Meteo पूर्वानुमान।)'
+                  : '7-day forecast for ' + placeName + ': daytime around ' + Math.round(aMax) + '°C, nights around ' + Math.round(aMin) + '°C;' + curTxt + '. (Source: Open-Meteo forecast.)';
+              }
+              var verdictTxt = null;
+              if (res.wantVerdict && aMax !== null){
+                if (maxProb !== null && maxProb >= 60) verdictTxt = hi ? 'आने वाला हफ़्ता गीला दिख रहा है — बारिश का सामान पैक करें।' : 'The coming week looks wet — pack rain gear.';
+                else if (aMin < 5) verdictTxt = hi ? 'आने वाला हफ़्ता ठंडा दिख रहा है, खासकर रात में — गर्म कपड़े पैक करें।' : 'The coming week looks cold, especially at night — pack warm layers.';
+                else verdictTxt = hi ? 'आने वाला हफ़्ता यात्रा के लिए अच्छा दिख रहा है — ज़्यादातर सूखा और सुहावना।' : 'The coming week looks good for a trip — mostly dry and mild.';
+              }
+              return compose(weatherTxt, verdictTxt);
+            }).catch(function(){
+              return compose(hi ? 'लाइव पूर्वानुमान अभी नहीं मिल पाया।' : 'Live forecast could not be fetched just now.', null);
+            });
+          }
+        }
+        if (!res.lat || !res.lon){
+          var gUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(res.geoName) + '&count=10&language=en&format=json';
+          return fetchJSON(gUrl).then(function(g){
+            var list = (g && g.results) || [];
+            var pick = null;
+            for (var i = 0; i < list.length; i++){ if (list[i].country === 'India' && String(list[i].admin1 || '').indexOf('Uttarakhand') > -1){ pick = list[i]; break; } }
+            if (!pick) for (var j2 = 0; j2 < list.length; j2++){ if (list[j2].country === 'India'){ pick = list[j2]; break; } }
+            if (!pick && list.length) pick = list[0];
+            if (!pick) throw new Error('no geo');
+            return finish(res.entry, pick.name, pick.latitude, pick.longitude);
+          }).catch(function(){
+            return { text: (hi ? 'मुझे उस जगह का लाइव मौसम नहीं मिला। किसी पास के बड़े शहर का नाम बताइए, या Ask Nesto पर टैप करें।' : 'I couldn’t find live weather for that place. Try a nearby larger town, or tap Ask Nesto.'), actions: ['ask'], lang: lang };
+          });
+        }
+        return finish(res.entry, res.name, res.lat, res.lon);
+      }
       function conciergeAnswer(text){
         var lang = /[\u0900-\u097F]/.test(text) ? 'hi' : state.lang;
         var d = conciergeDict(lang);
@@ -2003,6 +2172,19 @@ function matchRanked(q){
         var stay = findStay(low);
         if (stay) return conciergeStayAnswer(stay, low, lang);
         var loc = findLocation(low);
+        var rMonth = parseMonth(low);
+        var rStrong = /(good idea|good time|worth|plan|trip|weather|temperature|forecast|availab|stay options|मौसम|तापमान|उपलब्ध|यात्रा)/.test(low) || (rMonth && /\bgood\b/.test(low));
+        var rSeasonQ = rMonth && /(best time|season|when to visit|कब जाएँ|सबसे अच्छा समय)/.test(low);
+        var rPrecipQ = rMonth && /(snow|rain|cold|hot|बर्फ|बारिश|ठंड|गर्मी)/.test(low);
+        var rVerdict = /(good idea|good time|best time|worth|plan|trip|यात्रा)/.test(low) || (rMonth && /\bgood\b/.test(low));
+        var rWeather = /(weather|temperature|forecast|मौसम|तापमान|snow|rain|cold|hot|बर्फ|बारिश|ठंड|गर्मी)/.test(low) || rVerdict;
+        var rAvail = /(availab|stay options|उपलब्ध)/.test(low) || rVerdict;
+        var rGeo = null;
+        if (!loc) rGeo = geoCandidate(low);
+        if ((rStrong || rSeasonQ || rPrecipQ) && ((loc && loc.c) || rGeo) && (rWeather || rAvail || rVerdict)){
+          var rName = loc ? locDisplay(loc, lang) : (rGeo.charAt(0).toUpperCase() + rGeo.slice(1));
+          return { research: {entry: loc || null, name: rName, geoName: rGeo, lat: (loc && loc.c) ? loc.c[0] : null, lon: (loc && loc.c) ? loc.c[1] : null, month: rMonth, wantWeather: rWeather, wantAvail: rAvail, wantVerdict: rVerdict}, lang: lang };
+        }
         var locIntent = /(about|tell me|famous|known for|trivia|fun fact|fact|interesting|did you know|reach|getting there|how to get|airport|station|distance|how far|best time|season|weather|when to visit|visit|\bsee\b|\bdo\b|attractions|places to|where is|price|rate|cost|किराया|दाम|कीमत|खास|बारे में|मशहूर|रोचक|तथ्य|कैसे पहुँच|मौसम|कब जाएँ|घूमने|देखने|कहाँ है)/.test(low);
         if (loc && locIntent){
           var placeName = locDisplay(loc, lang);
@@ -2121,6 +2303,26 @@ function matchRanked(q){
         var viewLabel = (d && d.view) || 'View stay';
         return '<div class="concierge-stay"><b>' + safe(item.name) + '</b><span>' + line + '</span><div class="concierge-stay-actions"><button type="button" class="primary" data-cview="' + item.id + '">' + safe(viewLabel) + '</button><button type="button" data-cchat="' + item.id + '">' + safe(item._phone ? chatLabel : arrangeLabel) + '</button></div></div>';
       }
+      function conciergeRenderAnswer(ans){
+        conciergeLastStays = ans.stays || [];
+        conciergeAddMsg(ans.text, 'bot');
+        if (ans.stays){
+          var d = conciergeDict(ans.lang);
+          ans.stays.forEach(function(item){ conciergeAddHTML(conciergeStayHTML(item, d)); });
+        }
+        if (ans.actions && ans.actions.length){
+          var d2 = conciergeDict(ans.lang);
+          var acts = '<div class="concierge-actions">';
+          ans.actions.forEach(function(a){
+            if (a === 'seeAll') acts += '<button type="button" class="primary" data-cseeall>' + safe(d2.seeAll) + '</button>';
+            if (a === 'ask') acts += '<button type="button" data-cask>' + safe(d2.askNesto) + '</button>';
+            if (a === 'viewstay' && ans.stay) acts += '<button type="button" class="primary" data-cview="' + ans.stay.id + '">' + safe(d2.view) + '</button>';
+            if (a === 'chatstay' && ans.stay) acts += '<button type="button" data-cchat="' + ans.stay.id + '">' + safe(ans.stay._phone ? d2.chatBtn : d2.arrangeBtn) + '</button>';
+          });
+          acts += '</div>';
+          conciergeAddHTML(acts);
+        }
+      }
       function conciergeSend(text){
         text = (text || '').trim();
         if (!text) return;
@@ -2137,24 +2339,16 @@ function matchRanked(q){
         setTimeout(function(){
           think.remove();
           var ans = conciergeAnswer(text);
-          conciergeLastStays = ans.stays || [];
-          conciergeAddMsg(ans.text, 'bot');
-          if (ans.stays){
-            var d = conciergeDict(ans.lang);
-            ans.stays.forEach(function(item){ conciergeAddHTML(conciergeStayHTML(item, d)); });
-          }
-          if (ans.actions && ans.actions.length){
-            var d2 = conciergeDict(ans.lang);
-            var acts = '<div class="concierge-actions">';
-            ans.actions.forEach(function(a){
-              if (a === 'seeAll') acts += '<button type="button" class="primary" data-cseeall>' + safe(d2.seeAll) + '</button>';
-              if (a === 'ask') acts += '<button type="button" data-cask>' + safe(d2.askNesto) + '</button>';
-              if (a === 'viewstay' && ans.stay) acts += '<button type="button" class="primary" data-cview="' + ans.stay.id + '">' + safe(d2.view) + '</button>';
-              if (a === 'chatstay' && ans.stay) acts += '<button type="button" data-cchat="' + ans.stay.id + '">' + safe(ans.stay._phone ? d2.chatBtn : d2.arrangeBtn) + '</button>';
+          if (ans.research){
+            var rb = conciergeAddMsg(ans.lang === 'hi' ? 'लाइव मौसम और स्टे की जानकारी खोज रहा हूँ…' : 'Researching live weather and stays for you…', 'bot');
+            rb.classList.add('concierge-thinking');
+            conciergeRunResearch(ans.research, ans.lang).then(function(finalAns){
+              rb.remove();
+              conciergeRenderAnswer(finalAns);
             });
-            acts += '</div>';
-            conciergeAddHTML(acts);
+            return;
           }
+          conciergeRenderAnswer(ans);
         }, 550);
       }
       function conciergeOpen(){
