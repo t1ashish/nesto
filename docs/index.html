@@ -832,10 +832,13 @@ section[id]{scroll-margin-top:120px;}
 .match-processing{display:none;border-radius:20px;padding:26px;background:linear-gradient(135deg,#0A2E4F,#0B5FA5);color:#fff;margin-top:18px;overflow:hidden}
 .match-processing.open{display:block}
 .mp-visual{display:flex;align-items:center;gap:22px}
-.mp-radar{position:relative;width:120px;height:120px;flex:0 0 120px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:radial-gradient(circle,rgba(255,255,255,.12) 0 42%,transparent 43%),radial-gradient(circle,transparent 0 68%,rgba(255,255,255,.14) 69%,transparent 70%);overflow:hidden}
-.mp-radar:before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.22);transform:scale(.66)}
-.mp-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(245,179,1,.55),transparent 22%);animation:mpSpin 2.2s linear infinite}
-.mp-blip{position:absolute;width:9px;height:9px;border-radius:50%;background:#F5B301;box-shadow:0 0 10px #F5B301;animation:mpPulse 1.6s ease-in-out infinite}
+.mp-dots{position:relative;width:132px;height:64px;flex:0 0 132px;display:flex;align-items:center;justify-content:center;gap:10px}
+.mp-glow{position:absolute;inset:-18px;border-radius:50%;background:conic-gradient(from 0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4);filter:blur(18px);opacity:.45;animation:mpGlowSpin 5s linear infinite}
+.mp-dot{position:relative;width:16px;height:16px;border-radius:50%;animation:mpBounce 1.15s ease-in-out infinite}
+.mp-dot:nth-child(2){background:#4285F4}
+.mp-dot:nth-child(3){background:#EA4335;animation-delay:.14s}
+.mp-dot:nth-child(4){background:#FBBC05;animation-delay:.28s}
+.mp-dot:nth-child(5){background:#34A853;animation-delay:.42s}
 .mp-pct{font-size:40px;font-weight:800;letter-spacing:-.02em}
 .mp-pct small{font-size:15px;color:rgba(255,255,255,.75)}
 .mp-steps{margin-top:18px;display:grid;gap:8px}
@@ -844,8 +847,8 @@ section[id]{scroll-margin-top:120px;}
 .mp-step.done:before{content:"✓ ";color:#F5B301}
 .mp-bar{height:8px;border-radius:999px;background:rgba(255,255,255,.18);margin-top:16px;overflow:hidden}
 .mp-fill{height:100%;width:0;background:#F5B301;border-radius:999px;transition:width .12s linear}
-@keyframes mpSpin{to{transform:rotate(360deg)}}
-@keyframes mpPulse{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.15);opacity:1}}
+@keyframes mpGlowSpin{to{transform:rotate(360deg)}}
+@keyframes mpBounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-16px) scale(1.12)}60%{transform:translateY(2px) scale(.94)}}
 .match-results-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
 .match-note{color:var(--muted)}
 .match-banner{background:#fff6e0;border:1px solid #f4d488;border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:12px}
@@ -857,7 +860,15 @@ section[id]{scroll-margin-top:120px;}
 #matchGrid .card:nth-child(5){animation-delay:.24s}
 @keyframes matchIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (max-width:720px){.match-grid{grid-template-columns:1fr}#ai-match h2{font-size:23px}.mp-visual{flex-direction:column;align-items:flex-start}}
-@media (prefers-reduced-motion:reduce){.mp-sweep,.mp-blip{animation:none}#matchGrid .card{animation:none}}
+@media (prefers-reduced-motion:reduce){.mp-dot,.mp-glow{animation:none}#matchGrid .card{animation:none}}
+
+.match-free{width:100%;font-family:"Manrope",sans-serif;font-size:16px;line-height:1.55;padding:14px 16px;border:1px solid var(--line);border-radius:14px;min-height:96px;resize:vertical}
+.match-free:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.match-understood{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+.match-understood-label{font-weight:800;font-size:13px}
+.match-chip{background:#e6f4f7;color:var(--ocean-deep);border:1px solid #bfe3ea;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:700}
+.match-understood-also{color:var(--muted);font-size:13px}
+.match-understood-note{color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -906,24 +917,19 @@ section[id]{scroll-margin-top:120px;}
         <p class="match-copy" data-mi="copy">Describe your trip in detail — place, budget, the feeling you want — and our matcher scores every live listing against it, then shows you the best fits first.</p>
       </div>
       <form class="match-form" id="matchForm">
-        <div class="match-grid">
-          <div class="match-field"><label for="matchRegion" data-mi="regionLabel">Where in Uttarakhand?</label><select id="matchRegion"></select></div>
-          <div class="match-field"><label for="matchTown" data-mi="townLabel">Town or village (optional)</label><input id="matchTown" list="matchTownList" autocomplete="off"><datalist id="matchTownList"></datalist></div>
-          <div class="match-field"><label for="matchBudget" data-mi="budgetLabel">Max budget per night</label><select id="matchBudget"></select></div>
-        </div>
-        <div class="match-field"><span class="match-field-label" data-mi="expLabel">What should it feel like? (pick any)</span><div class="match-checks" id="matchChecks"></div></div>
-        <div class="match-field"><label for="matchElse" data-mi="elseLabel">Anything else? (optional)</label><textarea id="matchElse" rows="2"></textarea><p class="match-hint" data-mi="elseHint">This is not scored — it travels with your enquiry to Nesto, so we can help arrange it.</p></div>
+                <div class="match-field"><label for="matchFree" data-mi="freeLabel">What are you looking for?</label><textarea id="matchFree" class="match-free" rows="3" placeholder="stay with beautiful Himalayan views and home cooked meals"></textarea><p class="match-hint" data-mi="freeHint">Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.</p></div>
         <button class="btn btn-ocean match-submit" type="submit" data-mi="submit">✦ Find my perfect stay</button>
         <p class="match-coverage" id="matchCoverage"></p>
       </form>
       <div class="match-processing" id="matchProcessing" aria-live="polite">
-        <div class="mp-visual"><div class="mp-radar" aria-hidden="true"><div class="mp-sweep"></div><span class="mp-blip" style="left:62%;top:28%"></span><span class="mp-blip" style="left:30%;top:62%;animation-delay:.5s"></span><span class="mp-blip" style="left:72%;top:66%;animation-delay:1s"></span></div><div><div class="mp-pct"><span id="mpPct">0</span><small>%</small></div><div data-mi="processingSub">Matching your requirements…</div></div></div>
+        <div class="mp-visual"><div class="mp-dots" aria-hidden="true"><span class="mp-glow"></span><span class="mp-dot"></span><span class="mp-dot"></span><span class="mp-dot"></span><span class="mp-dot"></span></div><div><div class="mp-pct"><span id="mpPct">0</span><small>%</small></div><div data-mi="processingSub">Matching your requirements…</div></div></div>
         <div class="mp-steps" id="mpSteps"></div>
         <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
       </div>
       <div class="match-results" id="matchResults" hidden>
         <div class="match-results-head"><h3 id="matchResultsTitle"></h3><button class="btn btn-soft" id="matchSendReq" type="button" data-mi="sendReq">Send my requirements to Nesto</button></div>
         <p class="match-note" id="matchNote"></p>
+        <div class="match-understood" id="matchUnderstood"></div>
         <div class="listing-grid" id="matchGrid"></div>
         <p class="match-note" id="matchFallback" hidden></p>
       </div>
@@ -1347,19 +1353,10 @@ section[id]{scroll-margin-top:120px;}
         en: {
           kicker: '✦ AI MATCH',
           title: 'Tell us what you need. We will find your stay.',
-          copy: 'Describe your trip in detail — place, budget, the feeling you want — and our matcher scores every live listing against it, then shows you the best fits first.',
-          regionLabel: 'Where in Uttarakhand?',
-          regionAny: 'Anywhere in Uttarakhand',
-          townLabel: 'Town or village (optional)',
-          townPh: 'e.g. Lansdowne',
-          budgetLabel: 'Max budget per night',
-          budgetAny: 'Any budget',
-          budgetUpToPre: 'Up to ₹',
-          budgetUpToPost: '',
-          expLabel: 'What should it feel like? (pick any)',
-          elseLabel: 'Anything else? (optional)',
-          elsePh: 'e.g. a quiet place near the river, good for family…',
-          elseHint: 'This is not scored — it travels with your enquiry to Nesto, so we can help arrange it.',
+          copy: 'Just type what you want — a place, a budget, a feeling, anything — and our matcher picks out what it can match and shows you the best fits.',
+          freeLabel: 'What are you looking for?',
+          freePh: 'stay with beautiful Himalayan views and home cooked meals',
+          freeHint: 'Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.',
           submit: '✦ Find my perfect stay',
           processingSub: 'Matching your requirements…',
           steps: ['Scanning {n} live listings', 'Checking location fit', 'Checking budget fit', 'Matching experiences', 'Ranking your best stays'],
@@ -1378,31 +1375,25 @@ section[id]{scroll-margin-top:120px;}
           whyVerified: 'Nesto Verified',
           whyPriceUnknown: 'Price on request — host confirms',
           reqIntro: 'Hi Nesto! I\u2019m looking for a homestay.',
+          reqRaw: 'You said',
           reqRegion: 'Region',
           reqTown: 'Town',
           reqBudget: 'Max budget',
           reqExp: 'Experiences',
-          reqElse: 'Anything else',
           reqTop: 'My top matches on Nesto',
           reqHelp: 'Can you help me arrange it?',
-          perNight: 'per night'
+          perNight: 'per night',
+          understoodLabel: 'We understood:',
+          understoodNone: 'We could not pick out a place, budget or experience — showing top stays; your full note goes to Nesto with your enquiry.',
+          understoodAlso: 'Also noted (sent to Nesto, not a filter yet): {text}'
         },
         hi: {
           kicker: '✦ AI मैच',
           title: 'बताइए आपको क्या चाहिए। हम आपका स्टे ढूँढ़ेंगे।',
-          copy: 'अपनी यात्रा विस्तार से बताइए — जगह, बजट, कैसा अनुभव चाहिए — और हमारा मैचर हर लाइव लिस्टिंग को उसी से मिलाकर सबसे अच्छे स्टे पहले दिखाएगा।',
-          regionLabel: 'उत्तराखंड में कहाँ?',
-          regionAny: 'पूरा उत्तराखंड',
-          townLabel: 'कस्बा या गाँव (वैकल्पिक)',
-          townPh: 'जैसे: Lansdowne',
-          budgetLabel: 'प्रति रात अधिकतम बजट',
-          budgetAny: 'कोई सीमा नहीं',
-          budgetUpToPre: '₹',
-          budgetUpToPost: ' तक',
-          expLabel: 'कैसा अनुभव चाहिए? (कुछ भी चुनें)',
-          elseLabel: 'कुछ और? (वैकल्पिक)',
-          elsePh: 'जैसे: नदी के पास शांत जगह, परिवार के लिए…',
-          elseHint: 'इस पर स्कोर नहीं होगा — यह आपकी पूछताछ के साथ Nesto तक जाएगा, ताकि हम व्यवस्था में मदद कर सकें।',
+          copy: 'बस अपनी चाहत लिखिए — जगह, बजट, अनुभव, कुछ भी — और हमारा मैचर उससे मिलान करके सबसे अच्छे स्टे दिखाएगा।',
+          freeLabel: 'आप क्या ढूँढ़ रहे हैं?',
+          freePh: 'पहाड़ों का सुंदर नज़ारा और घर का बना खाना वाला स्टे',
+          freeHint: 'अपने अंदाज़ में लिखिए। हम जगह, बजट और अनुभव निकालकर मिलान करेंगे — बाकी बात आपकी पूछताछ के साथ Nesto तक जाएगी।',
           submit: '✦ मेरा परफेक्ट स्टे ढूँढ़ें',
           processingSub: 'आपकी ज़रूरतें मिलाई जा रही हैं…',
           steps: ['{n} लाइव लिस्टिंग स्कैन हो रही हैं', 'जगह की अनुकूलता जाँची जा रही है', 'बजट की अनुकूलता जाँची जा रही है', 'अनुभव मिलाए जा रहे हैं', 'सबसे अच्छे स्टे रैंक हो रहे हैं'],
@@ -1421,14 +1412,17 @@ section[id]{scroll-margin-top:120px;}
           whyVerified: 'Nesto Verified',
           whyPriceUnknown: 'कीमत पूछने पर — मेज़बान पुष्टि करेंगे',
           reqIntro: 'नमस्ते Nesto! मुझे एक होमस्टे चाहिए।',
+          reqRaw: 'आपने कहा',
           reqRegion: 'क्षेत्र',
           reqTown: 'कस्बा',
           reqBudget: 'अधिकतम बजट',
           reqExp: 'अनुभव',
-          reqElse: 'कुछ और',
           reqTop: 'Nesto पर मेरे टॉप मैच',
           reqHelp: 'क्या आप व्यवस्था में मदद कर सकते हैं?',
-          perNight: 'प्रति रात'
+          perNight: 'प्रति रात',
+          understoodLabel: 'हमने समझा:',
+          understoodNone: 'हम जगह, बजट या अनुभव नहीं निकाल पाए — टॉप स्टे दिख रहे हैं; आपकी पूरी बात पूछताछ के साथ Nesto तक जाएगी।',
+          understoodAlso: 'यह भी नोट किया गया (Nesto को भेजा जाएगा, फ़िल्टर नहीं है): {text}'
         }
       };
       var TAG_HI = {'mountain-view': 'पहाड़ी दृश्य', 'heritage': 'विरासत', 'budget': 'बजट', 'pet-friendly': 'पालतू जानवरों के अनुकूल', 'riverside': 'नदी किनारे', 'forest retreat': 'जंगल में ठहराव', 'farmstay': 'फार्म स्टे', 'village homestay': 'गाँव का होमस्टे', 'town homestay': 'शहर का होमस्टे', 'luxury': 'विलासी', 'eco-lodge': 'ईको लॉज', 'jungle lodge': 'जंगल लॉज', 'cabin': 'केबिन', 'mountain lodge': 'पहाड़ी लॉज', 'luxury villa': 'विलासी विला', 'luxury farmstay': 'विलासी फार्म स्टे', 'curated collection': 'चुनिंदा संग्रह'};
@@ -1441,7 +1435,7 @@ section[id]{scroll-margin-top:120px;}
         if (q.town){
           max += 30;
           var t = q.town.toLowerCase();
-          if (item.place.toLowerCase().indexOf(t) > -1 || t.indexOf(item.place.toLowerCase()) > -1){ score += 30; reasons.push(miFmt('whyTown', {town: item.place})); }
+          if (item.place.toLowerCase().indexOf(t) > -1 || t.indexOf(item.place.toLowerCase()) > -1){ score += 30; if (item.place.toLowerCase() !== String(q.region || '').toLowerCase()) reasons.push(miFmt('whyTown', {town: item.place})); }
         }
         if (q.budget){
           max += 25;
@@ -1466,19 +1460,122 @@ section[id]{scroll-margin-top:120px;}
       }
       var lastMatch = null;
       var matchBusy = false;
-      function matchReadQuery(){
+      var REGION_KEYWORDS = [
+        [['pauri garhwal', 'pauri', 'पौड़ी'], 'Pauri Garhwal'],
+        [['jim corbett', 'corbett', 'कॉर्बेट'], 'Jim Corbett'],
+        [['almora', 'binsar', 'kausani', 'अल्मोड़ा'], 'Almora / Binsar / Kausani'],
+        [['munsiyari', 'chaukori', 'मुनस्यारी'], 'Munsiyari / Chaukori'],
+        [['auli', 'joshimath', 'औली'], 'Auli / Joshimath'],
+        [['chopta', 'tungnath', 'चोपता'], 'Chopta / Tungnath'],
+        [['pithoragarh', 'dharchula', 'पिथौरागढ़'], 'Pithoragarh / Dharchula'],
+        [['nainital', 'नैनीताल'], 'Nainital'],
+        [['mussoorie', 'मसूरी'], 'Mussoorie'],
+        [['rishikesh', 'ऋषिकेश'], 'Rishikesh'],
+        [['ranikhet', 'रानीखेत'], 'Ranikhet'],
+        [['lansdowne', 'लैंसडाउन'], 'Lansdowne'],
+        [['dehradun', 'देहरादून'], 'Dehradun']
+      ];
+      var TAG_KEYWORDS = [
+        [['mountain lodge'], 'mountain lodge'],
+        [['luxury villa', 'villa'], 'luxury villa'],
+        [['luxury farm'], 'luxury farmstay'],
+        [['mountain view', 'mountain views', 'himalayan view', 'himalayan views', 'himalaya view', 'mountain', 'पहाड़', 'पहाड़ी', 'हिमालय'], 'mountain-view'],
+        [['jungle lodge', 'jungle'], 'jungle lodge'],
+        [['forest retreat', 'forest'], 'forest retreat'],
+        [['heritage', 'historic', 'colonial', 'विरासत'], 'heritage'],
+        [['pet-friendly', 'pet friendly', 'pet', 'dog', 'पालतू'], 'pet-friendly'],
+        [['riverside', 'river side', 'river', 'नदी'], 'riverside'],
+        [['farmstay', 'farm', 'फार्म'], 'farmstay'],
+        [['village homestay', 'village', 'गाँव'], 'village homestay'],
+        [['town homestay'], 'town homestay'],
+        [['eco-lodge', 'eco lodge'], 'eco-lodge'],
+        [['cabin'], 'cabin'],
+        [['luxury', 'premium', 'विलासी'], 'luxury'],
+        [['budget', 'cheap', 'affordable', 'सस्ता', 'बजट'], 'budget'],
+        [['curated'], 'curated collection']
+      ];
+      var MATCH_STOPWORDS = ['stay', 'stays', 'with', 'and', 'a', 'an', 'the', 'in', 'near', 'for', 'want', 'looking', 'please', 'need', 'get', 'good', 'nice', 'beautiful', 'place', 'some', 'any', 'me', 'my', 'us', 'we', 'to', 'of', 'at', 'on', 'is', 'it', 'this', 'that', 'from', 'under', 'over', 'between', 'per', 'night', 'nights', 'room', 'rooms', 'book', 'booking', 'और', 'में', 'का', 'की', 'के', 'से', 'एक', 'है', 'मुझे', 'चाहिए', 'वाला', 'वाली', 'को', 'पर'];
+      function parseFreeText(raw){
+        var text = String(raw || '').toLowerCase();
+        var region = '', regionKw = '';
+        for (var i = 0; i < REGION_KEYWORDS.length; i++){
+          var kws = REGION_KEYWORDS[i][0];
+          for (var j = 0; j < kws.length; j++){
+            if (text.indexOf(kws[j]) > -1){ region = REGION_KEYWORDS[i][1]; regionKw = kws[j]; break; }
+          }
+          if (region) break;
+        }
+        var town = '';
+        var seen = {};
+        var places = [];
+        listings.forEach(function(item){ if (item.place && !seen[item.place]){ seen[item.place] = true; places.push(item.place); } });
+        var bestLen = 0;
+        places.forEach(function(p){
+          var pl = p.toLowerCase();
+          if (pl.length > bestLen && text.indexOf(pl) > -1){ town = p; bestLen = pl.length; }
+        });
+        var budget = 0, budgetTok = '';
+        (function(){
+          var cues = ['₹', 'rs', 'rupees', 'budget', 'under', 'below', 'within', 'max', 'up to', 'per night', 'price', 'cost', 'night'];
+          var cands = [];
+          var reK = /(\d[\d,]*\.?\d*)\s*k\b/gi, m;
+          while ((m = reK.exec(text)) !== null){ var v = Number(m[1].replace(/,/g, '')) * 1000; if (v >= 500) cands.push({v: v, tok: m[0], idx: m.index}); }
+          var reN = /(\d[\d,]*)/g;
+          while ((m = reN.exec(text)) !== null){ var v2 = Number(m[1].replace(/,/g, '')); if (v2 >= 500) cands.push({v: v2, tok: m[1], idx: m.index}); }
+          if (!cands.length) return;
+          function cued(c){
+            var ctx = text.slice(Math.max(0, c.idx - 15), Math.min(text.length, c.idx + c.tok.length + 15));
+            for (var k = 0; k < cues.length; k++){ if (ctx.indexOf(cues[k]) > -1) return true; }
+            return false;
+          }
+          var pool = cands.filter(cued);
+          if (!pool.length) pool = cands.filter(function(c){ return !(c.v >= 2000 && c.v <= 2099); });
+          if (!pool.length) return;
+          var best = pool[0];
+          pool.forEach(function(c){ if (c.v > best.v) best = c; });
+          budget = best.v; budgetTok = best.tok;
+        })();
         var tags = [];
-        document.querySelectorAll('#matchChecks input:checked').forEach(function(c){ tags.push(c.value); });
-        var b = document.getElementById('matchBudget').value;
-        return {
-          region: document.getElementById('matchRegion').value,
-          town: (document.getElementById('matchTown').value || '').trim(),
-          budget: b ? Number(b) : 0,
-          tags: tags,
-          elseText: (document.getElementById('matchElse').value || '').trim()
-        };
+        var work = text;
+        TAG_KEYWORDS.forEach(function(entry){
+          var kws = entry[0];
+          for (var k = 0; k < kws.length; k++){
+            if (work.indexOf(kws[k]) > -1){
+              if (tags.indexOf(entry[1]) < 0) tags.push(entry[1]);
+              work = work.replace(kws[k], ' ');
+              break;
+            }
+          }
+        });
+        var rem = work;
+        if (regionKw) rem = rem.replace(regionKw, ' ');
+        if (town) rem = rem.replace(town.toLowerCase(), ' ');
+        if (budgetTok) rem = rem.replace(budgetTok.toLowerCase(), ' ');
+        rem = rem.replace(/[^a-z0-9\u0900-\u097f ]/g, ' ');
+        var words = rem.split(/\s+/).filter(function(w){
+          return w.length > 2 && MATCH_STOPWORDS.indexOf(w) < 0;
+        });
+        var remainder = words.slice(0, 8).join(' ');
+        return { region: region, town: town, budget: budget, tags: tags, remainder: remainder };
       }
-      function matchRanked(q){
+      function matchReadQuery(){
+        var raw = (document.getElementById('matchFree').value || '').trim();
+        var p = parseFreeText(raw);
+        return { region: p.region, town: p.town, budget: p.budget, tags: p.tags, elseText: raw, raw: raw, remainder: p.remainder };
+      }
+      function matchUnderstoodHTML(q){
+        if (!q) return '';
+        var chips = [];
+        if (q.region) chips.push('<span class="match-chip">' + safe(q.region) + '</span>');
+        if (q.town && q.town.toLowerCase() !== String(q.region || '').toLowerCase()) chips.push('<span class="match-chip">' + safe(q.town) + '</span>');
+        if (q.budget) chips.push('<span class="match-chip">₹' + q.budget.toLocaleString('en-IN') + '</span>');
+        q.tags.forEach(function(t){ chips.push('<span class="match-chip">' + safe(matchTagLabel(t)) + '</span>'); });
+        if (!chips.length) return '<span class="match-understood-note">' + safe(mi('understoodNone')) + '</span>';
+        var html = '<span class="match-understood-label">' + safe(mi('understoodLabel')) + '</span>' + chips.join('');
+        if (q.remainder) html += '<span class="match-understood-also">' + safe(miFmt('understoodAlso', {text: q.remainder})) + '</span>';
+        return html;
+      }
+function matchRanked(q){
         return listings.map(function(item){
           var sc = matchScore(item, q);
           return { item: item, score: sc.score, pct: sc.pct, reasons: sc.reasons };
@@ -1520,6 +1617,8 @@ section[id]{scroll-margin-top:120px;}
         bindMatchCards();
         document.getElementById('matchResultsTitle').textContent = m.fallback ? mi('closestTitle') : (shown.length === 1 ? mi('resultsTitleOne') : miFmt('resultsTitle', {n: shown.length}));
         document.getElementById('matchNote').textContent = mi('noteScored');
+        var und = document.getElementById('matchUnderstood');
+        if (und){ und.innerHTML = matchUnderstoodHTML(m.query); }
         document.getElementById('matchFallback').hidden = !m.fallback;
         document.getElementById('matchFallback').textContent = m.fallback ? mi('fallback') : '';
         document.getElementById('matchResults').hidden = false;
@@ -1578,42 +1677,11 @@ section[id]{scroll-margin-top:120px;}
           if (q.town) lines.push(d.reqTown + ': ' + q.town);
           if (q.budget) lines.push(d.reqBudget + ': ₹' + q.budget + ' ' + d.perNight);
           if (q.tags.length) lines.push(d.reqExp + ': ' + q.tags.map(function(t){ return l === 'hi' ? (TAG_HI[t] || tagLabel(t)) : tagLabel(t); }).join(', '));
-          if (q.elseText) lines.push(d.reqElse + ': ' + q.elseText);
+          if (q.raw) lines.push(d.reqRaw + ': "' + q.raw + '"');
           if (lastMatch.shown.length) lines.push(d.reqTop + ': ' + lastMatch.shown.slice(0, 3).map(function(r){ return r.item.name; }).join(', '));
           lines.push(d.reqHelp);
           window.open('https://wa.me/' + owner + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
         });
-      }
-      function matchBuildRegion(){
-        var sel = document.getElementById('matchRegion');
-        var cur = sel.value;
-        var html = '<option value="">' + safe(mi('regionAny')) + '</option>' + regions.slice(1).map(function(r){ return '<option value="' + safe(r) + '"' + (r === cur ? ' selected' : '') + '>' + safe(r) + '</option>'; }).join('');
-        sel.innerHTML = html;
-      }
-      function matchBuildBudget(){
-        var sel = document.getElementById('matchBudget');
-        var cur = sel.value;
-        var vals = [1000, 2000, 3000, 5000, 7500, 10000];
-        var d = MATCH_I18N[state.lang] || MATCH_I18N.en;
-        var html = '<option value="">' + safe(mi('budgetAny')) + '</option>' + vals.map(function(v){ return '<option value="' + v + '"' + (String(v) === cur ? ' selected' : '') + '>' + safe(d.budgetUpToPre + v.toLocaleString('en-IN') + d.budgetUpToPost) + '</option>'; }).join('');
-        sel.innerHTML = html;
-      }
-      function matchBuildTowns(){
-        var seen = {};
-        var towns = [];
-        listings.forEach(function(item){ if (item.place && !seen[item.place]){ seen[item.place] = true; towns.push(item.place); } });
-        towns.sort();
-        document.getElementById('matchTownList').innerHTML = towns.map(function(t){ return '<option value="' + safe(t) + '">'; }).join('');
-      }
-      function matchBuildChecks(){
-        var counts = {};
-        listings.forEach(function(item){ displayTags(item).forEach(function(t){ counts[t] = (counts[t] || 0) + 1; }); });
-        var checked = {};
-        document.querySelectorAll('#matchChecks input:checked').forEach(function(c){ checked[c.value] = true; });
-        var tags = Object.keys(counts).sort(function(a, b){ return counts[b] - counts[a] || a.localeCompare(b); }).slice(0, 12);
-        document.getElementById('matchChecks').innerHTML = tags.map(function(t){
-          return '<label class="match-check"><input type="checkbox" value="' + safe(t) + '"' + (checked[t] ? ' checked' : '') + '><span>' + safe(matchTagLabel(t)) + ' (' + counts[t] + ')</span></label>';
-        }).join('');
       }
       function matchCoverage(){
         var tagged = listings.filter(function(item){ return displayTags(item).length > 0; }).length;
@@ -1625,17 +1693,12 @@ section[id]{scroll-margin-top:120px;}
           var k = el.getAttribute('data-mi');
           el.textContent = mi(k);
         });
-        var town = document.getElementById('matchTown');
-        if (town) town.placeholder = mi('townPh');
-        var els = document.getElementById('matchElse');
-        if (els) els.placeholder = mi('elsePh');
-        matchBuildRegion();
-        matchBuildBudget();
-        if (listings.length){ matchBuildChecks(); matchCoverage(); }
+        var free = document.getElementById('matchFree');
+        if (free) free.placeholder = mi('freePh');
+        if (listings.length){ matchCoverage(); }
         if (lastMatch && !document.getElementById('matchResults').hidden){ matchRenderResults(lastMatch, false); }
       }
       function matchInit(){
-        matchBuildTowns();
         applyMatchLang();
         var form = document.getElementById('matchForm');
         if (form) form.addEventListener('submit', matchSubmit);
