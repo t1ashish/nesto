@@ -1119,13 +1119,14 @@ footer{background:var(--surface-2)}
       }
       function instagramHTML(item){
         if(!item.instagram||!item.instagramUrl)return '';
-        return '<a class="instagram-link" href="'+item.instagramUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Open '+safe(item.name)+' on Instagram at '+safe(item.instagram)+'"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>'+safe(item.instagram)+'</a>';
+        if(!/^https:\/\/(www\.)?instagram\.com\//.test(item.instagramUrl))return '';
+        return '<a class="instagram-link" href="'+safe(item.instagramUrl)+'" target="_blank" rel="noopener noreferrer" aria-label="Open '+safe(item.name)+' on Instagram at '+safe(item.instagram)+'"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>'+safe(item.instagram)+'</a>';
       }
       function bookWithHTML(item){
         var links=[];
         if(item._phone){links.push('<a class="book-btn nesto" href="#" data-book="'+item.id+'">\u2605 Nesto</a>');}
         else{links.push('<a class="book-btn nesto" href="#" data-arrange="'+item.id+'">\u2605 Nesto</a>');}
-        (item.otaLinks||[]).forEach(function(o){links.push('<a class="book-btn" href="'+safe(o.url)+'" target="_blank" rel="noopener">'+safe(o.platform)+'</a>');});
+        (item.otaLinks||[]).forEach(function(o){if(!/^https?:\/\//i.test(o.url))return;links.push('<a class="book-btn" href="'+safe(o.url)+'" target="_blank" rel="noopener">'+safe(o.platform)+'</a>');});
         return '<div class="book-with"><span class="book-with-label">'+t('bookWith')+'</span><div class="book-buttons">'+links.join('')+'</div></div>';
       }
       function tagLabel(t){var s=String(t).replace(/-/g,' ');return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -1156,7 +1157,7 @@ footer{background:var(--surface-2)}
         var note=nestoPriceNote(item);
         if(!item._phone)note+=' '+(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u0905\u092d\u0940 \u0928\u0939\u0940\u0902 \u0939\u0948 \u2014 Nesto \u0938\u0947 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0935\u093e\u090f\u0902\u0964':'No host number on file yet \u2014 ask Nesto and we will reach out and confirm.');
         var claimLink=item.verified?'':'<a class="claim-link" href="#" data-claim="'+item.id+'">'+(state.lang==='hi'?'\u0907\u0938 \u0939\u094b\u092e\u0938\u094d\u091f\u0947 \u0915\u094b \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0947\u0902 \u2014 \u092f\u0939 \u092e\u0941\u092b\u094d\u0924 \u0939\u0948':'Claim this homestay \u2014 it\'s free')+'</a>';
-        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+item.image+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(placeLabel(item))+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+displayTags(item).map(function(tag){return '<span class="tag">'+safe(tagLabel(tag))+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
+        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+safe(item.image)+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(placeLabel(item))+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+displayTags(item).map(function(tag){return '<span class="tag">'+safe(tagLabel(tag))+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
       }
       function priceValue(item){
         var match=String(item.price).replace(/,/g,'').match(/[0-9]+/);
@@ -1275,7 +1276,7 @@ footer{background:var(--surface-2)}
       function reviewsHTML(item){
         var rs=item.reviewSources||[];
         if(!rs.length)return '<p class="muted">'+(state.lang==='hi'?'\u0905\u092d\u0940 \u0915\u094b\u0908 \u0938\u092e\u0940\u0915\u094d\u0937\u093e \u0932\u093f\u0902\u0915 \u0909\u092a\u0932\u092c\u094d\u0927 \u0928\u0939\u0940\u0902 \u0939\u0948\u0964':'No review links available yet.')+'</p>';
-        return rs.map(function(r){return '<a class="btn btn-ghost btn-small" href="'+safe(r.url)+'" target="_blank" rel="noopener">'+safe(r.label)+'</a>';}).join('');
+        return rs.filter(function(r){return /^https?:\/\//i.test(r.url);}).map(function(r){return '<a class="btn btn-ghost btn-small" href="'+safe(r.url)+'" target="_blank" rel="noopener">'+safe(r.label)+'</a>';}).join('');
       }
       function renderExperiences(){
         nestoHideMockSections();
