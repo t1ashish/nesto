@@ -820,7 +820,6 @@ section[id]{scroll-margin-top:120px;}
 .match-head{max-width:680px}
 .match-kicker{font-size:13px;font-weight:800;letter-spacing:.12em;color:#b8860b;margin:0 0 8px}
 #ai-match h2{font-size:28px}
-.match-copy{color:var(--muted)}
 .match-form{border:1px solid var(--line);border-radius:20px;padding:22px;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.06);margin-top:18px}
 .match-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .match-field label,.match-field-label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
@@ -876,7 +875,7 @@ section[id]{scroll-margin-top:120px;}
 /* ===== GOOGLE RESTYLE (2026-10-31) — Roboto, Google blue/grays, search-first look ===== */
 :root{
   --ink:#202124;--muted:#5f6368;--paper:#ffffff;--surface:#ffffff;--surface-2:#f8f9fa;
-  --ocean:#1a73e8;--ocean-deep:#1765cc;--ocean-soft:#e8f0fe;
+  --ocean:#188038;--ocean-deep:#137333;--ocean-soft:#e6f4ea;
   --sun:#FBBC05;--sun-soft:#fef7e0;--pine:#188038;--line:#dadce0;
   --danger:#d93025;--danger-soft:#fce8e6;
   --shadow:0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
@@ -903,9 +902,9 @@ footer{background:var(--surface-2)}
 .mp-step.done:before{color:var(--ocean)}
 .mp-bar{background:var(--surface-2)}
 .mp-fill{background:var(--ocean)}
-.match-banner{background:var(--ocean-soft);border-color:#aecbfa}
+.match-banner{background:var(--ocean-soft);border-color:#a8dab5}
 .match-banner b{color:var(--ocean-deep)}
-.match-chip{background:var(--ocean-soft);color:var(--ocean-deep);border-color:#aecbfa}
+.match-chip{background:var(--ocean-soft);color:var(--ocean-deep);border-color:#a8dab5}
 .match-free:focus{border-color:var(--ocean);box-shadow:0 0 0 1px var(--ocean)}
 </style>
 </head>
@@ -944,7 +943,7 @@ footer{background:var(--surface-2)}
         
         <button class="btn btn-ocean" id="searchButton" type="button" aria-label="Find stays"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="screen-reader">Find stays</span></button>
       </div>
-    <div class="usp-strip"><span id="uspZero">Zero commission on stays</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspTalk">Talk to the host before you book</span><span class="usp-sep" aria-hidden="true">·</span><span id="uspKeep">Host keeps every rupee</span></div></section>
+    <div class="usp-strip"><span id="uspZero">Zero commission on stays</span><span class="usp-sep" aria-hidden="true">:</span><span id="uspTalk">Talk to the host before you book</span><span class="usp-sep" aria-hidden="true">:</span><span id="uspKeep">Host keeps every rupee</span></div></section>
 
 
 
@@ -952,7 +951,6 @@ footer{background:var(--surface-2)}
       <div class="match-head">
         <p class="match-kicker" data-mi="kicker">✦ AI MATCH</p>
         <h2 data-mi="title">Tell us what you need. We will find your stay.</h2>
-        <p class="match-copy" data-mi="copy">Describe your trip in detail — place, budget, the feeling you want — and our matcher scores every live listing against it, then shows you the best fits first.</p>
       </div>
       <form class="match-form" id="matchForm">
                 <div class="match-field"><label for="matchFree" data-mi="freeLabel">What are you looking for?</label><textarea id="matchFree" class="match-free" rows="2" placeholder="stay with beautiful Himalayan views and home cooked meals"></textarea><p class="match-hint" data-mi="freeHint">Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.</p></div>
@@ -1057,9 +1055,9 @@ footer{background:var(--surface-2)}
     (function(){
       var listings=[];
       var sampleReviews=[
-        {name:'Aditi S. · sample guest',rating:5,date:'12 Sep 2026',text:'The host made arrival easy and helped us plan a quiet local walk. The direct conversation was the best part.'},
-        {name:'Rohan M. · sample guest',rating:5,date:'24 Aug 2026',text:'Warm meals, clear directions, and a room that felt connected to the place rather than packaged.'},
-        {name:'Meera K. · sample guest',rating:4,date:'8 Jul 2026',text:'A peaceful stay with thoughtful local guidance. I would confirm road access with the host before driving.'}
+        {name:'Aditi S.: sample guest',rating:5,date:'12 Sep 2026',text:'The host made arrival easy and helped us plan a quiet local walk. The direct conversation was the best part.'},
+        {name:'Rohan M.: sample guest',rating:5,date:'24 Aug 2026',text:'Warm meals, clear directions, and a room that felt connected to the place rather than packaged.'},
+        {name:'Meera K.: sample guest',rating:4,date:'8 Jul 2026',text:'A peaceful stay with thoughtful local guidance. I would confirm road access with the host before driving.'}
       ];
       var experiences=[
         {id:'trek',name:'Guided village trek',price:'₹800'},
@@ -1390,7 +1388,6 @@ footer{background:var(--surface-2)}
         en: {
           kicker: '✦ AI MATCH',
           title: 'Tell us what you need. We will find your stay.',
-          copy: 'Just type what you want — a place, a budget, a feeling, anything — and our matcher picks out what it can match and shows you the best fits.',
           freeLabel: 'What are you looking for?',
           freePh: 'stay with beautiful Himalayan views and home cooked meals',
           freeHint: 'Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.',
@@ -1426,7 +1423,6 @@ footer{background:var(--surface-2)}
         hi: {
           kicker: '✦ AI मैच',
           title: 'बताइए आपको क्या चाहिए। हम आपका स्टे ढूँढ़ेंगे।',
-          copy: 'बस अपनी चाहत लिखिए — जगह, बजट, अनुभव, कुछ भी — और हमारा मैचर उससे मिलान करके सबसे अच्छे स्टे दिखाएगा।',
           freeLabel: 'आप क्या ढूँढ़ रहे हैं?',
           freePh: 'पहाड़ों का सुंदर नज़ारा और घर का बना खाना वाला स्टे',
           freeHint: 'अपने अंदाज़ में लिखिए। हम जगह, बजट और अनुभव निकालकर मिलान करेंगे — बाकी बात आपकी पूछताछ के साथ Nesto तक जाएगी।',
@@ -1621,8 +1617,8 @@ function matchRanked(q){
         });
       }
       function matchBannerHTML(r){
-        var reasons = r.reasons.slice(0, 4).join(' · ');
-        return '<div class="match-banner"><b>' + r.pct + '% ' + mi('matchWord') + '</b>' + (reasons ? ' · ' + safe(reasons) : '') + '</div>';
+        var reasons = r.reasons.slice(0, 4).join(': ');
+        return '<div class="match-banner"><b>' + r.pct + '% ' + mi('matchWord') + '</b>' + (reasons ? ': ' + safe(reasons) : '') + '</div>';
       }
       function bindMatchCards(){
         var root = document.getElementById('matchGrid');
