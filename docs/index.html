@@ -862,7 +862,7 @@ section[id]{scroll-margin-top:120px;}
 @media (max-width:720px){.match-grid{grid-template-columns:1fr}#ai-match h2{font-size:23px}.mp-visual{flex-direction:column;align-items:flex-start}}
 @media (prefers-reduced-motion:reduce){.mp-dot,.mp-glow{animation:none}#matchGrid .card{animation:none}}
 
-.match-free{width:100%;font-family:"Manrope",sans-serif;font-size:16px;line-height:1.55;padding:14px 16px;border:1px solid var(--line);border-radius:14px;min-height:96px;resize:vertical}
+.match-free{width:100%;font-family:"Manrope",sans-serif;font-size:16px;line-height:1.55;padding:12px 16px;border:1px solid var(--line);border-radius:14px;min-height:60px;resize:vertical}
 .match-free:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .match-understood{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
 .match-understood-label{font-weight:800;font-size:13px}
@@ -917,9 +917,8 @@ section[id]{scroll-margin-top:120px;}
         <p class="match-copy" data-mi="copy">Describe your trip in detail — place, budget, the feeling you want — and our matcher scores every live listing against it, then shows you the best fits first.</p>
       </div>
       <form class="match-form" id="matchForm">
-                <div class="match-field"><label for="matchFree" data-mi="freeLabel">What are you looking for?</label><textarea id="matchFree" class="match-free" rows="3" placeholder="stay with beautiful Himalayan views and home cooked meals"></textarea><p class="match-hint" data-mi="freeHint">Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.</p></div>
+                <div class="match-field"><label for="matchFree" data-mi="freeLabel">What are you looking for?</label><textarea id="matchFree" class="match-free" rows="2" placeholder="stay with beautiful Himalayan views and home cooked meals"></textarea><p class="match-hint" data-mi="freeHint">Type it your way. We pick out the place, budget and experiences we can match — the rest travels with your enquiry to Nesto.</p></div>
         <button class="btn btn-ocean match-submit" type="submit" data-mi="submit">✦ Find my perfect stay</button>
-        <p class="match-coverage" id="matchCoverage"></p>
       </form>
       <div class="match-processing" id="matchProcessing" aria-live="polite">
         <div class="mp-visual"><div class="mp-dots" aria-hidden="true"><span class="mp-glow"></span><span class="mp-dot"></span><span class="mp-dot"></span><span class="mp-dot"></span><span class="mp-dot"></span></div><div><div class="mp-pct"><span id="mpPct">0</span><small>%</small></div><div data-mi="processingSub">Matching your requirements…</div></div></div>
@@ -1364,7 +1363,6 @@ section[id]{scroll-margin-top:120px;}
           resultsTitleOne: 'Best match for you',
           closestTitle: 'Closest matches',
           sendReq: 'Send my requirements to Nesto',
-          coverage: 'Only {tagged} of {total} stays carry experience tags so far — untagged stays still appear when they fit your place and budget, so you don\u2019t miss an option.',
           noteScored: 'Ranked by how well each stay fits what you picked. Tap any stay to view it, or chat with the host.',
           fallback: 'No stay matches everything you picked — these come closest. Loosen a filter, or send your requirements to Nesto and we will help arrange it.',
           matchWord: 'match',
@@ -1401,7 +1399,6 @@ section[id]{scroll-margin-top:120px;}
           resultsTitleOne: 'आपके लिए सबसे अच्छा मैच',
           closestTitle: 'सबसे करीबी मैच',
           sendReq: 'अपनी ज़रूरतें Nesto को भेजें',
-          coverage: 'अभी सिर्फ़ {tagged}/{total} स्टे में अनुभव-टैग हैं — बिना टैग वाले स्टे भी जगह और बजट मिलने पर दिखेंगे, ताकि कोई विकल्प छूटे नहीं।',
           noteScored: 'हर स्टे को आपके चुने हुए मानदंडों से मिलान के अनुसार रैंक किया गया है। किसी स्टे को देखने के लिए उस पर टैप करें, या मेज़बान से बात करें।',
           fallback: 'कोई स्टे आपकी हर शर्त से मेल नहीं खाता — ये सबसे करीब हैं। कोई फ़िल्टर ढीला करें, या अपनी ज़रूरतें Nesto को भेजें, हम व्यवस्था में मदद करेंगे।',
           matchWord: 'मैच',
@@ -1683,10 +1680,6 @@ function matchRanked(q){
           window.open('https://wa.me/' + owner + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
         });
       }
-      function matchCoverage(){
-        var tagged = listings.filter(function(item){ return displayTags(item).length > 0; }).length;
-        document.getElementById('matchCoverage').textContent = miFmt('coverage', {tagged: tagged, total: listings.length});
-      }
       function applyMatchLang(){
         if (!document.getElementById('matchForm')) return;
         document.querySelectorAll('[data-mi]').forEach(function(el){
@@ -1695,7 +1688,6 @@ function matchRanked(q){
         });
         var free = document.getElementById('matchFree');
         if (free) free.placeholder = mi('freePh');
-        if (listings.length){ matchCoverage(); }
         if (lastMatch && !document.getElementById('matchResults').hidden){ matchRenderResults(lastMatch, false); }
       }
       function matchInit(){
