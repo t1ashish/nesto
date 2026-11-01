@@ -137,6 +137,47 @@ table{font-size:13px;}
       <div class="tpl"><h3 style="margin:0">Hindi — first outreach (draft)</h3><pre id="tplHi"></pre><button class="btn btn-sm" type="button" data-copy-tpl="hi">Copy Hindi draft</button></div>
       <div class="tpl"><h3 style="margin:0">English — first outreach (draft)</h3><pre id="tplEn"></pre><button class="btn btn-sm" type="button" data-copy-tpl="en">Copy English draft</button></div>
     </section>
+    <section class="section" id="ambSection">
+      <h2>Ambassadors</h2>
+      <p class="sub">Local creators, community anchors, and offline voices who can carry Nesto into their towns. Public information only — no private phone numbers. Nothing here sends anything by itself: open the channel, copy the draft, send it yourself.</p>
+      <div class="stats" id="ambStats"></div>
+      <div class="filters">
+        <input id="ambSearch" type="search" placeholder="Search name, town, or handle">
+        <select id="ambTier"><option value="all">All tiers</option><option value="creator">Creator</option><option value="anchor">Anchor</option><option value="voice">Voice (offline)</option></select>
+        <select id="ambStage"><option value="all">All stages</option><option value="New">New</option><option value="Contacted">Contacted</option><option value="Replied">Replied</option><option value="Ambassador">Ambassador</option><option value="Active">Active</option><option value="Parked">Parked</option></select>
+        <select id="ambPlatform"><option value="all">All platforms</option><option value="instagram">Instagram</option><option value="youtube">YouTube</option><option value="community">Community</option><option value="offline-role">Offline</option></select>
+      </div>
+      <div id="ambList"></div>
+      <div class="tpl" style="margin-top:18px">
+        <h3 style="margin:0 0 10px">Add a person</h3>
+        <p class="status">For offline voices and anyone the scan missed. Public details only — never add a private phone number.</p>
+        <div class="filters">
+          <input id="ambAddName" placeholder="Name">
+          <input id="ambAddHandle" placeholder="Handle or channel (optional)">
+          <input id="ambAddBase" placeholder="Town / base">
+          <select id="ambAddTier"><option value="creator">Creator</option><option value="anchor">Anchor</option><option value="voice">Voice (offline)</option></select>
+          <select id="ambAddPlatform"><option value="instagram">Instagram</option><option value="youtube">YouTube</option><option value="community">Community</option><option value="offline-role">Offline</option></select>
+        </div>
+        <input id="ambAddWhy" placeholder="Why them? (one line)" style="margin-bottom:10px">
+        <button class="btn btn-dark btn-sm" type="button" id="ambAddBtn">Add to Ambassadors</button>
+      </div>
+    </section>
+    <section class="section" id="radarSection">
+      <h2>Guest Radar</h2>
+      <p class="sub">People already looking for Uttarakhand stays. Answer their question first — Nesto is the second sentence, never the first. Never cold-DM; public helpful replies only.</p>
+      <div class="stats" id="radarStats"></div>
+      <div class="filters">
+        <input id="radarSearch" type="search" placeholder="Search town, topic, or author">
+        <select id="radarPlatform"><option value="all">All sources</option><option value="facebook-group">Facebook group</option><option value="instagram">Instagram</option><option value="youtube">YouTube</option><option value="forum">Forum</option></select>
+      </div>
+      <div id="radarList"></div>
+      <div class="tpl" style="margin-top:18px">
+        <h3 style="margin:0 0 10px">What the weekly scan watches</h3>
+        <p class="status" id="radarWatch"></p>
+        <h3 style="margin:14px 0 10px">Demand themes</h3>
+        <div id="radarThemes"></div>
+      </div>
+    </section>
     <footer class="foot">
       <p>Tracking (sent / replied / claimed) saves in this browser only and does not sync to other devices. Flipping the public Nesto Verified badge needs an authenticated write — use the private Owner Console for that. This page loads listings live from the same public feed the guest portal uses and stores no keys, no service credentials, and no private research notes.</p>
     </footer>
@@ -156,7 +197,7 @@ document.getElementById('unlockBtn').addEventListener('click',function(){
   var err=document.getElementById('lockError');
   if(!window.crypto||!crypto.subtle){err.textContent='This browser cannot verify the code here. Try a modern browser over https.';return;}
   sha256Hex(v).then(function(h){
-    if(h===CODE_HASH){try{sessionStorage.setItem('nesto-admin-unlocked','1');}catch(e){}err.textContent='';document.getElementById('codeInput').value='';showApp();loadData();}
+    if(h===CODE_HASH){try{sessionStorage.setItem('nesto-admin-unlocked','1');}catch(e){}err.textContent='';document.getElementById('codeInput').value='';showApp();loadData();loadCommunity();}
     else{err.textContent='Wrong code. Try again.';}
   });
 });
@@ -460,7 +501,225 @@ function renderTemplates(){
     });
   });
 }
-function renderAll(){renderDashboard();renderToday();renderPipeline();renderAccounts();}
+function renderAll(){renderDashboard();renderToday();renderPipeline();renderAccounts();renderAmbassadors();renderRadar();}
+/* Community systems: Ambassadors + Guest Radar (see AMBASSADOR_GUEST_SYSTEM.md).
+   Catalog: weekly JSON (data/ambassadors.json, data/guest-radar.json) wins when it
+   loads and validates; embedded seeds below are the 2026-11-01 fallback snapshot.
+   Tracking + custom adds live in this browser only (localStorage). */
+var AMB_SEED=[
+{id:'mohak-gunjit',name:'Mohak Gunjit Vlogs',platform:'youtube',handle:null,url:null,base:'Tehri Garhwal',tier:'creator',reach:'YouTube — verify on profile',why:'Homestay tours in Tehri villages; warmest host-side lead.',hook:'Rajakhet, Tuniyar aur Peepaldali ke homestay tour wale videos',email:null},
+{id:'narendra-uk11',name:'Narendra UK11 Vlogs',platform:'youtube',handle:null,url:null,base:'Garhwal',tier:'creator',reach:'YouTube — verify on profile',why:'Garhwali village life; host-adjacent audience.',hook:'Garhwali village life wale videos',email:null},
+{id:'simran-gusain',name:'Simran Gusain',platform:'youtube',handle:null,url:null,base:'Pauri Garhwal',tier:'creator',reach:'YouTube — verify on profile',why:'Pauri holds 130 of the 158 listings — home turf.',hook:'Pauri ke hill lifestyle wale videos',email:null},
+{id:'kaku-fojiyan',name:'Kaku Fojiyan Vlogs',platform:'youtube',handle:null,url:null,base:'Remote Garhwal villages',tier:'creator',reach:'YouTube — verify on profile',why:'Remote village tours; only confirmed public business contact found.',hook:'Remote gaon ke homestay tour wale videos',email:'fojiyanjagdeep@gmail.com'},
+{id:'deepa-bisht',name:'Deepa Bisht — Kumaoni Living',platform:'youtube',handle:null,url:null,base:'Kumaon',tier:'creator',reach:'~70K YouTube (verify on profile)',why:'Village life + cooking; high female engagement.',hook:'Kumaoni village life aur cooking wale videos',email:null},
+{id:'sameer-chauhan',name:'Sameer Chauhan — Ranikhet Traveller Vlogs',platform:'youtube',handle:null,url:null,base:'Ranikhet',tier:'creator',reach:'~82K YouTube (verify on profile)',why:'Homestays + guides; strong engagement (aggregator estimate).',hook:'Ranikhet ke homestay aur guide wale videos',email:null},
+{id:'uttarakhandwale',name:'@uttarakhandwale',platform:'instagram',handle:'uttarakhandwale',url:'https://instagram.com/uttarakhandwale',base:'Dehradun',tier:'creator',reach:'~23.4K IG (verify on profile)',why:'Pahadi IG voice with Dehradun base.',hook:'Uttarakhand ke pahadi content wale posts',email:null},
+{id:'insta-pahadi',name:'@insta_pahadi',platform:'instagram',handle:'insta_pahadi',url:'https://instagram.com/insta_pahadi',base:'Dehradun',tier:'creator',reach:'~13.9K IG (verify on profile)',why:'Small, motivated pahadi voice.',hook:'Pahadi lifestyle wale posts',email:null},
+{id:'uttarakhand-hills',name:'@uttarakhand_hills',platform:'instagram',handle:'uttarakhand_hills',url:'https://instagram.com/uttarakhand_hills',base:'Pauri',tier:'creator',reach:'~6.8K IG (verify on profile)',why:'Pauri-based small creator.',hook:'Pauri se pahadi content',email:null},
+{id:'harshita-explorer',name:'@harshita_theexplorer',platform:'instagram',handle:'harshita_theexplorer',url:'https://instagram.com/harshita_theexplorer',base:'Kumaon (Nainital–Mukteshwar)',tier:'creator',reach:'Verify on profile',why:'Found in 2026-11-01 scan: 3-day Nainital/Jageshwar/Mukteshwar itinerary creator.',hook:'Nainital, Jageshwar aur Mukteshwar ka 3-day itinerary',email:null},
+{id:'kumaon-planner',name:'Kumaon Planner',platform:'instagram',handle:null,url:null,base:'Kumaon',tier:'creator',reach:'Verify on profile',why:'Trust-aligned Hindi voice: check road, parking and practical factors before booking — the same message as Nesto.',hook:'Sirf view dekhkar stay book mat karo wala guide',email:null},
+{id:'tina-tabbu',name:'@tina_tabbu_ (Tanvi Kunwar)',platform:'instagram',handle:'tina_tabbu_',url:'https://instagram.com/tina_tabbu_',base:'Pithoragarh',tier:'creator',reach:'Verify on profile',why:'Pithoragarh local creator posting homestay stays.',hook:'Pithoragarh ke Cloud 9 Homestay wali post',email:null},
+{id:'voices-munsiari',name:'Voices of Munsiari',platform:'community',handle:null,url:null,base:'Munsiari',tier:'anchor',reach:'Community-run',why:'Community-run; the hosts themselves. Approach as partner.',hook:'Munsiari ke hosts ki apni awaaz',email:null},
+{id:'mallika-virdi',name:'Mallika Virdi / The Himalayan Arc',platform:'community',handle:null,url:null,base:'Sarmoli / Munsiyari',tier:'anchor',reach:'Community pioneer',why:'Community homestay pioneer (Sarmoli, Best Rural Tourism Destination 2023). Approach as partner, never a paid ad.',hook:'Sarmoli ka community homestay model',email:null},
+{id:'airbnb-host-community',name:'Uttarakhand Airbnb Host Community',platform:'community',handle:null,url:null,base:'Uttarakhand',tier:'anchor',reach:'Facebook group + meetups',why:'Host community and meetups; peer channel, not an ad slot.',hook:'Uttarakhand ke hosts ka community',email:null},
+{id:'euttaranchal',name:'eUttaranchal Homestay Project',platform:'community',handle:null,url:null,base:'Uttarakhand',tier:'anchor',reach:'Platform',why:'Homestay platform partner candidate.',hook:'Uttarakhand homestay platform',email:null},
+{id:'uttarakhand-tourism',name:'@uttarakhand_tourism (official)',platform:'instagram',handle:'uttarakhand_tourism',url:'https://instagram.com/uttarakhand_tourism',base:'Uttarakhand (official)',tier:'anchor',reach:'~1.8M IG verified',why:'Official account; partnership and tagging play only.',hook:'Official Uttarakhand tourism',email:null},
+{id:'role-pradhan',name:'Village pradhan — add a name',platform:'offline-role',handle:null,url:null,base:'Your listing towns',tier:'voice',reach:'Role, not a person yet',why:'The first person guests ask; can bless or block a listing drive. Add a real name via the form below.',hook:'Gaon ke pratham vyakti',email:null},
+{id:'role-association',name:'Homestay association lead — add a name',platform:'offline-role',handle:null,url:null,base:'Your listing towns',tier:'voice',reach:'Role, not a person yet',why:'Peer trust at scale; one conversation reaches many hosts.',hook:'Hosts ka sangathan',email:null},
+{id:'role-guide',name:'Local trek guide — add a name',platform:'offline-role',handle:null,url:null,base:'Trek towns',tier:'voice',reach:'Role, not a person yet',why:'Guides send guests to stays every week.',hook:'Trekkers ko stay bhejne wala',email:null},
+{id:'role-taxi',name:'Taxi network lead — add a name',platform:'offline-role',handle:null,url:null,base:'Arrival towns',tier:'voice',reach:'Role, not a person yet',why:'Drivers are the first recommender for arriving guests.',hook:'Guests ko pehli salah dene wala',email:null}
+];
+var RADAR_SEED={signals:[
+{id:'sig-tanya-riverside',platform:'facebook-group',author:'Tanya Dipty',url:'https://www.facebook.com/groups/uttarakhandsoulfulhomestay/permalink/1978942349635387/',date:'2026-02-05',town:'Nainital / Bhimtal / Almora / Mukteshwar',topic:'Riverside homestay for 3',summary:'Seeking a homestay for 3 travellers, peaceful riverside setting, open to campsites. Towns: Nainital, Bhimtal, Almora, Mukteshwar.',reply:'Hi Tanya — for a peaceful riverside stay for 3, look at Mukteshwar and Bhimtal: on Nesto you can chat with the host directly on WhatsApp before booking, so you can ask about river access and the room before paying anything. Browse stays here: https://t1ashish.github.io/nesto/ — happy to point you to specific stays if you share dates.',note:'Older post (Feb 2026) — reply only if the thread is still active. Kept as the pattern example: this exact question is what the weekly scan hunts.'}
+],watchlist:{groups:['Uttarakhand Soulful Homestay (Facebook)'],hashtags:['#uttarakhandhomestay','#nainital','#mukteshwar','#uttarakhandtrip','#kumaon'],queries:['Uttarakhand homestay recommendation','Nainital Mukteshwar stay','Mukteshwar homestay','Pauri homestay','Uttarakhand family trip stay']},themes:[
+{name:'Budget Kumaon travel',detail:'Budget guides for Uttarakhand (₹6,000–8,000 trips, Munsiyari under ₹6,000) trended through Oct 2026. Budget guests are actively planning Kumaon trips.'},
+{name:'Family Uttarakhand itineraries',detail:'Family itineraries (Delhi → Nainital → Rishikesh → Mussoorie) and baby-friendly Uttarakhand plans keep appearing. Family guests ask about stays, not just sights.'},
+{name:'Homestay-first stays',detail:'Homestay-first content (host couples, village stays, homestay features) is outperforming hotel content in Uttarakhand feeds.'}
+]};
+var AMB_CREATOR_HI = `नमस्ते {name} जी! {hook} बहुत अच्छे लगे।
+मैं आशीष हूँ — Nesto Stays चलाता हूँ, उत्तराखंड होमस्टे का प्लेटफ़ॉर्म जहाँ मेहमान मेज़बान को सीधे WhatsApp पर मैसेज करके बुक करता है, बिना कमीशन के।
+आपको Founding Creator के रूप में जोड़ना चाहेंगे: आपके अपने स्टे (या किसी मेज़बान) की मुफ़्त Verified लिस्टिंग + पोर्टल पर फ़ीचर स्टोरी।
+बदले में बस एक अनुरोध: अपने शब्दों में एक छोटा रील/पोस्ट, और 2–3 मेज़बानों से WhatsApp पर सीधा परिचय।
+आपकी लिस्टिंग का लिंक भेजूँ?`;
+var AMB_CREATOR_EN = `Hi {name}! Loved {hook}.
+I'm Ashish — I run Nesto Stays, a Uttarakhand homestay platform where guests message the host directly on WhatsApp and book with zero commission.
+I'd love to have you as a Founding Creator: a free Verified listing for your own stay (or a host you nominate) + a feature story on the portal.
+In return, just one ask: a short reel/post in your own words, and a WhatsApp intro to 2–3 hosts you genuinely know.
+Shall I send your listing link?`;
+var AMB_PARTNER_HI = `नमस्ते {name} जी! {hook} — उत्तराखंड के होमस्टे समुदाय के लिए आपका काम प्रेरणादायक है।
+मैं आशीष हूँ — Nesto Stays चलाता हूँ, मेज़बान-प्रथम होमस्टे डायरेक्टरी (158 लिस्टिंग, शून्य कमीशन, मेहमान सीधे मेज़बान से बात करते हैं)।
+क्या हम साझेदारी पर बात कर सकते हैं — जैसे एक होस्ट मीट, या आपकी कम्युनिटी की कहानी हमारे पोर्टल पर? कोई विज्ञापन नहीं, सिर्फ़ साझा काम।
+बात करने का सही समय क्या रहेगा?`;
+var AMB_PARTNER_EN = `Hi {name}! Your work for Uttarakhand's homestay community ({hook}) is inspiring.
+I'm Ashish — I run Nesto Stays, a host-first homestay directory (158 listings, zero commission, guests talk to hosts directly).
+Could we talk about a partnership — a host meet, or featuring your community's story on the portal? No advertising, just shared work.
+When would be a good time to talk?`;
+var AMB_OFFLINE_HI = `{hook} — नमस्ते, मैं आशीष हूँ, Nesto Stays चलाता हूँ।
+हम उत्तराखंड के होमस्टे की एक डायरेक्टरी बना रहे हैं — 158 लिस्टिंग, मेज़बान को कोई कमीशन नहीं, मेहमान सीधे मेज़बान से बात करके बुक करते हैं।
+आपके गाँव/इलाके के मेज़बानों को जोड़ने में आपकी मदद चाहिए: क्या आप 2–3 अच्छे मेज़बानों से मेरा परिचय करा सकते हैं? उनकी लिस्टिंग मुफ़्त है, और वेरिफ़िकेशन उनके अपने नंबर से होता है।`;
+function ambDraft(a,lang){
+  if(a.platform==='offline-role')return AMB_OFFLINE_HI.split('{name}').join(a.name).split('{hook}').join(a.hook||'');
+  var t=a.tier==='anchor'?(lang==='hi'?AMB_PARTNER_HI:AMB_PARTNER_EN):(lang==='hi'?AMB_CREATOR_HI:AMB_CREATOR_EN);
+  return t.split('{name}').join(a.name).split('{hook}').join(a.hook||'');
+}
+function ambChannelLink(a){
+  if(a.url)return a.url;
+  if(a.handle)return 'https://instagram.com/'+a.handle.replace(/^@/,'');
+  if(a.platform==='youtube')return 'https://www.youtube.com/results?search_query='+encodeURIComponent(a.name);
+  return null;
+}
+function ambChannelLabel(a){
+  if(a.url)return a.platform==='youtube'?'Open YouTube':(a.platform==='instagram'?'Open Instagram':'Open link');
+  if(a.handle)return 'Open Instagram';
+  if(a.platform==='youtube')return 'Find on YouTube';
+  return null;
+}
+function loadAmbTrack(){try{return JSON.parse(localStorage.getItem('nesto-amb-track')||'{}');}catch(e){return {};}}
+function saveAmbTrack(t){try{localStorage.setItem('nesto-amb-track',JSON.stringify(t));}catch(e){}}
+var ambTrack=loadAmbTrack();
+function loadAmbCustom(){try{return JSON.parse(localStorage.getItem('nesto-amb-custom')||'[]');}catch(e){return [];}}
+function saveAmbCustom(c){try{localStorage.setItem('nesto-amb-custom',JSON.stringify(c));}catch(e){}}
+var ambCustom=loadAmbCustom();
+function ambStage(id){var t=ambTrack[id];if(!t)return 'New';if(t.parked)return 'Parked';if(t.active)return 'Active';if(t.ambassador)return 'Ambassador';if(t.replied)return 'Replied';if(t.contacted)return 'Contacted';return 'New';}
+var AMB_DATA=null,RADAR_DATA=null;
+function ambListData(){var base=AMB_DATA||AMB_SEED;return base.concat(ambCustom);}
+function ambCardHTML(a){
+  var st=ambStage(a.id);
+  var link=ambChannelLink(a),label=ambChannelLabel(a);
+  var draft=ambDraft(a,'hi');
+  var langBtns=a.platform==='offline-role'?'':'<div class="lang-toggle"><button type="button" class="active" data-amb-lang="hi" data-amb="'+a.id+'">Hindi</button><button type="button" data-amb-lang="en" data-amb="'+a.id+'">English</button></div>';
+  var actions='<button class="btn btn-sm" type="button" data-copy-amb="'+a.id+'">Copy draft</button>';
+  if(label&&link)actions+='<a class="btn btn-ocean btn-sm" href="'+esc(link)+'" target="_blank" rel="noopener">'+esc(label)+'</a>';
+  else actions+='<span class="status">No public channel on file — find one first.</span>';
+  if(a.email)actions+='<a class="btn btn-sm" href="mailto:'+esc(a.email)+'?subject='+encodeURIComponent('Nesto Stays — partnership')+'&body='+encodeURIComponent(ambDraft(a,'en'))+'">Email (public address)</a>';
+  actions+='<button class="btn btn-sm" type="button" data-amb-stage="contacted:'+a.id+'">Mark contacted</button>'
+    +'<button class="btn btn-sm" type="button" data-amb-stage="replied:'+a.id+'">Mark replied</button>'
+    +'<button class="btn btn-sm" type="button" data-amb-stage="ambassador:'+a.id+'">Mark ambassador</button>'
+    +'<button class="btn btn-sm" type="button" data-amb-stage="active:'+a.id+'">Mark active</button>'
+    +'<button class="btn btn-sm" type="button" data-amb-stage="parked:'+a.id+'">Park</button>';
+  return '<div class="host-card"><h3>'+esc(a.name)+'</h3><p class="host-meta">'+esc(a.platform)+' · '+esc(a.base)+' · '+esc(a.reach)+'</p>'
+    +'<div class="pills">'+pill(a.tier==='creator'?'Creator':(a.tier==='anchor'?'Anchor':'Voice (offline)'),'ocean')+pill(st)+'</div>'
+    +'<p class="status">'+esc(a.why)+'</p>'+langBtns
+    +'<textarea data-amb-msg="'+a.id+'" rows="8">'+esc(draft)+'</textarea>'
+    +'<div class="row-actions">'+actions+'</div></div>';
+}
+function renderAmbassadors(){
+  var q=(document.getElementById('ambSearch').value||'').toLowerCase();
+  var tier=document.getElementById('ambTier').value;
+  var stage=document.getElementById('ambStage').value;
+  var plat=document.getElementById('ambPlatform').value;
+  var all=ambListData();
+  var list=all.filter(function(a){
+    if(q&&((a.name+' '+a.base+' '+(a.handle||'')).toLowerCase().indexOf(q)<0))return false;
+    if(tier!=='all'&&a.tier!==tier)return false;
+    if(stage!=='all'&&ambStage(a.id)!==stage)return false;
+    if(plat!=='all'&&a.platform!==plat)return false;
+    return true;
+  });
+  var contacted=all.filter(function(a){return ambTrack[a.id]&&(ambTrack[a.id].contacted||ambTrack[a.id].replied||ambTrack[a.id].ambassador||ambTrack[a.id].active);}).length;
+  var replied=all.filter(function(a){return ambTrack[a.id]&&(ambTrack[a.id].replied||ambTrack[a.id].ambassador||ambTrack[a.id].active);}).length;
+  var amb=all.filter(function(a){return ambTrack[a.id]&&(ambTrack[a.id].ambassador||ambTrack[a.id].active);}).length;
+  document.getElementById('ambStats').innerHTML=statCard(all.length,'Candidates')+statCard(contacted,'Contacted')+statCard(replied,'Replied')+statCard(amb,'Ambassadors + active');
+  var el=document.getElementById('ambList');
+  el.innerHTML=list.map(ambCardHTML).join('')||'<p class="status">No ambassadors match these filters.</p>';
+  bindAmb(el);
+}
+function bindAmb(scope){
+  scope.querySelectorAll('[data-amb-lang]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-amb');var lang=b.getAttribute('data-amb-lang');
+      var a=ambListData().filter(function(x){return x.id===id;})[0];if(!a)return;
+      var card=b.closest('.host-card')||document;
+      card.querySelectorAll('[data-amb-lang]').forEach(function(x){x.classList.toggle('active',x===b);});
+      var ta=card.querySelector('[data-amb-msg="'+id+'"]');if(ta)ta.value=ambDraft(a,lang);
+    });
+  });
+  scope.querySelectorAll('[data-copy-amb]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-copy-amb');var ta=document.querySelector('[data-amb-msg="'+id+'"]');if(!ta)return;
+      function done(){var old=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=old;},1500);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(done).catch(function(){ta.select();document.execCommand('copy');done();});}
+      else{ta.select();document.execCommand('copy');done();}
+    });
+  });
+  scope.querySelectorAll('[data-amb-stage]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var parts=b.getAttribute('data-amb-stage').split(':');var kind=parts[0];var id=parts.slice(1).join(':');
+      ambTrack[id]=ambTrack[id]||{};
+      if(kind==='contacted')ambTrack[id].contacted=todayISO();
+      if(kind==='replied')ambTrack[id].replied=true;
+      if(kind==='ambassador')ambTrack[id].ambassador=true;
+      if(kind==='active')ambTrack[id].active=true;
+      if(kind==='parked')ambTrack[id].parked=true;
+      saveAmbTrack(ambTrack);renderAll();
+    });
+  });
+}
+function loadRadarTrack(){try{return JSON.parse(localStorage.getItem('nesto-radar-track')||'{}');}catch(e){return {};}}
+function saveRadarTrack(t){try{localStorage.setItem('nesto-radar-track',JSON.stringify(t));}catch(e){}}
+var radarTrack=loadRadarTrack();
+function radarState(id){var t=radarTrack[id];if(!t)return 'Open';if(t.irrelevant)return 'Not relevant';if(t.replied)return 'Replied';return 'Open';}
+function radarCardHTML(s){
+  var st=radarState(s.id);
+  return '<div class="host-card"><h3>'+esc(s.topic)+'</h3><p class="host-meta">'+esc(s.platform)+' · '+esc(s.author)+' · '+esc(s.date)+' · '+esc(s.town)+'</p>'
+    +'<div class="pills">'+pill(st,'ocean')+'</div>'
+    +'<p class="status">'+esc(s.summary)+'</p>'
+    +'<p class="status"><b>Note for you (not part of the reply):</b> '+esc(s.note||'')+'</p>'
+    +'<textarea data-radar-msg="'+s.id+'" rows="6">'+esc(s.reply)+'</textarea>'
+    +'<div class="row-actions"><button class="btn btn-sm" type="button" data-copy-radar="'+s.id+'">Copy reply</button>'
+    +'<a class="btn btn-ocean btn-sm" href="'+esc(s.url)+'" target="_blank" rel="noopener">Open post</a>'
+    +'<button class="btn btn-sm" type="button" data-radar-mark="replied:'+s.id+'">Mark replied</button>'
+    +'<button class="btn btn-sm" type="button" data-radar-mark="irrelevant:'+s.id+'">Mark not relevant</button></div></div>';
+}
+function renderRadar(){
+  var q=(document.getElementById('radarSearch').value||'').toLowerCase();
+  var plat=document.getElementById('radarPlatform').value;
+  var data=RADAR_DATA||RADAR_SEED;
+  var signals=data.signals||[];
+  var list=signals.filter(function(s){
+    if(q&&((s.topic+' '+s.town+' '+s.author+' '+s.summary).toLowerCase().indexOf(q)<0))return false;
+    if(plat!=='all'&&s.platform!==plat)return false;
+    return true;
+  });
+  var replied=signals.filter(function(s){return radarTrack[s.id]&&radarTrack[s.id].replied;}).length;
+  var open=signals.filter(function(s){return radarState(s.id)==='Open';}).length;
+  document.getElementById('radarStats').innerHTML=statCard(signals.length,'Signals')+statCard(replied,'Replied')+statCard(open,'Open');
+  var el=document.getElementById('radarList');
+  el.innerHTML=list.map(radarCardHTML).join('')||'<p class="status">No signals yet — the weekly scan adds new ones every Sunday. Watchlist and themes are below.</p>';
+  bindRadar(el);
+  var wl=data.watchlist||{};
+  document.getElementById('radarWatch').textContent='Groups: '+((wl.groups||[]).join(', ')||'—')+' · Hashtags: '+((wl.hashtags||[]).join(' ')||'—')+' · Searches: '+((wl.queries||[]).join(' · ')||'—');
+  document.getElementById('radarThemes').innerHTML=(data.themes||[]).map(function(t){return '<p class="status"><b>'+esc(t.name)+'</b> — '+esc(t.detail)+'</p>';}).join('');
+}
+function bindRadar(scope){
+  scope.querySelectorAll('[data-copy-radar]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-copy-radar');var ta=document.querySelector('[data-radar-msg="'+id+'"]');if(!ta)return;
+      function done(){var old=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=old;},1500);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(done).catch(function(){ta.select();document.execCommand('copy');done();});}
+      else{ta.select();document.execCommand('copy');done();}
+    });
+  });
+  scope.querySelectorAll('[data-radar-mark]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var parts=b.getAttribute('data-radar-mark').split(':');var kind=parts[0];var id=parts.slice(1).join(':');
+      radarTrack[id]=radarTrack[id]||{};
+      if(kind==='replied')radarTrack[id].replied=true;
+      if(kind==='irrelevant')radarTrack[id].irrelevant=true;
+      saveRadarTrack(radarTrack);renderAll();
+    });
+  });
+}
+function loadCommunity(){
+  try{
+    fetch('../data/ambassadors.json').then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);return res.json();}).then(function(d){
+      if(d&&Array.isArray(d.ambassadors)){AMB_DATA=d.ambassadors;renderAmbassadors();}
+    }).catch(function(){});
+    fetch('../data/guest-radar.json').then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);return res.json();}).then(function(d){
+      if(d&&Array.isArray(d.signals)){RADAR_DATA=d;renderRadar();}
+    }).catch(function(){});
+  }catch(e){}
+}
 var dataLoaded=false;
 function loadData(){
   if(dataLoaded)return;dataLoaded=true;
@@ -488,7 +747,18 @@ function loadData(){
 }
 ['pipeSearch','pipeWave','pipeTier','pipeChannel'].forEach(function(id){document.getElementById(id).addEventListener('input',renderPipeline);document.getElementById(id).addEventListener('change',renderPipeline);});
 document.getElementById('acctSearch').addEventListener('input',renderAccounts);
-try{if(sessionStorage.getItem('nesto-admin-unlocked')==='1'){loadData();}}catch(e){}
+['ambSearch','ambTier','ambStage','ambPlatform'].forEach(function(id){document.getElementById(id).addEventListener('input',renderAmbassadors);document.getElementById(id).addEventListener('change',renderAmbassadors);});
+['radarSearch','radarPlatform'].forEach(function(id){document.getElementById(id).addEventListener('input',renderRadar);document.getElementById(id).addEventListener('change',renderRadar);});
+document.getElementById('ambAddBtn').addEventListener('click',function(){
+  var name=document.getElementById('ambAddName').value.trim();
+  if(!name)return;
+  var a={id:'custom-'+Date.now(),name:name,platform:document.getElementById('ambAddPlatform').value,handle:document.getElementById('ambAddHandle').value.trim()||null,url:null,base:document.getElementById('ambAddBase').value.trim()||'—',tier:document.getElementById('ambAddTier').value,reach:'Added by you',why:document.getElementById('ambAddWhy').value.trim()||'Added by you.',hook:document.getElementById('ambAddWhy').value.trim()||'',email:null};
+  if(a.handle&&a.platform==='instagram')a.url='https://instagram.com/'+a.handle.replace(/^@/,'');
+  ambCustom.push(a);saveAmbCustom(ambCustom);
+  document.getElementById('ambAddName').value='';document.getElementById('ambAddHandle').value='';document.getElementById('ambAddBase').value='';document.getElementById('ambAddWhy').value='';
+  renderAmbassadors();
+});
+try{if(sessionStorage.getItem('nesto-admin-unlocked')==='1'){loadData();loadCommunity();}}catch(e){}
 </script>
 </body>
 </html>
