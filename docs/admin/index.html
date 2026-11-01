@@ -282,7 +282,9 @@ Nesto Stays से जुड़ने पर आपके होमस्टे 
 कोई सवाल हो या मदद चाहिए, तो इसी नंबर पर मैसेज कर दीजिए। आइए, मिलकर उत्तराखंड की मेहमाननवाज़ी को और लोगों तक पहुँचाएँ। 😊
 
 सादर,
-टीम Nesto Stays`;
+टीम Nesto Stays
+
+एक और छोटी सी जानकारी: क्लेम करते समय आपको अपने होमस्टे के सही पते या Google Maps लिंक के लिए एक निजी बॉक्स भी दिखेगा। यह पोर्टल पर कभी नहीं दिखेगा, इसे सिर्फ पूछने वाले मेहमानों को दिया जाएगा।`;
 var TPL_EN = `Hi {host_name} 🙏
 
 This is Nesto Stays — a new platform for Uttarakhand homestays where guests choose the host, not just the room.
@@ -300,7 +302,9 @@ Once verified you get:
 ✓ FREE listing for the first 100 hosts, zero commission
 
 Takes a minute. Reply here if you have any questions.
-— Team Nesto Stays`;
+— Team Nesto Stays
+
+One more small thing: when you claim, you'll also see a private box for your homestay's exact address or Google Maps link. It never appears on the portal; Nesto shares it only with guests who enquire.`;
 function messageFor(host,lang){
   var t=lang==='hi'?TPL_HI:TPL_EN;
   return t.split('{name}').join(host.name).split('{host_name}').join(host.name).split('{portal_link}').join(PORTAL_URL).split('{view_link}').join(viewLink(host)).split('{claim_link}').join(claimLink(host,lang)).split('{claim_page}').join(claimPageLink(host));
