@@ -1081,7 +1081,7 @@ footer{background:var(--surface-2)}
     <div class="modal" id="detailModal"><button class="close" data-close="detailOverlay" aria-label="Close detail">×</button><div class="detail-layout"><div class="detail-photo"><img id="detailImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Selected homestay"></div><div class="detail-main"><div id="detailStatus"></div><div class="detail-place" id="detailPlace"></div><h2 id="detailTitle"></h2><div class="tags" id="detailTags"></div><div class="detail-instagram" id="detailInstagram"></div><aside class="detail-host-invite" id="detailHostInvite" aria-label="Invitation for the property host"><div><span class="owner-label" id="detailHostLabel">For the property host</span><h3 id="detailHostInviteTitle">Are you the host?</h3><p id="detailHostInviteCopy">Claim and verify this listing. This is separate from guest booking.</p></div><button class="btn btn-small" id="detailClaimButton" type="button">Claim now</button></aside><div class="detail-quick-actions"><button class="btn btn-soft btn-small" id="detailShare" type="button">Share on WhatsApp</button></div><p class="detail-copy" id="detailCopy"></p><div class="facts"><div class="fact"><strong id="detailPrice"></strong><span>host price</span></div><div class="fact"><strong>WhatsApp</strong><span>direct enquiry</span></div><div class="fact"><strong>0%</strong><span>Nesto room fee</span></div></div><div class="detail-sections"><section class="detail-section"><h3>Amenities</h3><p id="detailAmenities"></p></section><section class="detail-section"><h3>Meals</h3><p id="detailMeals"></p></section><section class="detail-section"><h3>Know before you go</h3><p id="detailKnow"></p></section><section class="detail-section host-profile"><span class="host-name" id="detailHostName"></span><h3>Meet your host</h3><p id="detailHostProfile"></p></section></div><section class="availability"><div class="detail-block-head"><h3 id="availabilityTitle">Availability</h3><span class="sample-label">Illustrative sample</span></div><div class="calendar-head"><span id="calendarMonth">November 2026</span><div class="calendar-legend"><span><i class="legend-dot"></i><b id="openLegend">Open</b></span><span><i class="legend-dot full"></i><b id="fullLegend">Full</b></span></div></div><div class="calendar-grid" id="availabilityGrid"></div></section><section class="reviews"><div class="detail-block-head"><h3 id="reviewsTitle">Guest reviews</h3><span class="sample-label">Illustrative sample</span></div><div class="review-list" id="reviewList"></div></section><section class="experiences"><div class="detail-block-head"><h3 id="experiencesTitle">Enhance your stay</h3><span class="sample-label">Illustrative sample</span></div><div class="experience-list" id="experienceList"></div></section><p class="ota-note" id="detailOtaNote"></p><div class="book-box" id="bookForm"><h3>Request your dates</h3><p>The host confirms availability and final price on WhatsApp.</p><div class="date-grid"><div class="input-group"><label for="checkIn">Check-in</label><input type="date" id="checkIn"></div><div class="input-group"><label for="checkOut">Check-out</label><input type="date" id="checkOut"></div></div><div class="guest-stepper"><span>Guests</span><div class="step-controls"><button id="minusGuest" aria-label="Remove guest">−</button><strong id="guestCount">2</strong><button id="plusGuest" aria-label="Add guest">+</button></div></div><button class="btn btn-ocean" id="requestButton">Request to book</button><div class="error" id="bookingError" aria-live="polite"></div><p class="flow-note">Design preview—no message is actually sent.</p></div><div class="success-state" id="successState"><div class="success-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Opening WhatsApp…</h3><p>Send the message to complete your request.</p><button class="btn btn-soft" id="resetBooking" style="margin-top:16px">Try another request</button></div></div></div></div>
   </div>
 
-  <div class="overlay" id="claimOverlay" role="dialog" aria-modal="true" aria-labelledby="claimTitle"><div class="modal claim-modal"><button class="close" data-close="claimOverlay" aria-label="Close claim flow">×</button><div class="claim-name" id="claimName">For Uttarakhand homestay owners</div><h2 id="claimTitle">Claim it free. Make it yours.</h2><p>Confirm the listing and start the simplest path to Nesto Verified.</p><div class="claim-steps"><div class="claim-step"><div class="claim-num">1</div><div><strong>Match your mobile</strong><span>Use the phone already associated with the homestay.</span></div></div><div class="claim-step"><div class="claim-num">2</div><div><strong>Enter one verification code</strong><span>It proves the number belongs to the host or property.</span></div></div><div class="claim-step"><div class="claim-num">3</div><div><strong>Review and publish</strong><span>Correct details, add fresh photos, and receive your verified status.</span></div></div></div><div class="claim-foot"><button class="btn btn-ocean" id="mockClaimStart">Start claim on WhatsApp</button><button class="btn btn-ghost" data-close="claimOverlay">Not now</button></div><p class="flow-note">Design preview—WhatsApp verification is not connected in this mock.</p></div></div>
+  <div class="overlay" id="claimOverlay" role="dialog" aria-modal="true" aria-labelledby="claimTitle"><div class="modal claim-modal"><button class="close" data-close="claimOverlay" aria-label="Close claim flow">×</button><div class="claim-name" id="claimName">For Uttarakhand homestay owners</div><h2 id="claimTitle">Claim it free. Make it yours.</h2><p>Confirm the listing and start the simplest path to Nesto Verified.</p><div class="claim-steps"><div class="claim-step"><div class="claim-num">1</div><div><strong>Match your mobile</strong><span>Use the phone already associated with the homestay.</span></div></div><div class="claim-step"><div class="claim-num">2</div><div><strong>Send from your listed number</strong><span>Your WhatsApp message itself proves the number belongs to the host or property.</span></div></div><div class="claim-step"><div class="claim-num">3</div><div><strong>Review and publish</strong><span>Correct details, add fresh photos, and receive your verified status.</span></div></div></div><div class="claim-foot"><button class="btn btn-ocean" id="mockClaimStart">Start claim on WhatsApp</button><button class="btn btn-ghost" data-close="claimOverlay">Not now</button></div><p class="flow-note">Tapping below opens WhatsApp with your claim ready to send.</p></div></div>
 
   <div class="mock-toast" id="toast" aria-live="polite"></div>
 
@@ -1250,7 +1250,8 @@ footer{background:var(--surface-2)}
       }
       function shareStay(item,lang){
         var text=(lang==='hi'?'Nesto पर यह होमस्टे देखें: ':'Have a look at this Nesto homestay: ')+item.name+' — '+item.place+'. '+item.price+(state.lang==='hi'?'. मेज़बान से सीधे WhatsApp पर बात करें।':'. Chat directly with the host on WhatsApp.');
-        window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
+        var view=window.location.protocol+'//'+window.location.host+window.location.pathname+'?stay='+encodeURIComponent(item.uid||item.id);
+        window.open('https://wa.me/?text='+encodeURIComponent(text+' '+view),'_blank','noopener');
       }
       function openDetail(item){
         state.current=item;document.getElementById('guestCount').textContent=state.guests;
@@ -1338,7 +1339,7 @@ footer{background:var(--surface-2)}
         var tags=(r.tags||[]).filter(function(t){return t!=='unverified-find'&&t!=='tourism-registry';});
         var reviews=Array.isArray(r.review_sources)?r.review_sources.filter(function(x){return x&&x.url;}):[];
         return {
-          id:i+1,name:r.name,place:r.town,region:r.region_group,
+          id:i+1,uid:r.id,name:r.name,place:r.town,region:r.region_group,
           price:r.price_display||'Price on request',tags:tags,verified:!!r.nesto_verified,
           image:(details.photo_url||nestoPlaceholder(r.name)),hasPhoto:!!details.photo_url,alt:r.name+' in '+r.town,
           copy:r.position||String(r.description||'').slice(0,180),
@@ -1412,10 +1413,23 @@ footer{background:var(--surface-2)}
           t.src=nestoPlaceholder((t.alt||'N').split(' in ')[0]||'N');
         }
       },true);
+      function nestoStaySlug(n){return String(n||'').toLowerCase().replace(/[^a-z0-9\u0900-\u097f]+/g,'-').replace(/^-+|-+$/g,'');}
+      function nestoDeepLink(){
+        try{
+          var params=new URLSearchParams(window.location.search);
+          var stayParam=params.get('stay');
+          if(!stayParam)return;
+          var found=null;
+          listings.forEach(function(it){if(!found&&it.uid&&String(it.uid)===stayParam)found=it;});
+          if(!found){var slug=stayParam.toLowerCase();listings.forEach(function(it){if(!found&&nestoStaySlug(it.name)===slug)found=it;});}
+          if(!found)return;
+          if(params.get('claim')==='1')openClaim(found);else openDetail(found);
+        }catch(e){}
+      }
       function nestoBoot(){
         nestoFetchListings().then(function(){
           var mvb=document.getElementById('mapViewButton');if(mvb)mvb.style.display='none';
-          makeChips(regions,regionBox,'region');render();applyLanguage();if(typeof matchInit==='function')matchInit();if(typeof conciergeInit==='function')conciergeInit();
+          makeChips(regions,regionBox,'region');render();applyLanguage();if(typeof matchInit==='function')matchInit();if(typeof conciergeInit==='function')conciergeInit();nestoDeepLink();
         }).catch(function(){
           document.getElementById('resultCount').textContent='Couldn\u2019t load stays';
           document.getElementById('listingGrid').innerHTML='<div style="padding:48px 24px;text-align:center;color:#5f6368;grid-column:1/-1"><strong>Couldn\u2019t reach the listings database.</strong><br>Check the Supabase anon key in <code>config.js</code>.</div>';
