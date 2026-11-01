@@ -222,6 +222,7 @@ function fromSupabaseRow(row,phoneCounts){
     otaCount:otaLinks.length,hasPhoto:!!photoUrl,
     photoSource:photoUrl?(photoSource.indexOf('ota')>=0?'ota':(photoSource.indexOf('google')>=0?'google':'own')):null,
     priceConfirmed:!!row.price_display&&row.price_display!=='Price not confirmed',
+    womenRun:details.women_run===true,winterOk:details.winter_ok===true,hasMeals:!!details.meals,
     sharedPhone:!!phone&&(phoneCounts[digits(phone)]||0)>1};
 }
 function scoreListing(f){
@@ -386,7 +387,7 @@ function hostCardHTML(host,composerVisible){
   return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+' · tracking: '+esc(trackStatus(host.id))+'</p>'
     +'<p class="host-meta">Listed: '+(host.phone?esc(host.phone):'No number on file')+' · Claim code: '+esc(host.code)+'</p>'
     +verifyCheckHTML(host)
-    +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+'</div>'
+    +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+(host.womenRun?pill('Women-run','ocean'):'')+(host.winterOk?pill('Winter stays','ocean'):'')+(host.hasMeals?pill('Kitchen-table','ocean'):'')+'</div>'
     +'<p class="status">'+esc(host.reasons.join(' · '))+'</p>'
     +composerHTML(host,composerVisible)+'<div class="link-row"><button class="btn btn-sm" type="button" data-copy-link="view:'+host.id+'">Copy view link</button><button class="btn btn-sm" type="button" data-copy-link="claim:'+host.id+'">Copy claim link</button></div></div>';
 }

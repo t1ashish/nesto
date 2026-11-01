@@ -141,6 +141,12 @@
     .price small{font-size:var(--type-small);font-weight:700;color:var(--muted)}
     .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
     .tag{font-size:11px;font-weight:900;background:var(--surface-2);color:var(--muted);padding:6px 8px;border-radius:8px}
+    .niche-tag{background:#e6f4ea;color:#137333;border:1px solid #188038}
+    .niche-badges{margin-top:6px}
+    .claim-flags{margin:16px 0 4px}
+    .claim-flags p{font-size:13px;color:var(--muted);margin:0 0 8px}
+    .claim-flags label{display:block;margin:7px 0;font-size:14px;font-weight:600}
+    .claim-flags input[type=text]{margin-left:6px;padding:6px 8px;border:1px solid #dadce0;border-radius:8px;font-size:14px}
     .instagram-link{display:inline-flex;align-items:center;gap:7px;width:max-content;max-width:100%;border:0;background:transparent;color:var(--ocean-deep);padding:0;margin:0 0 15px;font-size:12px;font-weight:900;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
     .instagram-link svg{width:17px;height:17px;flex:0 0 auto}
     .detail-instagram .instagram-link{font-size:13px;margin-bottom:2px}
@@ -971,6 +977,7 @@ footer{background:var(--surface-2)}
     <section class="wrap discovery-top" aria-label="Search stays">
       <h1 class="hero-tagline" id="heroTagline">Book the host. Not just the room.</h1>
       <div class="chip-wrap region-tabs" id="regionFilters" aria-label="Filter by region"></div>
+      <div class="chip-wrap region-tabs" id="nicheFilters" aria-label="Filter by collection"></div>
       <div class="search-box" role="search">
         <label class="capsule-seg">
           <span class="seg-label" id="capsuleWhereLabel">Where</span>
@@ -1015,7 +1022,7 @@ footer{background:var(--surface-2)}
       <div class="listing-grid" id="listingGrid"></div>
       <nav class="pagination" id="pagination" aria-label="Listing pages"></nav>
       <div class="map-shell" id="mapShell"><div><div class="map-canvas" id="mapCanvas" aria-label="Map of sample homestays in Uttarakhand"></div><p class="map-note" id="mapNote">Locations are approximate in this design mock. Select a numbered stay to view details.</p></div><div class="map-side" id="mapSide"></div></div>
-      <div class="empty" id="emptyState"><h3>No exact match yet</h3><p>Clear a filter or try another place or vibe.</p></div>
+      <div class="empty" id="emptyState"><h3>No exact match yet</h3><p id="emptyNote">Clear a filter or try another place or vibe.</p></div>
     </section>
 
     <section class="earn-strip" id="how-nesto-earns"><div class="wrap"><div class="earn-inner"><span id="earnLine">Nesto takes zero commission on stays. We earn from Host Pro subscriptions and experiences.</span><a href="#how-nesto-earns-detail" id="earnLink">How it works</a></div><p class="earn-detail" id="how-nesto-earns-detail">Hosts keep the room revenue. Optional Host Pro tools and locally run guest experiences fund the platform; experience prices remain visible before a guest adds one.</p></div></section>
@@ -1081,7 +1088,7 @@ footer{background:var(--surface-2)}
     <div class="modal" id="detailModal"><button class="close" data-close="detailOverlay" aria-label="Close detail">×</button><div class="detail-layout"><div class="detail-photo"><img id="detailImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Selected homestay"></div><div class="detail-main"><div id="detailStatus"></div><div class="detail-place" id="detailPlace"></div><h2 id="detailTitle"></h2><div class="tags" id="detailTags"></div><div class="detail-instagram" id="detailInstagram"></div><aside class="detail-host-invite" id="detailHostInvite" aria-label="Invitation for the property host"><div><span class="owner-label" id="detailHostLabel">For the property host</span><h3 id="detailHostInviteTitle">Are you the host?</h3><p id="detailHostInviteCopy">Claim and verify this listing. This is separate from guest booking.</p></div><button class="btn btn-small" id="detailClaimButton" type="button">Claim now</button></aside><div class="detail-quick-actions"><button class="btn btn-soft btn-small" id="detailShare" type="button">Share on WhatsApp</button></div><p class="detail-copy" id="detailCopy"></p><div class="facts"><div class="fact"><strong id="detailPrice"></strong><span>host price</span></div><div class="fact"><strong>WhatsApp</strong><span>direct enquiry</span></div><div class="fact"><strong>0%</strong><span>Nesto room fee</span></div></div><div class="detail-sections"><section class="detail-section"><h3>Amenities</h3><p id="detailAmenities"></p></section><section class="detail-section"><h3>Meals</h3><p id="detailMeals"></p></section><section class="detail-section"><h3>Know before you go</h3><p id="detailKnow"></p></section><section class="detail-section host-profile"><span class="host-name" id="detailHostName"></span><h3>Meet your host</h3><p id="detailHostProfile"></p></section></div><section class="availability"><div class="detail-block-head"><h3 id="availabilityTitle">Availability</h3><span class="sample-label">Illustrative sample</span></div><div class="calendar-head"><span id="calendarMonth">November 2026</span><div class="calendar-legend"><span><i class="legend-dot"></i><b id="openLegend">Open</b></span><span><i class="legend-dot full"></i><b id="fullLegend">Full</b></span></div></div><div class="calendar-grid" id="availabilityGrid"></div></section><section class="reviews"><div class="detail-block-head"><h3 id="reviewsTitle">Guest reviews</h3><span class="sample-label">Illustrative sample</span></div><div class="review-list" id="reviewList"></div></section><section class="experiences"><div class="detail-block-head"><h3 id="experiencesTitle">Enhance your stay</h3><span class="sample-label">Illustrative sample</span></div><div class="experience-list" id="experienceList"></div></section><p class="ota-note" id="detailOtaNote"></p><div class="book-box" id="bookForm"><h3>Request your dates</h3><p>The host confirms availability and final price on WhatsApp.</p><div class="date-grid"><div class="input-group"><label for="checkIn">Check-in</label><input type="date" id="checkIn"></div><div class="input-group"><label for="checkOut">Check-out</label><input type="date" id="checkOut"></div></div><div class="guest-stepper"><span>Guests</span><div class="step-controls"><button id="minusGuest" aria-label="Remove guest">−</button><strong id="guestCount">2</strong><button id="plusGuest" aria-label="Add guest">+</button></div></div><button class="btn btn-ocean" id="requestButton">Request to book</button><div class="error" id="bookingError" aria-live="polite"></div><p class="flow-note">Design preview—no message is actually sent.</p></div><div class="success-state" id="successState"><div class="success-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Opening WhatsApp…</h3><p>Send the message to complete your request.</p><button class="btn btn-soft" id="resetBooking" style="margin-top:16px">Try another request</button></div></div></div></div>
   </div>
 
-  <div class="overlay" id="claimOverlay" role="dialog" aria-modal="true" aria-labelledby="claimTitle"><div class="modal claim-modal"><button class="close" data-close="claimOverlay" aria-label="Close claim flow">×</button><div class="claim-name" id="claimName">For Uttarakhand homestay owners</div><h2 id="claimTitle">Claim it free. Make it yours.</h2><p>Confirm the listing and start the simplest path to Nesto Verified.</p><div class="claim-steps"><div class="claim-step"><div class="claim-num">1</div><div><strong>Match your mobile</strong><span>Use the phone already associated with the homestay.</span></div></div><div class="claim-step"><div class="claim-num">2</div><div><strong>Send from your listed number</strong><span>Your WhatsApp message itself proves the number belongs to the host or property.</span></div></div><div class="claim-step"><div class="claim-num">3</div><div><strong>Review and publish</strong><span>Correct details, add fresh photos, and receive your verified status.</span></div></div></div><div class="claim-foot"><button class="btn btn-ocean" id="mockClaimStart">Start claim on WhatsApp</button><button class="btn btn-ghost" data-close="claimOverlay">Not now</button></div><p class="flow-note">Tapping below opens WhatsApp with your claim ready to send.</p></div></div>
+  <div class="overlay" id="claimOverlay" role="dialog" aria-modal="true" aria-labelledby="claimTitle"><div class="modal claim-modal"><button class="close" data-close="claimOverlay" aria-label="Close claim flow">×</button><div class="claim-name" id="claimName">For Uttarakhand homestay owners</div><h2 id="claimTitle">Claim it free. Make it yours.</h2><p>Confirm the listing and start the simplest path to Nesto Verified.</p><div class="claim-steps"><div class="claim-step"><div class="claim-num">1</div><div><strong>Match your mobile</strong><span>Use the phone already associated with the homestay.</span></div></div><div class="claim-step"><div class="claim-num">2</div><div><strong>Send from your listed number</strong><span>Your WhatsApp message itself proves the number belongs to the host or property.</span></div></div><div class="claim-step"><div class="claim-num">3</div><div><strong>Review and publish</strong><span>Correct details, add fresh photos, and receive your verified status.</span></div></div></div><div class="claim-flags"><p>Tick anything that is true for your stay — it travels with your claim so Nesto can badge it after verification.</p><label><input type="checkbox" id="claimFlagWomen"> Run by a woman host</label><label><input type="checkbox" id="claimFlagWinter"> Open in winter (road access + heating)</label><label><input type="checkbox" id="claimFlagMeals"> Home-cooked meals served</label><label>Which cuisine? <input type="text" id="claimMealsDetail" placeholder="e.g. Kumaoni, Garhwali"></label></div><div class="claim-foot"><button class="btn btn-ocean" id="mockClaimStart">Start claim on WhatsApp</button><button class="btn btn-ghost" data-close="claimOverlay">Not now</button></div><p class="flow-note">Tapping below opens WhatsApp with your claim ready to send.</p></div></div>
 
   <div class="mock-toast" id="toast" aria-live="polite"></div>
 
@@ -1108,7 +1115,7 @@ footer{background:var(--surface-2)}
       function t(key){return copy[state.lang][key]||key}
       var regions=['All regions','Nainital','Mussoorie','Rishikesh','Almora / Binsar / Kausani','Ranikhet','Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath','Lansdowne','Pauri Garhwal','Jim Corbett','Dehradun','Pithoragarh / Dharchula'];
       var PAGE_SIZE=12;
-      var state={region:'All regions',vibe:'All vibes',verified:false,query:'',sort:'recommended',guests:2,checkIn:'',checkOut:'',current:null,lang:'en',view:'grid',page:1,added:{},favs:{}};
+      var state={region:'All regions',vibe:'All vibes',niche:'all',verified:false,query:'',sort:'recommended',guests:2,checkIn:'',checkOut:'',current:null,lang:'en',view:'grid',page:1,added:{},favs:{}};
       try{state.favs=JSON.parse(localStorage.getItem('nesto-favs')||'{}')||{}}catch(e){state.favs={}}
       var grid=document.getElementById('listingGrid');
       var regionBox=document.getElementById('regionFilters');
@@ -1157,7 +1164,7 @@ footer{background:var(--surface-2)}
         var note=nestoPriceNote(item);
         if(!item._phone)note+=' '+(state.lang==='hi'?'\u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0915\u093e \u0928\u0902\u092c\u0930 \u0905\u092d\u0940 \u0928\u0939\u0940\u0902 \u0939\u0948 \u2014 Nesto \u0938\u0947 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093e \u0915\u0930\u0935\u093e\u090f\u0902\u0964':'No host number on file yet \u2014 ask Nesto and we will reach out and confirm.');
         var claimLink=item.verified?'':'<a class="claim-link" href="#" data-claim="'+item.id+'">'+(state.lang==='hi'?'\u0907\u0938 \u0939\u094b\u092e\u0938\u094d\u091f\u0947 \u0915\u094b \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0947\u0902 \u2014 \u092f\u0939 \u092e\u0941\u092b\u094d\u0924 \u0939\u0948':'Claim this homestay \u2014 it\'s free')+'</a>';
-        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+safe(item.image)+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(placeLabel(item))+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+displayTags(item).map(function(tag){return '<span class="tag">'+safe(tagLabel(tag))+'</span>'}).join('')+'</div>'+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
+        return '<article class="card '+(item.verified?'verified':'unverified')+'" data-id="'+item.id+'"><div class="card-image"><img src="'+safe(item.image)+'" alt="'+safe(item.alt)+'">'+statusHTML(item)+'<button class="heart'+fav+'" type="button" data-fav="'+item.id+'" aria-pressed="'+(fav?'true':'false')+'" aria-label="Save this stay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C12 21 4 16.5 4 10.5C4 7.5 6.5 5 9.5 5C11 5 12 6 12 7C12 6 13 5 14.5 5C17.5 5 20 7.5 20 10.5C20 16.5 12 21 12 21Z"/></svg></button></div><div class="card-body"><div class="place">'+safe(placeLabel(item))+'</div><h3>'+safe(item.name)+'</h3><div class="price-row"><div class="price">'+safe(item.price)+' <small>'+night+'</small></div></div><div class="tags">'+displayTags(item).map(function(tag){return '<span class="tag">'+safe(tagLabel(tag))+'</span>'}).join('')+'</div>'+nicheBadgesHTML(item)+instagramHTML(item)+bookWithHTML(item)+'<p class="book-note">'+note+'</p>'+claimLink+cardActionsHTML(item)+'</div></article>';
       }
       function priceValue(item){
         var match=String(item.price).replace(/,/g,'').match(/[0-9]+/);
@@ -1215,8 +1222,10 @@ footer{background:var(--surface-2)}
           var vibeKey=state.vibe.toLowerCase().replace(' view','-view').replace(' ','-');
           var vibeOk=state.vibe==='All vibes'||item.tags.some(function(t){return t===vibeKey||t.replace('-',' ')===state.vibe.toLowerCase()});
           var verifiedOk=!state.verified||item.verified;
+          var niche=nicheDef(state.niche);
+          var nicheOk=!niche.test||niche.test(item);
           var hay=(item.name+' '+item.place+' '+item.region+' '+item.tags.join(' ')).toLowerCase();
-          return regionOk&&vibeOk&&verifiedOk&&(!q||hay.indexOf(q)>-1);
+          return regionOk&&vibeOk&&verifiedOk&&nicheOk&&(!q||hay.indexOf(q)>-1);
         }));
         var totalPages=Math.max(1,Math.ceil(matches.length/PAGE_SIZE));
         if(state.page>totalPages)state.page=totalPages;
@@ -1226,11 +1235,39 @@ footer{background:var(--surface-2)}
         renderPagination(totalPages);
         document.getElementById('resultCount').textContent=matches.length+' '+(matches.length===1?t('stay'):t('stays'));
         document.getElementById('emptyState').style.display=matches.length?'none':'block';
+        var emptyNote=document.getElementById('emptyNote');
+        if(emptyNote){emptyNote.textContent=(!matches.length&&state.niche==='women')?'No stays carry the Women-run badge yet — hosts add it when they claim their listing.':(!matches.length&&state.niche==='winter')?'No stays are marked open in winter yet — hosts add it when they claim their listing.':'Clear a filter or try another place or vibe.';}
         bindCards();
       }
       function makeChips(list,container,type){
         container.innerHTML=list.map(function(x,i){var label=x;if(x==='All regions')label=t('allRegions');if(x==='All vibes')label=t('allVibes');return '<button class="chip '+(type==='vibe'?'vibe-chip ':'')+(state[type]===x?'active':'')+'" data-value="'+safe(x)+'">'+safe(label)+'</button>'}).join('');
         container.addEventListener('click',function(e){var btn=e.target.closest('.chip');if(!btn)return;container.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active')});btn.classList.add('active');state[type]=btn.dataset.value;state.page=1;render()});
+      }
+      /* ===== NESTO NICHE COLLECTIONS ===== */
+      var NICHES=[
+        {id:'all',en:'All collections',hi:'सभी कलेक्शन',test:null},
+        {id:'quiet',en:'Quiet Hills',hi:'शांत पहाड़ियाँ',test:function(it){return it.region==='Pauri Garhwal'||it.region==='Lansdowne';}},
+        {id:'trek',en:'Trek bases',hi:'ट्रेक बेस',test:function(it){return ['Munsiyari / Chaukori','Auli / Joshimath','Chopta / Tungnath'].indexOf(it.region)>=0;}},
+        {id:'kitchen',en:'Kitchen-table stays',hi:'घर का खाना',test:function(it){return !!it.meals;}},
+        {id:'women',en:'Women-run',hi:'महिला मेज़बान',test:function(it){return !!it.womenRun;}},
+        {id:'winter',en:'Winter stays',hi:'सर्दियों में खुले',test:function(it){return !!it.winterOk;}}
+      ];
+      function nicheDef(id){for(var i=0;i<NICHES.length;i++){if(NICHES[i].id===id)return NICHES[i];}return NICHES[0];}
+      function nicheLabel(n){return state.lang==='hi'?n.hi:n.en;}
+      function renderNicheChips(){
+        var box=document.getElementById('nicheFilters');if(!box)return;
+        box.innerHTML=NICHES.map(function(n){return '<button class="chip'+(state.niche===n.id?' active':'')+'" data-niche="'+n.id+'">'+safe(nicheLabel(n))+'</button>';}).join('');
+        box.querySelectorAll('[data-niche]').forEach(function(b){b.addEventListener('click',function(){
+          box.querySelectorAll('[data-niche]').forEach(function(c){c.classList.remove('active');});
+          b.classList.add('active');state.niche=b.getAttribute('data-niche');state.page=1;render();
+        });});
+      }
+      function nicheBadgesHTML(item){
+        var out=[];
+        if(item.womenRun)out.push('<span class="tag niche-tag">'+(state.lang==='hi'?'महिला मेज़बान':'Women-run')+'</span>');
+        if(item.winterOk)out.push('<span class="tag niche-tag">'+(state.lang==='hi'?'सर्दियों में खुले':'Open in winter')+'</span>');
+        if(item.meals)out.push('<span class="tag niche-tag">'+(state.lang==='hi'?'घर का खाना':'Home-cooked meals')+'</span>');
+        return out.length?'<div class="tags niche-badges">'+out.join('')+'</div>':'';
       }
       function getItem(id){return listings.find(function(x){return x.id===Number(id)})}
       function bindCards(){
@@ -1257,7 +1294,11 @@ footer{background:var(--surface-2)}
         state.current=item;document.getElementById('guestCount').textContent=state.guests;
         document.getElementById('detailImage').src=item.image;document.getElementById('detailImage').alt=item.alt;
         document.getElementById('detailPlace').textContent=placeLabel(item);document.getElementById('detailTitle').textContent=item.name;document.getElementById('detailPrice').textContent=item.price;document.getElementById('detailOtaNote').textContent=nestoPriceNote(item);
-        document.getElementById('detailTags').innerHTML=displayTags(item).map(function(t){return '<span class="tag">'+safe(tagLabel(t))+'</span>'}).join('');document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
+                var detailTagHtml=displayTags(item).map(function(t){return '<span class="tag">'+safe(tagLabel(t))+'</span>'}).join('');
+        if(item.womenRun)detailTagHtml+='<span class="tag niche-tag">'+(state.lang==='hi'?'महिला मेज़बान':'Women-run')+'</span>';
+        if(item.winterOk)detailTagHtml+='<span class="tag niche-tag">'+(state.lang==='hi'?'सर्दियों में खुले':'Open in winter')+'</span>';
+        if(item.meals)detailTagHtml+='<span class="tag niche-tag">'+(state.lang==='hi'?'घर का खाना':'Home-cooked meals')+'</span>';
+        document.getElementById('detailTags').innerHTML=detailTagHtml;document.getElementById('detailInstagram').innerHTML=instagramHTML(item);document.getElementById('detailCopy').textContent=item.copy;
         document.getElementById('detailAmenities').textContent=item.amenities;document.getElementById('detailMeals').textContent=item.meals||'Meal details have not been confirmed. Ask the host when you request your dates.';document.getElementById('detailKnow').textContent=item.know;
         document.getElementById('detailHostName').textContent=item.hostName||'Host introduction pending';document.getElementById('detailHostProfile').textContent=item.hostProfile||'The host has not introduced themselves on Nesto yet. Claiming the listing will add their story here.';document.getElementById('detailHostProfile').classList.toggle('pending',!item.hostProfile);
         document.getElementById('detailStatus').innerHTML=statusHTML(item);var s=document.querySelector('#detailStatus .status');if(s){s.style.position='static';s.style.display='inline-flex';}
@@ -1310,7 +1351,7 @@ footer{background:var(--surface-2)}
         document.getElementById('referHostKicker').textContent=hi?'मेज़बान का परिचय दें':'Refer a host';document.getElementById('referHostTitle').textContent=hi?'क्या आप किसी होमस्टे मालिक को जानते हैं? उन्हें Nesto से जोड़ें।':'Know a homestay owner? Refer them to Nesto.';document.getElementById('referHostCopy').textContent=hi?'कुछ विवरण साझा करें और उत्तराखंड के एक स्वतंत्र मेज़बान को नेटवर्क से जोड़ें।':'Share a few details and introduce an independent Uttarakhand host to the network.';document.getElementById('referralHostReward').textContent=hi?'आपके परिचय से Nesto Verified बनने वाला हर मेज़बान आपको 3 महीने का Host Pro मुफ़्त दिलाता है — कोई सीमा नहीं।':'Every host you refer who gets Nesto Verified earns you 3 months of Host Pro free — no cap.';document.getElementById('referralNonHostReward').textContent=hi?'नए कलेक्शन और अनुभवों की शुरुआती पहुँच के साथ Nesto Founding Circle में शामिल हों।':'Join the Nesto Founding Circle with early access to new collections and experiences.';document.getElementById('referralTrigger').textContent=hi?'इनाम तभी मिलता है जब सुझाया गया मेज़बान सत्यापित हो जाए—सिर्फ़ परिचय भेजने पर नहीं।':'The reward unlocks when the referred host is verified—not when the referral is submitted.';document.getElementById('referralNameLabel').textContent=hi?'मेज़बान का नाम':'Host name';document.getElementById('referralPhoneLabel').textContent=hi?'फ़ोन':'Phone';document.getElementById('referralPlaceLabel').textContent=hi?'स्थान':'Place';document.getElementById('referralSubmit').textContent=hi?'WhatsApp पर परिचय भेजें':'Refer on WhatsApp';document.getElementById('referralNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp एक तैयार संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with a referral draft.';
         document.getElementById('partnerKicker').textContent=hi?'हमारे साथ भागीदार बनें':'Partner with us';document.getElementById('partnerTitle').textContent=hi?'यात्रा क्रिएटर, Nesto के साथ उत्तराखंड की कहानियाँ साझा करें।':'Travel creators, tell Uttarakhand stories with Nesto.';document.getElementById('partnerCopy').textContent=hi?'स्वतंत्र स्टे, स्थानीय मेज़बान और ईमानदार यात्रा की परवाह करने वाले क्रिएटर्स के लिए एक स्पष्ट साझेदारी।':'A clear exchange for creators who care about independent stays, local hosts, and honest travel.';document.getElementById('creatorGetsTitle').textContent=hi?'आपको क्या मिलेगा':'What you get';document.getElementById('creatorGetsCopy').textContent=hi?'फ़ीचर करने के लिए स्टे, नए कलेक्शन की शुरुआती पहुँच, और Nesto के साथ आगे बढ़ने का अवसर।':'Featured stays to explore, early access to new collections, and a chance to grow with Nesto.';document.getElementById('creatorAsksTitle').textContent=hi?'Nesto आपसे क्या चाहता है':'What Nesto asks';document.getElementById('creatorAsksCopy').textContent=hi?'आपकी अपनी आवाज़ में प्रामाणिक कंटेंट और उन यात्रियों तक सार्थक पहुँच जो इन जगहों को महत्व देंगे।':'Authentic content in your own voice and meaningful reach to travellers who will value these places.';document.getElementById('creatorNameLabel').textContent=hi?'नाम':'Name';document.getElementById('creatorInstagramLabel').textContent=hi?'Instagram लिंक':'Instagram link';document.getElementById('creatorFacebookLabel').textContent=hi?'Facebook लिंक':'Facebook link';document.getElementById('creatorAudienceLabel').textContent=hi?'ऑडियंस का आकार':'Audience size';document.getElementById('creatorLocationLabel').textContent=hi?'स्थान':'Location';document.getElementById('creatorContact').textContent=hi?'WhatsApp पर अपना परिचय दें':'Introduce yourself on WhatsApp';document.getElementById('creatorNote').textContent=hi?'डिज़ाइन पूर्वावलोकन—आपके विवरण सहेजे नहीं जाते; WhatsApp आपके परिचय संदेश के साथ खुलता है।':'Design preview—your details are not saved; WhatsApp opens with your introduction draft.';document.getElementById('detailHostLabel').textContent=hi?'केवल प्रॉपर्टी के मेज़बान के लिए':'For the property host';document.getElementById('detailHostInviteTitle').textContent=hi?'क्या आप मेज़बान हैं?':'Are you the host?';document.getElementById('detailHostInviteCopy').textContent=hi?'इस लिस्टिंग को क्लेम और सत्यापित करें। यह अतिथि बुकिंग से अलग है।':'Claim and verify this listing. This is separate from guest booking.';document.getElementById('detailClaimButton').textContent=hi?'अभी क्लेम करें':'Claim now';
         document.getElementById('detailShare').textContent=t('share');document.getElementById('availabilityTitle').textContent=hi?'उपलब्धता':'Availability';document.getElementById('reviewsTitle').textContent=hi?'अतिथि समीक्षाएँ':'Guest reviews';document.getElementById('experiencesTitle').textContent=hi?'अपने स्टे को बेहतर बनाएं':'Enhance your stay';document.getElementById('openLegend').textContent=t('open');document.getElementById('fullLegend').textContent=t('full');
-        makeChips(regions,regionBox,'region');render();
+        makeChips(regions,regionBox,'region');renderNicheChips();render();
         if(state.current){document.getElementById('availabilityGrid').innerHTML=calendarHTML(state.current.id);renderExperiences();document.getElementById('detailStatus').innerHTML=statusHTML(state.current);var st=document.querySelector('#detailStatus .status');if(st){st.style.position='static';st.style.display='inline-flex'}}
         if(typeof applyMatchLang==='function')applyMatchLang();
         if(typeof applyConciergeLang==='function')applyConciergeLang();
@@ -1340,7 +1381,7 @@ footer{background:var(--surface-2)}
         var reviews=Array.isArray(r.review_sources)?r.review_sources.filter(function(x){return x&&x.url;}):[];
         return {
           id:i+1,uid:r.id,name:r.name,place:r.town,region:r.region_group,
-          price:r.price_display||'Price on request',tags:tags,verified:!!r.nesto_verified,
+          price:r.price_display||'Price on request',tags:tags,verified:!!r.nesto_verified,womenRun:details.women_run===true,winterOk:details.winter_ok===true,
           image:(details.photo_url||nestoPlaceholder(r.name)),hasPhoto:!!details.photo_url,alt:r.name+' in '+r.town,
           copy:r.position||String(r.description||'').slice(0,180),
           amenities:details.amenities||null,meals:details.meals||null,know:details.know||null,
@@ -1405,6 +1446,10 @@ footer{background:var(--surface-2)}
           ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u092e\u0948\u0902 '+label+' \u0915\u093e/\u0915\u0940 \u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0939\u0942\u0902 \u0914\u0930 \u0905\u092a\u0928\u0940 \u092e\u0941\u092b\u093c\u0924 \u0932\u093f\u0938\u094d\u091f\u093f\u0902\u0917 \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902\u0964'
           :'Hi Nesto! I\u2019m the host of '+label+' and I\u2019d like to claim my free listing.';
         if(code)msg+=lang==='hi'?' \u0915\u094d\u0932\u0947\u092e \u0915\u094b\u0921: '+code:' Claim code: '+code;
+        var claimFlagWomen=document.getElementById('claimFlagWomen'),claimFlagWinter=document.getElementById('claimFlagWinter'),claimFlagMeals=document.getElementById('claimFlagMeals'),claimMealsDetail=document.getElementById('claimMealsDetail');
+        if(claimFlagWomen&&claimFlagWomen.checked)msg+=lang==='hi'?' महिला मेज़बान: हाँ':' Women-run: Yes';
+        if(claimFlagWinter&&claimFlagWinter.checked)msg+=lang==='hi'?' सर्दियों में खुला: हाँ':' Open in winter: Yes';
+        if(claimFlagMeals&&claimFlagMeals.checked){var mealsDetail=claimMealsDetail?claimMealsDetail.value.trim():'';msg+=lang==='hi'?(' घर का खाना: '+(mealsDetail||'हाँ')):(' Home-cooked meals: '+(mealsDetail||'Yes'));}
         window.open('https://wa.me/'+owner+'?text='+encodeURIComponent(msg),'_blank','noopener');
         closeOverlay('claimOverlay');
       }
