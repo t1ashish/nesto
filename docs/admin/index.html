@@ -208,9 +208,18 @@ try{if(sessionStorage.getItem('nesto-admin-unlocked')==='1'){showApp();}else{sho
 /* Onboarding probability model (ranking only, not a forecast — same priors as the owner's tracker). */
 var INTERCEPT=-2.4;
 var WEIGHTS={whatsapp:1.4,callOnly:0.9,instagram:0.6,ota1:0.4,ota2plus:0.7,photoOwn:0.3,photoGoogle:0.2,photoOta:0.1,priceConfirmed:0.2,sharedPhone:-0.5};
+function adminLocality(row){
+  var m=String(row.description||'').match(/\(([^)]*?)\s(\d{6})\s[^)]*Uttarakhand\)/);
+  if(!m)return null;
+  var before=m[1].trim(),pin=m[2],town=String(row.town||'').trim(),loc=before;
+  if(town&&before.length>town.length&&before.slice(-town.length)===town)loc=before.slice(0,-town.length).trim();
+  if(!loc||loc===town)return {pin:pin,locality:null};
+  return {pin:pin,locality:loc};
+}
 function fromSupabaseRow(row,phoneCounts){
   var contacts=Array.isArray(row.contacts)?row.contacts:[];
   var details=row.details||{};
+  var loc=adminLocality(row);
   var wa=null,call=null,ig=null;
   contacts.forEach(function(c){if(!c)return;if(c.type==='whatsapp'&&c.number&&!wa)wa=c;if(c.type==='call'&&c.number&&!call)call=c;if(c.type==='instagram'&&!ig)ig=c;});
   var phone=wa?wa.number:(call?call.number:null);
@@ -222,7 +231,7 @@ function fromSupabaseRow(row,phoneCounts){
     otaCount:otaLinks.length,hasPhoto:!!photoUrl,
     photoSource:photoUrl?(photoSource.indexOf('ota')>=0?'ota':(photoSource.indexOf('google')>=0?'google':'own')):null,
     priceConfirmed:!!row.price_display&&row.price_display!=='Price not confirmed',
-    womenRun:details.women_run===true,winterOk:details.winter_ok===true,hasMeals:!!details.meals,
+    womenRun:details.women_run===true,winterOk:details.winter_ok===true,hasMeals:!!details.meals,locality:loc?loc.locality:null,pin:loc?loc.pin:null,
     sharedPhone:!!phone&&(phoneCounts[digits(phone)]||0)>1};
 }
 function scoreListing(f){
@@ -384,7 +393,7 @@ function verifyCheckHTML(host){
     +hint+'</div>';
 }
 function hostCardHTML(host,composerVisible){
-  return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+' · tracking: '+esc(trackStatus(host.id))+'</p>'
+  return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+((host.locality||host.pin)?' · '+esc(([host.locality,host.pin?('PIN '+host.pin):null].filter(function(x){return x;}).join(' · '))):'')+' · tracking: '+esc(trackStatus(host.id))+'</p>'
     +'<p class="host-meta">Listed: '+(host.phone?esc(host.phone):'No number on file')+' · Claim code: '+esc(host.code)+'</p>'
     +verifyCheckHTML(host)
     +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+(host.womenRun?pill('Women-run','ocean'):'')+(host.winterOk?pill('Winter stays','ocean'):'')+(host.hasMeals?pill('Kitchen-table','ocean'):'')+'</div>'
@@ -727,7 +736,7 @@ function loadData(){
   var cfg=window.NESTO_CONFIG||{};
   var status=document.getElementById('dashStatus');
   if(!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY){status.textContent='Could not load the portal configuration. Make sure config.js sits next to the portal (../config.js).';return;}
-  var url=cfg.SUPABASE_URL+'/rest/v1/listings?select=id,name,town,region_group,price_display,contacts,details,nesto_verified,public_visibility&limit=500';
+  var url=cfg.SUPABASE_URL+'/rest/v1/listings?select=id,name,town,region_group,price_display,description,contacts,details,nesto_verified,public_visibility&limit=500';
   fetch(url,{headers:{apikey:cfg.SUPABASE_ANON_KEY,Authorization:'Bearer '+cfg.SUPABASE_ANON_KEY}}).then(function(res){
     if(!res.ok)throw new Error('HTTP '+res.status);
     return res.json();
