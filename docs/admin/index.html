@@ -266,9 +266,29 @@ function viewLink(host){
 }
 function claimPageLink(host){return viewLink(host)+'&claim=1';}
 function claimMsg(host,lang){
-  return lang==='hi'
+  var m=lang==='hi'
     ?'\u0928\u092e\u0938\u094d\u0924\u0947 Nesto! \u092e\u0948\u0902 '+host.name+' ('+host.town+') \u0915\u093e/\u0915\u0940 \u092e\u0947\u091c\u093c\u092c\u093e\u0928 \u0939\u0942\u0902 \u0914\u0930 \u0905\u092a\u0928\u0940 \u092e\u0941\u092b\u093c\u0924 \u0932\u093f\u0938\u094d\u091f\u093f\u0902\u0917 \u0915\u094d\u0932\u0947\u092e \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u0924\u093e/\u091a\u093e\u0939\u0924\u0940 \u0939\u0942\u0902\u0964'
     :'Hi Nesto! I\u2019m the host of '+host.name+' ('+host.town+') and I\u2019d like to claim my free listing.';
+  return m+(lang==='hi'?' \u0915\u094d\u0932\u0947\u092e \u0915\u094b\u0921: '+host.code:' Claim code: '+host.code);
+}
+function claimHash36(str){
+  var h=5381;str=String(str);
+  for(var i=0;i<str.length;i++){h=((h*33)+str.charCodeAt(i))|0;}
+  h=Math.abs(h);var chars='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';var out='';var n=h;
+  do{out=chars[n%36]+out;n=Math.floor(n/36);}while(n>0);
+  while(out.length<6)out='0'+out;
+  return out;
+}
+function claimCodeForId(id,ids){
+  var base=claimHash36(id);var clash=false;
+  (ids||[]).forEach(function(x){if(String(x)!==String(id)&&claimHash36(x)===base)clash=true;});
+  if(!clash)return base;
+  var h2=7;var s2=String(id);
+  for(var i=0;i<s2.length;i++){h2=((h2*31)+s2.charCodeAt(i))|0;}
+  h2=Math.abs(h2);var chars='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';var out2='';var n2=h2;
+  do{out2=chars[n2%36]+out2;n2=Math.floor(n2/36);}while(n2>0);
+  while(out2.length<2)out2='0'+out2;
+  return base+out2.slice(-2);
 }
 function claimLink(host,lang){
   var cfg=window.NESTO_CONFIG||{};
@@ -311,8 +331,20 @@ function composerHTML(host,visible){
   if(visible)return inner;
   return '<details'+open+' style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">Message draft</summary><div style="margin-top:10px">'+inner+'</div></details>';
 }
+function verifyCheckHTML(host){
+  var t=track[host.id]||{};
+  var ready=t.verifyNum||t.verifyConfirm;
+  var hint=ready?'<span class="status">Ready to mark Verified in the Owner Console.</span>'
+    :'<span class="status">Before verifying: confirm the WhatsApp sender number matches the listed number.</span>';
+  return '<div class="verify-check">'
+    +'<button type="button" data-verify="num:'+host.id+'" class="'+(t.verifyNum?'active':'')+'">'+(t.verifyNum?'\u2713 ':'')+'Sender number matches listed number</button>'
+    +'<button type="button" data-verify="confirm:'+host.id+'" class="'+(t.verifyConfirm?'active':'')+'">'+(t.verifyConfirm?'\u2713 ':'')+'Confirmed via listed number</button>'
+    +hint+'</div>';
+}
 function hostCardHTML(host,composerVisible){
   return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+' · tracking: '+esc(trackStatus(host.id))+'</p>'
+    +'<p class="host-meta">Listed: '+(host.phone?esc(host.phone):'No number on file')+' · Claim code: '+esc(host.code)+'</p>'
+    +verifyCheckHTML(host)
     +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+'</div>'
     +'<p class="status">'+esc(host.reasons.join(' · '))+'</p>'
     +composerHTML(host,composerVisible)+'<div class="link-row"><button class="btn btn-sm" type="button" data-copy-link="view:'+host.id+'">Copy view link</button><button class="btn btn-sm" type="button" data-copy-link="claim:'+host.id+'">Copy claim link</button></div></div>';
@@ -352,6 +384,15 @@ function bindComposer(scope){
       function done(){var old=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=old;},1500);}
       if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done).catch(function(){done();});}
       else{done();}
+    });
+  });
+  scope.querySelectorAll('[data-verify]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var parts=b.getAttribute('data-verify').split(':');var kind=parts[0];var id=parts.slice(1).join(':');
+      track[id]=track[id]||{};
+      if(kind==='num')track[id].verifyNum=!track[id].verifyNum;
+      else track[id].verifyConfirm=!track[id].verifyConfirm;
+      saveTrack(track);renderAll();
     });
   });
   scope.querySelectorAll('[data-mark-sent]').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-mark-sent');track[id]=track[id]||{};track[id].sent=todayISO();saveTrack(track);renderAll();});});
@@ -401,10 +442,11 @@ function renderPipeline(){
 function renderAccounts(){
   var q=(document.getElementById('acctSearch').value||'').toLowerCase();
   var rows=ALL.slice().sort(function(a,b){return a.name.localeCompare(b.name);}).filter(function(h){
-    return !q||((h.name+' '+h.town).toLowerCase().indexOf(q)>=0);
+    return !q||((h.name+' '+h.town).toLowerCase().indexOf(q)>=0)||(h.code&&h.code.toLowerCase()===q);
   });
   document.getElementById('acctBody').innerHTML=rows.map(function(h){
-    return '<tr><td><b>'+esc(h.name)+'</b></td><td>'+esc(h.town)+'</td><td>'+esc(h.channel)+'</td><td>Wave '+(h.verified?'-':h.wave)+' · '+esc(h.tier)+'</td><td>'+(h.verified?'Nesto Verified':'Pending')+'</td><td>'+esc(trackStatus(h.id))+'</td></tr>';
+    var t=track[h.id]||{};var v=(t.verifyNum||t.verifyConfirm)?' · Ready to verify':'';
+    return '<tr><td><b>'+esc(h.name)+'</b><br><small>Code '+esc(h.code)+'</small></td><td>'+esc(h.town)+'</td><td>'+esc(h.channel)+'</td><td>Wave '+(h.verified?'-':h.wave)+' · '+esc(h.tier)+'</td><td>'+(h.verified?'Nesto Verified':'Pending')+'</td><td>'+esc(trackStatus(h.id))+v+'</td></tr>';
   }).join('');
 }
 function renderTemplates(){
@@ -435,6 +477,8 @@ function loadData(){
     pub.forEach(function(r){(Array.isArray(r.contacts)?r.contacts:[]).forEach(function(c){if(c&&c.number){var d=digits(c.number);phoneCounts[d]=(phoneCounts[d]||0)+1;}});});
     ALL=pub.map(function(r){var f=fromSupabaseRow(r,phoneCounts);var s=scoreListing(f);var h={};Object.keys(f).forEach(function(k){h[k]=f[k];});Object.keys(s).forEach(function(k){h[k]=s[k];});return h;});
     ALL.forEach(function(h){BYID[h.id]=h;});
+    var allIds=ALL.map(function(h){return h.id;});
+    ALL.forEach(function(h){h.code=claimCodeForId(h.id,allIds);});
     REACHABLE=ALL.filter(function(h){return !h.verified&&h.channel!=='None';});
     assignWaves();
     renderAll();renderTemplates();
