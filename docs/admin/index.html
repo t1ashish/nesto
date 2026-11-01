@@ -51,6 +51,7 @@ h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;}
 .host-card{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;}
 .host-card h3{margin:0 0 2px;font-size:17px;}
 .host-meta{color:var(--muted);font-size:13px;margin:0 0 10px;}
+.host-access{color:var(--muted);font-size:13px;margin:0 0 10px;}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;}
 .pill{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink);}
 .pill.ocean{background:#e6f4f7;color:var(--ocean-deep);}
@@ -231,7 +232,7 @@ function fromSupabaseRow(row,phoneCounts){
     otaCount:otaLinks.length,hasPhoto:!!photoUrl,
     photoSource:photoUrl?(photoSource.indexOf('ota')>=0?'ota':(photoSource.indexOf('google')>=0?'google':'own')):null,
     priceConfirmed:!!row.price_display&&row.price_display!=='Price not confirmed',
-    womenRun:details.women_run===true,winterOk:details.winter_ok===true,hasMeals:!!details.meals,locality:loc?loc.locality:null,pin:loc?loc.pin:null,
+    womenRun:details.women_run===true,winterOk:details.winter_ok===true,hasMeals:!!details.meals,locality:loc?loc.locality:null,pin:loc?loc.pin:null,access:(details.access&&typeof details.access==='object')?details.access:null,
     sharedPhone:!!phone&&(phoneCounts[digits(phone)]||0)>1};
 }
 function scoreListing(f){
@@ -399,6 +400,7 @@ function verifyCheckHTML(host){
 function hostCardHTML(host,composerVisible){
   return '<div class="host-card"><h3>'+esc(host.name)+'</h3><p class="host-meta">'+esc(host.town)+' · '+esc(host.region)+((host.locality||host.pin)?' · '+esc(([host.locality,host.pin?('PIN '+host.pin):null].filter(function(x){return x;}).join(' · '))):'')+' · tracking: '+esc(trackStatus(host.id))+'</p>'
     +'<p class="host-meta">Listed: '+(host.phone?esc(host.phone):'No number on file')+' · Claim code: '+esc(host.code)+'</p>'
+    +(host.access&&(host.access.road||host.access.walk||host.access.cab)?'<p class="host-access">'+esc(([host.access.road?('Road: '+host.access.road):null,host.access.walk?('Walk: '+host.access.walk):null,host.access.cab?('Cab: '+host.access.cab):null].filter(function(x){return x;}).join(' · ')))+'</p>':'')
     +verifyCheckHTML(host)
     +'<div class="pills">'+pill('Wave '+host.wave,'ocean')+pill(host.tier)+pill(host.channel)+pill(host.probability!==null?('Score '+host.probability):'Verified','warn')+(host.womenRun?pill('Women-run','ocean'):'')+(host.winterOk?pill('Winter stays','ocean'):'')+(host.hasMeals?pill('Kitchen-table','ocean'):'')+'</div>'
     +'<p class="status">'+esc(host.reasons.join(' · '))+'</p>'
